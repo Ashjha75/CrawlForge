@@ -5,7 +5,7 @@
     <title>Welcome Guys</title>
 </head>
 <body>
-<h1>Welcome to My Web Application 😂</h1>
+<h1>Welcome to My Web Application 😂✨</h1>
 <p>This is the home page of your web application.</p>
 </body>
 </html>
