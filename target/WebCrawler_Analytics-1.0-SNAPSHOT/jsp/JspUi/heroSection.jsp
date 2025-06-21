@@ -2,11 +2,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/heroSection.css">
 
 <!-- Hero Section with Advanced Animations -->
-<section class="hero-section" id="heroSection" style="height: fit-content !important;">
+<section class="hero-section" id="heroSection" >
     <div class="hero-background">
         <div class="floating-particles"></div>
         <div class="neural-network">
-            <canvas id="networkCanvas" style="height: 100vh;"></canvas>
+            <canvas id="networkCanvas" ></canvas>
         </div>
     </div>
 

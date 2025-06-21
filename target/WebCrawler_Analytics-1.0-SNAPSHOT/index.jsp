@@ -21,7 +21,8 @@
     <meta property="og:description" content="CrawlForge - Your web crawling and scraping solution.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yourdomain.com/">
-    <meta property="og:image" content="<meta property="og:image" content="${pageContext.request.contextPath}/img/home.png">">
+    <meta property="og:image" content="<meta property=" og:image
+    " content="${pageContext.request.contextPath}/img/home.png">">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -38,6 +39,9 @@
 
 <!-- Hero Section -->
 <%@ include file="/jsp/JspUi/heroSection.jsp" %>
+
+<%-- Social Proof --%>
+<%@ include file="/jsp/JspUi/socialProof.jsp" %>
 
 <%-- Crawl Sections--%>
 <%--<%@ include file="/jsp/JspUi/linktaker.jsp" %>--%>
