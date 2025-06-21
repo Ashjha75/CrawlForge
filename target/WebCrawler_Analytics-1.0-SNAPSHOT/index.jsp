@@ -3,66 +3,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WebCrawler Analytics</title>
+    <title>CrawlForge </title>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/scroll.css">
 
-    <style>
-        body {
-            background-color: #1f1f2b;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-        }
+    <!-- Required meta tags for SEO -->
+    <meta name="description" content="CrawlForge - Your web crawling and scraping solution.">
+    <meta name="keywords" content="web crawler, web scraping, Java, Maven, CrawlForge">
+    <meta name="author" content="Your Name or Company">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        .hero {
-            background: linear-gradient(to right, #1f1f2b, #2c2c3a);
-            padding: 80px 0;
-            text-align: center;
-        }
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="CrawlForge">
+    <meta property="og:description" content="CrawlForge - Your web crawling and scraping solution.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:image" content="<meta property="og:image" content="${pageContext.request.contextPath}/img/home.png">">
 
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #10a37f;
-        }
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CrawlForge">
+    <meta name="twitter:description" content="CrawlForge - Your web crawling and scraping solution.">
+    <meta name="twitter:image" content="${pageContext.request.contextPath}/img/home.png">
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: #c5c5d2;
-        }
 
-        .btn-primary-custom {
-            background-color: #10a37f;
-            color: #fff;
-            border: none;
-            padding: 0.6rem 1.4rem;
-            border-radius: 8px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary-custom:hover {
-            background-color: #0d8465;
-        }
-
-        .card-glass {
-            background-color: rgba(64, 65, 79, 0.92);
-            backdrop-filter: blur(6px);
-            border: 1px solid #5c5f6e;
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        footer {
-            background-color: #40414f;
-            color: #c5c5d2;
-            padding: 1rem 0;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 

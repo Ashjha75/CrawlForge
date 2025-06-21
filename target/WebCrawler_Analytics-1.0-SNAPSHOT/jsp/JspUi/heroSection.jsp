@@ -6,7 +6,7 @@
     <div class="hero-background">
         <div class="floating-particles"></div>
         <div class="neural-network">
-            <canvas id="networkCanvas"></canvas>
+            <canvas id="networkCanvas" style="height: 100vh;"></canvas>
         </div>
     </div>
 
@@ -206,7 +206,7 @@
 
             <!-- Enhanced CTA Section -->
             <div class="cta-section">
-                <button class="cta-button-advanced" id="ctaButton">
+                <button class="cta-button-advanced" id="ctaButton" onclick="window.location.href='/scrapyUi';">
                     <div class="button-bg"></div>
                     <div class="button-content">
                         <span class="button-text">Start Crawling</span>
@@ -218,6 +218,7 @@
                 </button>
                 <p class="cta-description">Join 10,000+ developers • No credit card required</p>
             </div>
+
         </div>
     </div>
 </section>

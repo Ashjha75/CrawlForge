@@ -546,5 +546,5 @@ body {
 7. **Typography**: Use the defined scale for consistent text hierarchy
 8. **Shadows**: Layer different shadow types for depth and dimension
 
-This design system ensures consistency across all WebCrawler components while maintaining modern aesthetics and excellent user experience.
+This design system ensures consistency across all CrawlForge components while maintaining modern aesthetics and excellent user experience.
 
