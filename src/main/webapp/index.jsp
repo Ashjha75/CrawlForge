@@ -74,6 +74,7 @@
         </div>
     </div>
 </nav>
+<%@ include file="header.jsp" %>
 
 <!-- Hero Section -->
 <section class="hero">

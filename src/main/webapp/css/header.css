@@ -1,0 +1,185 @@
+/* Enhanced Header Styles */
+.navbar-custom {
+    background: linear-gradient(135deg, #1f1f2b 0%, #2c2c3a 50%, #40414f 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(92, 95, 110, 0.3);
+    transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-custom.scrolled {
+    background: rgba(31, 31, 43, 0.95);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #10a37f !important;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-brand::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 163, 127, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.navbar-brand:hover::before {
+    left: 100%;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+    color: #0d8465 !important;
+}
+
+.brand-icon {
+    display: inline-block;
+    margin-right: 8px;
+    animation: rotate 3s linear infinite;
+    font-size: 1.2em;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.nav-link {
+    color: #c5c5d2 !important;
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 163, 127, 0.1), transparent);
+    transition: left 0.3s;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover {
+    color: #10a37f !important;
+    background-color: rgba(16, 163, 127, 0.1);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: #10a37f !important;
+    background-color: rgba(16, 163, 127, 0.15);
+    box-shadow: 0 2px 10px rgba(16, 163, 127, 0.3);
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(16, 163, 127, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(16, 163, 127, 0.2);
+    transform: scale(1.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2816, 163, 127, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Mobile Menu Animation */
+.navbar-collapse {
+    background: rgba(31, 31, 43, 0.98);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(92, 95, 110, 0.3);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .nav-link {
+        margin: 0.2rem 0;
+        padding: 0.8rem 1rem !important;
+    }
+}
+
+/* Pulse Animation for Active State */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 163, 127, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(16, 163, 127, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 163, 127, 0);
+    }
+}
+
+.nav-link.active {
+    animation: pulse 2s infinite;
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
