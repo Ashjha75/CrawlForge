@@ -1,2 +1,0 @@
-<!-- Main input form JSP -->
-

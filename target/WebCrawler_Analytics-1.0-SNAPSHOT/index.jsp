@@ -13,20 +13,24 @@
             color: #ffffff;
             font-family: 'Inter', sans-serif;
         }
+
         .hero {
             background: linear-gradient(to right, #1f1f2b, #2c2c3a);
             padding: 80px 0;
             text-align: center;
         }
+
         .hero-title {
             font-size: 2.5rem;
             font-weight: 700;
             color: #10a37f;
         }
+
         .hero-subtitle {
             font-size: 1.25rem;
             color: #c5c5d2;
         }
+
         .btn-primary-custom {
             background-color: #10a37f;
             color: #fff;
@@ -37,9 +41,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         .btn-primary-custom:hover {
             background-color: #0d8465;
         }
+
         .card-glass {
             background-color: rgba(64, 65, 79, 0.92);
             backdrop-filter: blur(6px);
@@ -47,6 +53,7 @@
             border-radius: 12px;
             padding: 1.5rem;
         }
+
         footer {
             background-color: #40414f;
             color: #c5c5d2;
@@ -58,67 +65,48 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-card px-3">
-    <div class="container-fluid">
-        <a class="navbar-brand text-primary fw-bold" href="#"><i class="bi bi-globe-americas me-1"></i>WebCrawler</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navBar">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Reports</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Settings</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<%@ include file="header.jsp" %>
+<%@ include file="/jsp/common/header.jsp" %>
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <h1 class="hero-title">Smart Web Crawler Analytics</h1>
-        <p class="hero-subtitle">Crawl websites, analyze trends, and visualize results — all in one dashboard.</p>
-        <a href="#crawlerForm" class="btn btn-primary-custom mt-4">Start Crawling</a>
-    </div>
-</section>
+<%@ include file="/jsp/JspUi/heroSection.jsp" %>
 
 <!-- Crawl Form Section -->
-<section id="crawlerForm" class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="card-glass">
-                <h3 class="mb-4 text-primary"><i class="bi bi-search me-2"></i>New Crawl Task</h3>
-                <form action="crawl" method="post">
-                    <div class="form-floating mb-3">
-                        <input type="url" class="form-control bg-dark text-white" id="url" name="url" placeholder="https://example.com" required>
-                        <label for="url">Target URL</label>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6 form-floating">
-                            <input type="number" class="form-control bg-dark text-white" id="depth" name="depth" value="2" min="1" max="10">
-                            <label for="depth">Crawl Depth</label>
-                        </div>
-                        <div class="col-md-6 form-floating">
-                            <input type="number" class="form-control bg-dark text-white" id="threads" name="threads" value="4" min="1" max="10">
-                            <label for="threads">Threads</label>
-                        </div>
-                    </div>
-                    <div class="form-check form-switch mt-4 mb-3">
-                        <input class="form-check-input" type="checkbox" id="externalLinks" name="externalLinks">
-                        <label class="form-check-label text-muted" for="externalLinks">Follow external links</label>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary-custom px-4">Start</button>
-                        <button type="reset" class="btn btn-outline-light px-4">Reset</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+<%--<section id="crawlerForm" class="container my-5">--%>
+<%--    <div class="row justify-content-center">--%>
+<%--        <div class="col-lg-7">--%>
+<%--            <div class="card-glass">--%>
+<%--                <h3 class="mb-4 text-primary"><i class="bi bi-search me-2"></i>New Crawl Task</h3>--%>
+<%--                <form action="crawl" method="post">--%>
+<%--                    <div class="form-floating mb-3">--%>
+<%--                        <input type="url" class="form-control bg-dark text-white" id="url" name="url"--%>
+<%--                               placeholder="https://example.com" required>--%>
+<%--                        <label for="url">Target URL</label>--%>
+<%--                    </div>--%>
+<%--                    <div class="row g-3">--%>
+<%--                        <div class="col-md-6 form-floating">--%>
+<%--                            <input type="number" class="form-control bg-dark text-white" id="depth" name="depth"--%>
+<%--                                   value="2" min="1" max="10">--%>
+<%--                            <label for="depth">Crawl Depth</label>--%>
+<%--                        </div>--%>
+<%--                        <div class="col-md-6 form-floating">--%>
+<%--                            <input type="number" class="form-control bg-dark text-white" id="threads" name="threads"--%>
+<%--                                   value="4" min="1" max="10">--%>
+<%--                            <label for="threads">Threads</label>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="form-check form-switch mt-4 mb-3">--%>
+<%--                        <input class="form-check-input" type="checkbox" id="externalLinks" name="externalLinks">--%>
+<%--                        <label class="form-check-label text-muted" for="externalLinks">Follow external links</label>--%>
+<%--                    </div>--%>
+<%--                    <div class="d-flex justify-content-between">--%>
+<%--                        <button type="submit" class="btn btn-primary-custom px-4">Start</button>--%>
+<%--                        <button type="reset" class="btn btn-outline-light px-4">Reset</button>--%>
+<%--                    </div>--%>
+<%--                </form>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</section>--%>
 
 <!-- Footer -->
 <footer>
