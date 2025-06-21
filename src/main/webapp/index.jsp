@@ -69,11 +69,12 @@
 <!-- Navbar -->
 <%@ include file="/jsp/common/header.jsp" %>
 
+<div class="container" style="margin-top: 8rem; background: transparent"></div>
 <!-- Hero Section -->
 <%@ include file="/jsp/JspUi/heroSection.jsp" %>
 
 <%-- Crawl Sections--%>
-<%@ include file="/jsp/JspUi/linktaker.jsp" %>
+<%--<%@ include file="/jsp/JspUi/linktaker.jsp" %>--%>
 
 <!-- Footer -->
 <%@ include file="/jsp/common/footer.jsp" %>
