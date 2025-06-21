@@ -61,10 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('networkCanvas');
     const ctx = canvas.getContext('2d');
 
-   function resizeCanvas() {
-       canvas.width = window.innerWidth;
-       canvas.height = window.innerHeight;
-   }
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
