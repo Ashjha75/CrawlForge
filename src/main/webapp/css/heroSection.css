@@ -7,10 +7,9 @@
 /* Hero Section - Fixed Height Calculation */
 .hero-section {
     position: relative;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: calc(100vh - var(--header-height));
+    margin-bottom: -4rem;
+    min-height: calc(100vh - var(--header-height));
     z-index: 1;
     background: linear-gradient(135deg,
         #1f1f2b 0%,
@@ -21,20 +20,21 @@
     overflow: hidden;
     display: flex;
     align-items: flex-start;
-    padding-top: calc(var(--header-height) + 2rem); /* ensures text is below header */
-    padding-bottom: 1rem;
+    padding-top: calc(var(--header-height) + 2rem);
+    padding-bottom: 0; /* Remove if not needed */
 }
 
-/* Dynamic Background */
 .hero-background,
 #networkCanvas {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
+    pointer-events: none;
 }
+
 .floating-particles {
     position: absolute;
     width: 100%;

@@ -61,11 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('networkCanvas');
     const ctx = canvas.getContext('2d');
 
-    function resizeCanvas() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-    }
-
+function resizeCanvas() {
+    const heroSection = document.querySelector('.hero-section');
+    canvas.width = heroSection.offsetWidth;
+    canvas.height = heroSection.offsetHeight;
+}
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 

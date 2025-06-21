@@ -11,8 +11,9 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="footer-brand">
                         <a href="${pageContext.request.contextPath}/" class="footer-logo">
-                            <i class="bi bi-globe-americas"></i>
-                            WebCrawler
+                            <%--                            <i class="bi bi-globe-americas"></i>--%>
+                            <img src="favicon.ico" alt="logo" height="30" width="30" class="logo-animate">
+                            CrawlForge
                         </a>
                     </div>
                     <p class="footer-description">
