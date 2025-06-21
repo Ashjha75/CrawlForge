@@ -6,12 +6,12 @@
 
 /* Hero Section - Fixed Height Calculation */
 .hero-section {
-    /*height: calc(100vh - var(--header-height));*/
-    position: absolute;
+    height: calc(100vh - var(--header-height));
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     z-index: 1;
     background: linear-gradient(135deg,
     #1f1f2b 0%,
@@ -65,20 +65,10 @@
 }
 
 #networkCanvas {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#typewriterText {
-    margin-top: 2rem; /* or more as needed */
-    position: relative;
-    z-index: 1;
-}
 /* Hero Content */
 .hero-content {
     position: relative;
