@@ -135,7 +135,7 @@
             <div class="footer-bottom">
                 <div class="footer-copyright">
                     <i class="bi bi-c-circle me-1"></i>
-                    2025 WebCrawler Analytics. All rights reserved. Built with ❤️ and Java.
+                    2025 CrawlForge Analytics. All rights reserved. Built with ❤️ and Java.
                 </div>
                 <div class="footer-legal">
                     <a href="${pageContext.request.contextPath}/privacy">Privacy Policy</a>

@@ -1,4 +1,4 @@
-    /* Enhanced Header Styles - Polished with Glass Effect */
+/* Enhanced Header Styles - Polished with Glass Effect */
 .navbar-custom {
     background: linear-gradient(135deg,
     rgba(31, 31, 43, 0.85) 0%,
@@ -12,9 +12,8 @@
     top: 0;
     width: 100%;
     z-index: 1050;
-    box-shadow:
-            0 8px 32px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0.5rem 0;
 }
@@ -26,9 +25,8 @@
     rgba(64, 65, 79, 0.95) 100%);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
     padding: 0.3rem 0;
 }
 
@@ -45,9 +43,8 @@
     rgba(16, 163, 127, 0.08) 0%,
     rgba(16, 163, 127, 0.05) 100%);
     border: 1px solid rgba(16, 163, 127, 0.2);
-    box-shadow:
-            0 4px 15px rgba(16, 163, 127, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(16, 163, 127, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -78,9 +75,8 @@
     background: linear-gradient(135deg,
     rgba(16, 163, 127, 0.15) 0%,
     rgba(16, 163, 127, 0.1) 100%);
-    box-shadow:
-            0 6px 20px rgba(16, 163, 127, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 20px rgba(16, 163, 127, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .brand-icon {
@@ -157,9 +153,8 @@
     rgba(16, 163, 127, 0.1) 100%);
     border: 1px solid rgba(16, 163, 127, 0.3);
     transform: translateY(-2px);
-    box-shadow:
-            0 6px 20px rgba(16, 163, 127, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(16, 163, 127, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
@@ -171,9 +166,8 @@
     rgba(16, 163, 127, 0.15) 50%,
     rgba(16, 163, 127, 0.1) 100%);
     border: 1px solid rgba(16, 163, 127, 0.4);
-    box-shadow:
-            0 4px 15px rgba(16, 163, 127, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(16, 163, 127, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -217,9 +211,8 @@
     align-items: center;
     justify-content: center;
     z-index: 10;
-    box-shadow:
-            0 2px 8px rgba(255, 71, 87, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: pulse-badge 2s infinite;
 }
@@ -250,9 +243,8 @@
     transition: all 0.3s ease;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow:
-            0 4px 15px rgba(16, 163, 127, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(16, 163, 127, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .navbar-toggler:hover {
@@ -260,9 +252,8 @@
     rgba(16, 163, 127, 0.2) 0%,
     rgba(16, 163, 127, 0.1) 100%);
     transform: scale(1.05);
-    box-shadow:
-            0 6px 20px rgba(16, 163, 127, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 20px rgba(16, 163, 127, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .navbar-toggler-icon {
@@ -280,9 +271,8 @@
     margin-top: 1rem;
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow:
-            0 8px 32px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */
@@ -311,4 +301,12 @@
     .brand-icon {
         font-size: 1em;
     }
+}
+
+.logo-animate {
+    transition: transform 0.3s;
+}
+
+.logo-animate:hover {
+    transform: rotate(20deg) scale(1.1);
 }

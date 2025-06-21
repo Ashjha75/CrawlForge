@@ -61,10 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('networkCanvas');
     const ctx = canvas.getContext('2d');
 
-    function resizeCanvas() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-    }
+   function resizeCanvas() {
+       canvas.width = window.innerWidth;
+       canvas.height = window.innerHeight;
+   }
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -346,8 +346,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-<script>
-document.getElementById('ctaButton').addEventListener('click', function() {
-    window.location.href = '<%= request.getContextPath() %>/scrapyUi';
-});
-</script>
+

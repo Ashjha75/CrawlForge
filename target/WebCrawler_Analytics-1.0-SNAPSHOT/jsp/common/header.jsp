@@ -3,12 +3,13 @@
 
 
 <!-- Enhanced Animated Navbar with Glass Effect -->
-<nav class="navbar navbar-expand-lg navbar-custom p-0 mb-5" id="mainNavbar">
+<nav class="navbar navbar-expand-lg navbar-custom " id="mainNavbar">
     <div class="container-fluid px-4">
         <!-- Brand with Glass Effect -->
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-            <i class="bi bi-globe-americas brand-icon"></i>
-            <span>WebCrawler</span>
+            <%--            <i class="bi bi-globe-americas brand-icon"></i>--%>
+            <img src="favicon.ico" alt="logo" height="30" width="30" class="logo-animate">
+            <span>CrawlForge</span>
         </a>
 
         <!-- Mobile Toggle Button -->
