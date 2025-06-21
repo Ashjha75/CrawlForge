@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/heroSection.css">
 
 <!-- Hero Section with Advanced Animations -->
-<section class="hero-section" id="heroSection">
+<section class="hero-section" id="heroSection" >
     <div class="hero-background">
         <div class="floating-particles"></div>
         <div class="neural-network">
@@ -35,7 +35,7 @@
                 <div class="cards-stack" id="cardsStack">
 
                     <!-- Real-time Analytics Card -->
-                    <div class="data-card active" data-index="0">
+                    <div class="data-card active" data-index="0" style="height: fit-content;">
                         <div class="card-header">
                             <div class="card-category">Live Analytics</div>
                             <div class="card-status">
@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- AI Processing Card -->
-                    <div class="data-card" data-index="1">
+                    <div class="data-card" data-index="1" style="height: fit-content;">
                         <div class="card-header">
                             <div class="card-category">AI Processing</div>
                             <div class="ai-indicator">
@@ -106,7 +106,7 @@
                     </div>
 
                     <!-- Global Network Card -->
-                    <div class="data-card" data-index="2">
+                    <div class="data-card" data-index="2" style="height: fit-content;">
                         <div class="card-header">
                             <div class="card-category">Global Network</div>
                             <div class="network-status">
@@ -153,7 +153,7 @@
                     </div>
 
                     <!-- Live Terminal Card -->
-                    <div class="data-card" data-index="3">
+                    <div class="data-card" data-index="3" style="height: fit-content;">
                         <div class="card-header">
                             <div class="card-category">Live Terminal</div>
                             <div class="terminal-controls">
@@ -197,10 +197,10 @@
                         <div class="nav-dot" data-index="2"></div>
                         <div class="nav-dot" data-index="3"></div>
                     </div>
-<%--                    <div class="scroll-indicator">--%>
-<%--                        <div class="scroll-text">Scroll to explore</div>--%>
-<%--                        <div class="scroll-arrow">↓</div>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="scroll-indicator">--%>
+                    <%--                        <div class="scroll-text">Scroll to explore</div>--%>
+                    <%--                        <div class="scroll-arrow">↓</div>--%>
+                    <%--                    </div>--%>
                 </div>
             </div>
 

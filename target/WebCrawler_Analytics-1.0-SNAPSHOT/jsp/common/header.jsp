@@ -3,7 +3,7 @@
 
 
 <!-- Enhanced Animated Navbar with Glass Effect -->
-<nav class="navbar navbar-expand-lg navbar-custom" id="mainNavbar">
+<nav class="navbar navbar-expand-lg navbar-custom p-0 mb-5" id="mainNavbar">
     <div class="container-fluid px-4">
         <!-- Brand with Glass Effect -->
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
