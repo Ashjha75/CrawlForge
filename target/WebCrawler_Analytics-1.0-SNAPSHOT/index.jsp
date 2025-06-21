@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/scroll.css">
+
     <style>
         body {
             background-color: #1f1f2b;
@@ -70,49 +72,13 @@
 <!-- Hero Section -->
 <%@ include file="/jsp/JspUi/heroSection.jsp" %>
 
-<!-- Crawl Form Section -->
-<%--<section id="crawlerForm" class="container my-5">--%>
-<%--    <div class="row justify-content-center">--%>
-<%--        <div class="col-lg-7">--%>
-<%--            <div class="card-glass">--%>
-<%--                <h3 class="mb-4 text-primary"><i class="bi bi-search me-2"></i>New Crawl Task</h3>--%>
-<%--                <form action="crawl" method="post">--%>
-<%--                    <div class="form-floating mb-3">--%>
-<%--                        <input type="url" class="form-control bg-dark text-white" id="url" name="url"--%>
-<%--                               placeholder="https://example.com" required>--%>
-<%--                        <label for="url">Target URL</label>--%>
-<%--                    </div>--%>
-<%--                    <div class="row g-3">--%>
-<%--                        <div class="col-md-6 form-floating">--%>
-<%--                            <input type="number" class="form-control bg-dark text-white" id="depth" name="depth"--%>
-<%--                                   value="2" min="1" max="10">--%>
-<%--                            <label for="depth">Crawl Depth</label>--%>
-<%--                        </div>--%>
-<%--                        <div class="col-md-6 form-floating">--%>
-<%--                            <input type="number" class="form-control bg-dark text-white" id="threads" name="threads"--%>
-<%--                                   value="4" min="1" max="10">--%>
-<%--                            <label for="threads">Threads</label>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                    <div class="form-check form-switch mt-4 mb-3">--%>
-<%--                        <input class="form-check-input" type="checkbox" id="externalLinks" name="externalLinks">--%>
-<%--                        <label class="form-check-label text-muted" for="externalLinks">Follow external links</label>--%>
-<%--                    </div>--%>
-<%--                    <div class="d-flex justify-content-between">--%>
-<%--                        <button type="submit" class="btn btn-primary-custom px-4">Start</button>--%>
-<%--                        <button type="reset" class="btn btn-outline-light px-4">Reset</button>--%>
-<%--                    </div>--%>
-<%--                </form>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</section>--%>
+<%-- Crawl Sections--%>
+<%@ include file="/jsp/JspUi/linktaker.jsp" %>
 
 <!-- Footer -->
-<footer>
-    <small>&copy; 2025 WebCrawler Analytics. Built with ❤️ and Java.</small>
-</footer>
+<%@ include file="/jsp/common/footer.jsp" %>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/scroll.js"></script>
 </body>
 </html>
