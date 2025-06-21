@@ -346,6 +346,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+<script>
 document.getElementById('ctaButton').addEventListener('click', function() {
     window.location.href = '<%= request.getContextPath() %>/scrapyUi';
 });
+</script>
