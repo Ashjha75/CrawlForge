@@ -43,6 +43,9 @@
 <%-- Social Proof --%>
 <%@ include file="/jsp/JspUi/socialProof.jsp" %>
 
+<%-- Features Overview--%>
+<%@ include file="/jsp/JspUi/featuresOVerview.jsp" %>
+
 <%-- Crawl Sections--%>
 <%--<%@ include file="/jsp/JspUi/linktaker.jsp" %>--%>
 
