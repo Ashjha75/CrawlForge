@@ -18,7 +18,7 @@
         </button>
 
         <!-- Navigation Menu -->
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav" style="padding: 2vh 1vw;">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link active" href="${pageContext.request.contextPath}/">
