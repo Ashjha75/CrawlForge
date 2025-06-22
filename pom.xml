@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ashish</groupId>
-    <artifactId>WebCrawler_Analytics</artifactId>
+    <groupId>com.servlets</groupId>
+    <artifactId>CrawlForge</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -42,6 +42,7 @@
             <scope>provided</scope>
         </dependency>
 
+
         <!-- HTML Parser: Jsoup -->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -50,11 +51,11 @@
         </dependency>
 
         <!-- MySQL JDBC Driver -->
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.mysql</groupId>-->
+<!--            <artifactId>mysql-connector-j</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
 
         <!-- JSTL for JSP View Layer -->
@@ -68,6 +69,13 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>3.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- Logging (Log4j) -->
         <dependency>
