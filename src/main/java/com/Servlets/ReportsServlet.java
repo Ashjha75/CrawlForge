@@ -17,7 +17,7 @@ public class ReportsServlet extends HttpServlet {
 
         // Set page attributes for Reports
         request.setAttribute("pageTitle", "Analytics & Reports - CrawlForge");
-        request.setAttribute("contentPage", "/jsp/pages/reports-content.jsp");
+        request.setAttribute("contentPage", "reports.jsp");
 
 
         request.setAttribute("pageCssFiles", "reports.css");
