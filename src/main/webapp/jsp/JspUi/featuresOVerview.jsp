@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/featuresOVerview.css">
+<link rel="stylesheet" href="/css/featuresOVerview.css">
 
 <!-- Features Overview Section -->
 <section class="features-section" id="featuresOverview">
@@ -57,7 +57,8 @@
                             <div class="demo-output">
                                 <div class="demo-label">Structured Data</div>
                                 <div class="demo-json">
-                                    <span class="json-key">"product":</span> <span class="json-string">"iPhone 15 Pro"</span><br>
+                                    <span class="json-key">"product":</span> <span
+                                        class="json-string">"iPhone 15 Pro"</span><br>
                                     <span class="json-key">"price":</span> <span class="json-number">999</span>
                                 </div>
                             </div>
@@ -253,21 +254,34 @@
                                 </div>
 
                                 <div class="code-content" id="curlCode">
-                                    <span class="code-command">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">"https://api.crawlforge.com/v1/scrape"</span><br>
+                                    <span class="code-command">curl</span> <span class="code-flag">-X POST</span> <span
+                                        class="code-url">"https://api.crawlforge.com/v1/scrape"</span><br>
                                     <span class="code-flag">-H</span> <span class="code-string">"Authorization: Bearer YOUR_API_KEY"</span><br>
                                     <span class="code-flag">-d</span> <span class="code-json">'{"url": "https://example.com", "format": "json"}'</span>
                                 </div>
 
                                 <div class="code-content hidden" id="pythonCode">
                                     <span class="code-keyword">import</span> <span class="code-module">crawlforge</span><br><br>
-                                    <span class="code-variable">client</span> = <span class="code-module">crawlforge</span>.<span class="code-function">Client</span>(<span class="code-string">"YOUR_API_KEY"</span>)<br>
-                                    <span class="code-variable">result</span> = <span class="code-variable">client</span>.<span class="code-function">scrape</span>(<span class="code-string">"https://example.com"</span>)
+                                    <span class="code-variable">client</span> = <span
+                                        class="code-module">crawlforge</span>.<span class="code-function">Client</span>(<span
+                                        class="code-string">"YOUR_API_KEY"</span>)<br>
+                                    <span class="code-variable">result</span> = <span
+                                        class="code-variable">client</span>.<span
+                                        class="code-function">scrape</span>(<span class="code-string">"https://example.com"</span>)
                                 </div>
 
                                 <div class="code-content hidden" id="javascriptCode">
-                                    <span class="code-keyword">const</span> <span class="code-variable">crawlforge</span> = <span class="code-function">require</span>(<span class="code-string">'crawlforge'</span>);<br><br>
-                                    <span class="code-keyword">const</span> <span class="code-variable">client</span> = <span class="code-keyword">new</span> <span class="code-function">CrawlForge</span>(<span class="code-string">'YOUR_API_KEY'</span>);<br>
-                                    <span class="code-keyword">const</span> <span class="code-variable">data</span> = <span class="code-keyword">await</span> <span class="code-variable">client</span>.<span class="code-function">scrape</span>(<span class="code-string">'https://example.com'</span>);
+                                    <span class="code-keyword">const</span> <span
+                                        class="code-variable">crawlforge</span> = <span
+                                        class="code-function">require</span>(<span
+                                        class="code-string">'crawlforge'</span>);<br><br>
+                                    <span class="code-keyword">const</span> <span class="code-variable">client</span> =
+                                    <span class="code-keyword">new</span> <span class="code-function">CrawlForge</span>(<span
+                                        class="code-string">'YOUR_API_KEY'</span>);<br>
+                                    <span class="code-keyword">const</span> <span class="code-variable">data</span> =
+                                    <span class="code-keyword">await</span> <span
+                                        class="code-variable">client</span>.<span
+                                        class="code-function">scrape</span>(<span class="code-string">'https://example.com'</span>);
                                 </div>
                             </div>
                         </div>
@@ -359,7 +373,8 @@
         <div class="features-cta">
             <div class="cta-content">
                 <h3 class="cta-title">Ready to Experience the Difference?</h3>
-                <p class="cta-description">Start your free trial today and see why 10,000+ developers trust CrawlForge</p>
+                <p class="cta-description">Start your free trial today and see why 10,000+ developers trust
+                    CrawlForge</p>
 
                 <div class="cta-buttons">
                     <a href="${pageContext.request.contextPath}/signup" class="cta-btn primary">
