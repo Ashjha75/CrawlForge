@@ -155,4 +155,16 @@ document.addEventListener('DOMContentLoaded', function() {
         advancedOptions.classList.remove('active');
         advancedToggle.classList.remove('active');
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        const icon = document.querySelector('.section-icon');
+        if (!icon) return;
+
+        document.addEventListener('mousemove', function (e) {
+            const rect = icon.getBoundingClientRect();
+            const iconX = rect.left + rect.width / 2;
+            const iconY = rect.top + rect.height / 2;
+            const angle = Math.atan2(e.clientY - iconY, e.clientX - iconX) * 180 / Math.PI;
+            icon.style.transform = `rotate(${angle}deg)`;
+        });
+    });
 });
