@@ -8,7 +8,7 @@
         <!-- Brand with Glass Effect -->
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
             <%--            <i class="bi bi-globe-americas brand-icon"></i>--%>
-            <img src="favicon.ico" alt="logo" height="30" width="30" class="logo-animate">
+            <img src="/img/logo.png" alt="logo" height="30" width="30" class="logo-animate">
             <span>CrawlForge</span>
         </a>
 
