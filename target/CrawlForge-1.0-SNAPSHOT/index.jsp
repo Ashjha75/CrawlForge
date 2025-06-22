@@ -92,12 +92,8 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Your existing scrollbar CSS */
@@ -138,7 +134,7 @@
 <main class="main-content">
     <c:choose>
         <c:when test="${contentPage != null}">
-            <jsp:include page="${contentPage}"/>
+            <jsp:include page="${contentPage}" />
         </c:when>
         <c:otherwise>
             <%@ include file="/jsp/JspUi/heroSection.jsp" %>
