@@ -59,55 +59,51 @@
         </c:forTokens>
     </c:if>
 
-    <!-- Your existing custom scrollbar CSS stays the same -->
     <style>
-        /* Loading Screen */
-        .page-loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1f1f2b 0%, #2c2c3a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        .page-loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(16, 163, 127, 0.3);
-            border-top: 3px solid #10a37f;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Your existing scrollbar CSS */
+        /* Your scrollbar CSS from previous implementation */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
 
-        /* ... rest of your existing styles ... */
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(135deg,
+            rgba(31, 31, 43, 0.8) 0%,
+            rgba(44, 44, 58, 0.9) 100%);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
 
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg,
+            rgba(16, 163, 127, 0.8) 0%,
+            rgba(13, 132, 101, 0.9) 50%,
+            rgba(16, 163, 127, 0.8) 100%);
+            border-radius: 10px;
+            border: 1px solid rgba(16, 163, 127, 0.3);
+            box-shadow: 0 2px 6px rgba(16, 163, 127, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg,
+            rgba(16, 163, 127, 1) 0%,
+            rgba(13, 132, 101, 1) 50%,
+            rgba(16, 163, 127, 1) 100%);
+            box-shadow: 0 4px 12px rgba(16, 163, 127, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(16, 163, 127, 0.8) rgba(31, 31, 43, 0.8);
+        }
+
+        /* Page transition */
         .main-content {
             opacity: 0;
             animation: fadeInContent 0.8s ease-out forwards;
@@ -126,10 +122,8 @@
     </style>
 </head>
 <body>
-<!-- Loading Screen -->
-<div class="page-loading" id="pageLoading">
-    <div class="loading-spinner"></div>
-</div>
+<!-- Include Advanced Loader -->
+<%@ include file="/jsp/common/loader.jsp" %>
 
 <!-- Include Header -->
 <%@ include file="/jsp/common/header.jsp" %>
@@ -138,9 +132,11 @@
 <main class="main-content">
     <c:choose>
         <c:when test="${contentPage != null}">
+            <!-- Include dynamic content page -->
             <jsp:include page="${contentPage}"/>
         </c:when>
         <c:otherwise>
+            <!-- Default home content -->
             <%@ include file="/jsp/JspUi/heroSection.jsp" %>
             <%@ include file="/jsp/JspUi/socialProof.jsp" %>
             <%@ include file="/jsp/JspUi/featuresOVerview.jsp" %>
@@ -151,7 +147,7 @@
 <!-- Include Footer -->
 <%@ include file="/jsp/common/footer.jsp" %>
 
-<!-- JavaScript -->
+<!-- All Common JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -163,25 +159,16 @@
     </c:forEach>
 </c:if>
 
+<!-- Backward compatibility for single JS -->
 <c:if test="${pageJs != null}">
     <c:forTokens var="jsFile" items="${pageJs}" delims=",">
         <script src="${pageContext.request.contextPath}/js/${jsFile}"></script>
     </c:forTokens>
 </c:if>
 
+<!-- Common JavaScript for all pages -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Hide loading screen
-        const loadingScreen = document.getElementById('pageLoading');
-        if (loadingScreen) {
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.remove();
-                }, 500);
-            }, 1000);
-        }
-
         // GSAP ScrollTrigger registration
         if (typeof gsap !== 'undefined') {
             gsap.registerPlugin(ScrollTrigger);
