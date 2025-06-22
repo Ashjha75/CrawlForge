@@ -48,7 +48,8 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(16, 163, 127, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    animation: pulse-glow 3s ease-in-out infinite;
+    animation: pulse-glow 3s ease-in-out infinite, robot-bounce 2s infinite alternate;
+    will-change: transform;
 }
 
 @keyframes pulse-glow {
@@ -59,6 +60,15 @@
     50% {
         box-shadow: 0 12px 40px rgba(16, 163, 127, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+}
+
+@keyframes robot-bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-8px);
     }
 }
 
