@@ -1,27 +1,34 @@
 package com.servlets;
 
-        import jakarta.servlet.ServletException;
-        import jakarta.servlet.annotation.WebServlet;
-        import jakarta.servlet.http.HttpServlet;
-        import jakarta.servlet.http.HttpServletRequest;
-        import jakarta.servlet.http.HttpServletResponse;
 
-        import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-        @WebServlet("/crawler-link")
-        public class ScrapyUIServlet extends HttpServlet {
+import java.io.IOException;
 
-            @Override
-            protected void doPost(HttpServletRequest request, HttpServletResponse response)
-                    throws ServletException, IOException {
+@WebServlet("/crawler-link")
+public class ScrapyUIServlet extends HttpServlet {
 
-                // Set page attributes for Scrapy UI
-                request.setAttribute("pageTitle", "Scrapy UI - Visual Web Scraping Interface");
-                request.setAttribute("contentPage", "/jsp/scrappers/scrapperHome.jsp");
-                request.setAttribute("pageCss", "linkTaker.css");
-                request.setAttribute("pageJs", "linkTaker.js");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-                // Forward to master layout (index.jsp)
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
-            }
-        }
+        // Set page attributes for Scrapy UI
+        request.setAttribute("pageTitle", "Scrapy UI - Visual Web Scraping Interface");
+        request.setAttribute("contentPage", "/jsp/scrappers/scrapperHome.jsp");
+        request.setAttribute("pageCss", "linkTaker.css");
+        request.setAttribute("pageJs", "linkTaker.js");
+
+        // Forward to master layout (index.jsp)
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}

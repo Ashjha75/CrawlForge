@@ -1,4 +1,4 @@
-package com.servlets;
+package main.java.com.servlets;
 
 
 import jakarta.servlet.ServletException;
