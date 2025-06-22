@@ -104,9 +104,9 @@
         </c:when>
         <c:otherwise>
             <!-- Default home content -->
-            <%@ include file="/jsp/sections/hero-section.jsp" %>
-            <%@ include file="/jsp/sections/social-proof.jsp" %>
-            <%@ include file="/jsp/sections/features-overview.jsp" %>
+            <%@ include file="/jsp/JspUi/heroSection.jsp" %>
+            <%@ include file="/jsp/JspUi/socialProof.jsp" %>
+            <%@ include file="/jsp/JspUi/featuresOVerview.jsp" %>
         </c:otherwise>
     </c:choose>
 </main>
