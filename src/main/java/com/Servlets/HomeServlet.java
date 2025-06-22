@@ -9,26 +9,26 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/")
+@WebServlet("")  // Use empty string instead of "/"
 public class HomeServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // Set page attributes for home page
-        request.setAttribute("pageTitle", "Home - Advanced Web Scraping Platform");
-        request.setAttribute("pageCss", null); // No additional CSS needed for home
-        request.setAttribute("pageJs", "home.js"); // Optional home-specific JS
-        request.setAttribute("contentPage", null); // Use default content
-        
-        // Forward to master layout (index.jsp)
+
+        // Check if this is actually a valid home request
+        String requestURI = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        String path = requestURI.substring(contextPath.length());
+
+        // Only handle root path, let others fall through to 404
+        if (!path.equals("/") && !path.equals("") && !path.equals("/index.jsp")) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        request.setAttribute("pageTitle", "Home");
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
 }
+
