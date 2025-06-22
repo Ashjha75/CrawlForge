@@ -3,7 +3,7 @@
 
 <!-- Enhanced Crawl Form Section -->
 <section id="crawlerForm" class="crawl-form-section">
-    <div class="container">
+    <div class="container" style="margin-top: 11vh;">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-10">
                 <!-- Section Header -->
@@ -250,4 +250,4 @@
         </div>
     </div>
 </section>
-<Script src="${pageContext.request.contextPath}/main/webapp/js/linktaker.js"></Script>
+<script src="${pageContext.request.contextPath}/js/linktaker.js"></script>
