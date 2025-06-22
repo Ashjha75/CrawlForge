@@ -196,6 +196,7 @@ This project is designed to help **2+ year Java developers** demonstrate:
 - ✅ UI Screenshots-
 
 ![Home page](./src/main/webapp/img/home.png)
+![Dashboard page](./src/main/webapp/img/dashboard.png)
 - ✅ Dashboard mockup
 - ✅ Logs page
 
