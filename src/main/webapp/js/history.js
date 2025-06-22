@@ -1,4 +1,50 @@
 document.addEventListener('DOMContentLoaded', function() {
+// Add this to your existing history-table.js
+
+// Scroll to top function
+function scrollToTop() {
+    // Smooth scroll to top
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    // Optional: Focus on the URL input field after scrolling
+    setTimeout(() => {
+        const urlInput = document.querySelector('input[name="url"]') ||
+                        document.querySelector('#url') ||
+                        document.querySelector('.form-input');
+        if (urlInput) {
+            urlInput.focus();
+        }
+    }, 500); // Wait for scroll animation to complete
+}
+
+// Alternative function if you want to scroll to a specific form element
+function scrollToForm() {
+    const formSection = document.querySelector('.crawl-form-section') ||
+                       document.querySelector('.form-container') ||
+                       document.querySelector('form');
+
+    if (formSection) {
+        formSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
+        // Focus on first input
+        setTimeout(() => {
+            const firstInput = formSection.querySelector('input[type="url"], input[type="text"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 500);
+    } else {
+        // Fallback to scroll to top
+        scrollToTop();
+    }
+}
+
     // Sample data - replace with actual API calls
     const sampleData = [
         {
