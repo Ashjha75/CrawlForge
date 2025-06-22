@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/crawler-link")
+@WebServlet("/dashboard")
 public class ScrapyUIServlet extends HttpServlet {
 
     @Override

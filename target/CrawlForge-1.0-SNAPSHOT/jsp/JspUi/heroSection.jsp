@@ -206,7 +206,7 @@
 
             <!-- Enhanced CTA Section -->
             <div class="cta-section">
-                <button class="cta-button-advanced" id="ctaButton" onclick="window.location.href='/crawler-link';">
+                <button class="cta-button-advanced" id="ctaButton" onclick="window.location.href='/dashboard';">
                     <div class="button-bg"></div>
                     <div class="button-content">
                         <span class="button-text">Start Crawling</span>
