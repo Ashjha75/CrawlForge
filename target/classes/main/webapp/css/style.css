@@ -1,3 +1,15 @@
+@import url('header.css');
+@import url('heroSection.css');
+@import url('socialProof.css');
+@import url('featuresOverview.css');
+@import url('footer.css');
+@import url('scroll.css');
+
+
+
+
+
+
 body {
     background-color: #1f1f2b;
     color: #ffffff;
