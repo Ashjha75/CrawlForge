@@ -2,11 +2,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/heroSection.css">
 
 <!-- Hero Section with Advanced Animations -->
-<section class="hero-section" id="heroSection" >
+<section class="hero-section" id="heroSection">
     <div class="hero-background">
         <div class="floating-particles"></div>
         <div class="neural-network">
-            <canvas id="networkCanvas" ></canvas>
+            <canvas id="networkCanvas"></canvas>
         </div>
     </div>
 
@@ -206,7 +206,7 @@
 
             <!-- Enhanced CTA Section -->
             <div class="cta-section">
-                <button class="cta-button-advanced" id="ctaButton" onclick="window.location.href='/scrapyUi';">
+                <button class="cta-button-advanced" id="ctaButton" onclick="window.location.href='/crawler-link';">
                     <div class="button-bg"></div>
                     <div class="button-content">
                         <span class="button-text">Start Crawling</span>

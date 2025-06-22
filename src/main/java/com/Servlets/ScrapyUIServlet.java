@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/scrapyUi")
+@WebServlet("/crawler-link")
 public class ScrapyUIServlet extends HttpServlet {
     
     @Override
@@ -19,8 +19,8 @@ public class ScrapyUIServlet extends HttpServlet {
         // Set page attributes for Scrapy UI
         request.setAttribute("pageTitle", "Scrapy UI - Visual Web Scraping Interface");
         request.setAttribute("contentPage", "/jsp/scrappers/scrapperHome.jsp");
-//        request.setAttribute("pageCss", "scrapyui.css");
-//        request.setAttribute("pageJs", "scrapyui.js");
+        request.setAttribute("pageCss", "linkTaker.css");
+        request.setAttribute("pageJs", "/js/linkTaker.js");
         
         // Forward to master layout (index.jsp)
         request.getRequestDispatcher("/index.jsp").forward(request, response);
