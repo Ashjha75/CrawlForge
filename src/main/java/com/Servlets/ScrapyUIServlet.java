@@ -16,20 +16,14 @@ public class ScrapyUIServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Set page attributes for Scrapy UI
         request.setAttribute("pageTitle", "Scrapy UI - Visual Web Scraping Interface");
         request.setAttribute("contentPage", "/jsp/scrappers/scrapperHome.jsp");
-        request.setAttribute("pageCss", "linkTaker.css");
-        request.setAttribute("pageCss", "history.css");
-        request.setAttribute("pageJs", "linkTaker.js");
 
-        // Forward to master layout (index.jsp)
+        // Multiple CSS files as comma-separated string
+        request.setAttribute("pageCss", "linkTaker.css,history.css,dashboard.css");
+        request.setAttribute("pageJs", "linkTaker.js,dashboard.js");
+
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
 }
+

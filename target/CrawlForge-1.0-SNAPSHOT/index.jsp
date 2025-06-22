@@ -16,8 +16,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
     <!-- Page-specific CSS -->
+<%--    <c:if test="${pageCss != null}">--%>
+<%--        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/${pageCss}">--%>
+<%--    </c:if>--%>
+
     <c:if test="${pageCss != null}">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/${pageCss}">
+        <c:forTokens var="cssFile" items="${pageCss}" delims=",">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/${cssFile}">
+        </c:forTokens>
     </c:if>
 
     <!-- Custom Scrollbar and Theme CSS -->
