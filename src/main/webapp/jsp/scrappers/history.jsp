@@ -171,7 +171,7 @@
                 </div>
                 <h3 class="empty-title">No crawl history found</h3>
                 <p class="empty-description">Start your first crawl task to see history here</p>
-                <button class="empty-cta-btn">
+                <button class="empty-cta-btn" onclick="scrollToTop()">
                     <i class="bi bi-plus-circle"></i>
                     Create New Crawl
                 </button>

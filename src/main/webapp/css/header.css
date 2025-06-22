@@ -310,3 +310,54 @@
 .logo-animate:hover {
     transform: rotate(20deg) scale(1.1);
 }
+/* Add smooth scrolling to html */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced CTA Button */
+.empty-cta-btn {
+    background: linear-gradient(135deg, #10a37f 0%, #0d8465 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.empty-cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.empty-cta-btn:hover::before {
+    left: 100%;
+}
+
+.empty-cta-btn:hover {
+    background: linear-gradient(135deg, #0d8465 0%, #0a6b52 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 163, 127, 0.3);
+}
+
+/* Add animation for scroll action */
+.empty-cta-btn:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+}
