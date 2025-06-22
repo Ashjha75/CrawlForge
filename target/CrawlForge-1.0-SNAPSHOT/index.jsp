@@ -14,12 +14,6 @@
 
     <!-- Your Custom CSS Files -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/heroSection.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/social-proof.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/features-overview.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/scrollbar.css">
 
     <!-- Page-specific CSS -->
     <c:if test="${pageCss != null}">
