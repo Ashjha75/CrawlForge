@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/linkTaker.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/main/webapp/css/linkTaker.css">
 
 <!-- Enhanced Crawl Form Section -->
 <section id="crawlerForm" class="crawl-form-section">
@@ -250,4 +250,4 @@
         </div>
     </div>
 </section>
-<Script src="${pageContext.request.contextPath}/js/linktaker.js"></Script>
+<Script src="${pageContext.request.contextPath}/main/webapp/js/linktaker.js"></Script>
