@@ -12,7 +12,7 @@
                     <div class="footer-brand">
                         <a href="${pageContext.request.contextPath}/" class="footer-logo">
                             <%--                            <i class="bi bi-globe-americas"></i>--%>
-                            <img src="favicon.ico" alt="logo" height="30" width="30" class="logo-animate">
+                            <img src="/img/logo.png" alt="logo" height="30" width="30" class="logo-animate">
                             CrawlForge
                         </a>
                     </div>
