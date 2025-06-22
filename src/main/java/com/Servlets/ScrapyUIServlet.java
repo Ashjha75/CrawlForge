@@ -20,6 +20,7 @@ public class ScrapyUIServlet extends HttpServlet {
         request.setAttribute("pageTitle", "Scrapy UI - Visual Web Scraping Interface");
         request.setAttribute("contentPage", "/jsp/scrappers/scrapperHome.jsp");
         request.setAttribute("pageCss", "linkTaker.css");
+        request.setAttribute("pageCss", "history.css");
         request.setAttribute("pageJs", "linkTaker.js");
 
         // Forward to master layout (index.jsp)

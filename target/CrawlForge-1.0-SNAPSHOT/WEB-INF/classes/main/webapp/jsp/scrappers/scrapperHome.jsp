@@ -3,3 +3,6 @@
 
 <!-- Scrapy UI Content -->
 <%@ include file="/jsp/scrappers/linktaker.jsp" %>
+
+<%-- History UI--%>
+<%@ include file="/jsp/scrappers/history.jsp" %>
