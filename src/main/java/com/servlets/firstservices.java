@@ -1,3 +1,5 @@
+package com.servlets;
+
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
