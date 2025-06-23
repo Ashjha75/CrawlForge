@@ -88,23 +88,33 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
+            background:
+                    radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
             animation: float-bg 8s ease-in-out infinite;
         }
 
         @keyframes float-bg {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(2deg);
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
 
         .page-loading.hidden {
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* Performance optimizations for smooth animations */
+        .page-loading,
+        .advanced-spinner,
+        .spinner-ring,
+        .spinner-center,
+        .particle,
+        .loading-brand,
+        .progress-fill {
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
         /* Loader Container */
@@ -133,21 +143,19 @@
             height: 100%;
             border: 3px solid transparent;
             border-radius: 50%;
-            animation: spin 2s linear infinite;
         }
 
         .spinner-ring-1 {
             border-top: 3px solid #10a37f;
             border-right: 3px solid rgba(16, 163, 127, 0.3);
-            animation-duration: 2s;
+            animation: spin-smooth 2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
             filter: drop-shadow(0 0 10px rgba(16, 163, 127, 0.5));
         }
 
         .spinner-ring-2 {
             border-bottom: 3px solid #0d8465;
             border-left: 3px solid rgba(13, 132, 101, 0.3);
-            animation-duration: 1.5s;
-            animation-direction: reverse;
+            animation: spin-smooth 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite reverse;
             width: 90%;
             height: 90%;
             top: 5%;
@@ -158,12 +166,18 @@
         .spinner-ring-3 {
             border-top: 2px solid rgba(16, 163, 127, 0.6);
             border-right: 2px solid transparent;
-            animation-duration: 1s;
+            animation: spin-smooth 1s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
             width: 70%;
             height: 70%;
             top: 15%;
             left: 15%;
             filter: drop-shadow(0 0 6px rgba(16, 163, 127, 0.3));
+        }
+
+        /* Improved spinning animation */
+        @keyframes spin-smooth {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Center Logo with Pulse */
@@ -187,21 +201,24 @@
             justify-content: center;
             font-size: 1.5rem;
             color: #10a37f;
-            animation: pulse-center 2s ease-in-out infinite;
-            box-shadow: 0 8px 32px rgba(16, 163, 127, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: pulse-center-smooth 2.5s ease-in-out infinite;
+            box-shadow:
+                    0 8px 32px rgba(16, 163, 127, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes pulse-center {
+        @keyframes pulse-center-smooth {
             0%, 100% {
                 transform: translate(-50%, -50%) scale(1);
-                box-shadow: 0 8px 32px rgba(16, 163, 127, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                box-shadow:
+                        0 8px 32px rgba(16, 163, 127, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             }
             50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                box-shadow: 0 12px 40px rgba(16, 163, 127, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+                transform: translate(-50%, -50%) scale(1.05);
+                box-shadow:
+                        0 12px 40px rgba(16, 163, 127, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
             }
         }
 
@@ -224,57 +241,52 @@
             border-radius: 50%;
             opacity: 0.7;
             box-shadow: 0 0 10px rgba(16, 163, 127, 0.5);
+            animation: float-particle-smooth 3.5s ease-in-out infinite;
         }
 
         .particle:nth-child(1) {
             top: 20%;
             left: 20%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 0s;
         }
 
         .particle:nth-child(2) {
             top: 20%;
             right: 20%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 0.5s;
         }
 
         .particle:nth-child(3) {
             bottom: 20%;
             left: 20%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 1s;
         }
 
         .particle:nth-child(4) {
             bottom: 20%;
             right: 20%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 1.5s;
         }
 
         .particle:nth-child(5) {
             top: 50%;
             left: 10%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 2s;
         }
 
         .particle:nth-child(6) {
             top: 50%;
             right: 10%;
-            animation: float-particle 3s ease-in-out infinite;
             animation-delay: 2.5s;
         }
 
-        @keyframes float-particle {
+        @keyframes float-particle-smooth {
             0%, 100% {
                 transform: translateY(0px) scale(1);
                 opacity: 0.7;
             }
             50% {
-                transform: translateY(-20px) scale(1.2);
+                transform: translateY(-15px) scale(1.1);
                 opacity: 1;
             }
         }
@@ -297,18 +309,18 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            animation: brand-glow 2s ease-in-out infinite;
+            animation: brand-glow-smooth 3s ease-in-out infinite;
             filter: drop-shadow(0 0 10px rgba(16, 163, 127, 0.3));
         }
 
-        @keyframes brand-glow {
+        @keyframes brand-glow-smooth {
             0%, 100% {
                 filter: drop-shadow(0 0 10px rgba(16, 163, 127, 0.3));
                 transform: scale(1);
             }
             50% {
-                filter: drop-shadow(0 0 20px rgba(16, 163, 127, 0.6));
-                transform: scale(1.02);
+                filter: drop-shadow(0 0 15px rgba(16, 163, 127, 0.5));
+                transform: scale(1.01);
             }
         }
 
@@ -316,16 +328,13 @@
             color: #c5c5d2;
             opacity: 0.8;
             font-size: 0.9rem;
-            animation: fade-pulse 2s ease-in-out infinite;
+            animation: fade-pulse-smooth 3s ease-in-out infinite;
+            transition: opacity 0.3s ease-in-out;
         }
 
-        @keyframes fade-pulse {
-            0%, 100% {
-                opacity: 0.8;
-            }
-            50% {
-                opacity: 0.4;
-            }
+        @keyframes fade-pulse-smooth {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.5; }
         }
 
         /* Progress Bar */
@@ -345,9 +354,9 @@
             background: linear-gradient(90deg, #10a37f, #0d8465);
             border-radius: 2px;
             width: 0%;
-            animation: progress-fill 3s ease-in-out infinite;
             position: relative;
             box-shadow: 0 0 10px rgba(16, 163, 127, 0.5);
+            transition: width 0.3s ease-out;
         }
 
         .progress-fill::after {
@@ -364,35 +373,9 @@
             animation: progress-shine 1.5s ease-in-out infinite;
         }
 
-        @keyframes progress-fill {
-            0% {
-                width: 0%;
-            }
-            70% {
-                width: 100%;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
         @keyframes progress-shine {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        /* Spinning Animation */
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Your existing scrollbar CSS */
@@ -416,8 +399,9 @@
             rgba(16, 163, 127, 0.8) 100%);
             border-radius: 10px;
             border: 1px solid rgba(16, 163, 127, 0.3);
-            box-shadow: 0 2px 6px rgba(16, 163, 127, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow:
+                    0 2px 6px rgba(16, 163, 127, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
 
@@ -426,8 +410,9 @@
             rgba(16, 163, 127, 1) 0%,
             rgba(13, 132, 101, 1) 50%,
             rgba(16, 163, 127, 1) 100%);
-            box-shadow: 0 4px 12px rgba(16, 163, 127, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow:
+                    0 4px 12px rgba(16, 163, 127, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
@@ -454,7 +439,25 @@
             }
         }
 
-        /* Responsive Design */
+        /* Reduced motion for devices that prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .spinner-ring,
+            .particle,
+            .loading-brand {
+                animation-duration: 4s;
+            }
+
+            .spinner-center {
+                animation: none;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            .page-loading::before {
+                animation: none;
+            }
+        }
+
+        /* Better performance on lower-end devices */
         @media (max-width: 768px) {
             .advanced-spinner {
                 width: 80px;
@@ -473,6 +476,27 @@
 
             .loading-progress {
                 width: 150px;
+            }
+
+            .spinner-ring {
+                filter: none;
+            }
+
+            .particle {
+                animation-duration: 4s;
+            }
+
+            .page-loading::before {
+                animation-duration: 12s;
+            }
+        }
+
+        /* Force GPU acceleration on supported devices */
+        @supports (transform: translate3d(0,0,0)) {
+            .spinner-ring,
+            .particle,
+            .spinner-center {
+                transform: translate3d(0,0,0);
             }
         }
     </style>
@@ -521,7 +545,7 @@
 <main class="main-content">
     <c:choose>
         <c:when test="${contentPage != null}">
-            <jsp:include page="${contentPage}"/>
+            <jsp:include page="${contentPage}" />
         </c:when>
         <c:otherwise>
             <%@ include file="/jsp/JspUi/heroSection.jsp" %>
@@ -554,13 +578,13 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Enhanced loading screen with progress simulation
+        // Enhanced loading screen with better text updates
         const loadingScreen = document.getElementById('pageLoading');
         const progressFill = document.querySelector('.progress-fill');
         const loadingSubtitle = document.querySelector('.loading-subtitle');
 
-        if (loadingScreen) {
-            // Simulate loading steps
+        if (loadingScreen && loadingSubtitle) {
+            // Loading steps with proper timing
             const loadingSteps = [
                 "Initializing web scraping platform...",
                 "Loading crawl engines...",
@@ -572,11 +596,15 @@
             let currentStep = 0;
             let progress = 0;
 
+            // Force initial text
+            loadingSubtitle.textContent = loadingSteps[0];
+
             const progressInterval = setInterval(() => {
-                progress += Math.random() * 15 + 5;
+                progress += Math.random() * 8 + 3; // Slower, more controlled progress
 
                 if (progress >= 100) {
                     progress = 100;
+                    loadingSubtitle.textContent = loadingSteps[loadingSteps.length - 1];
                     clearInterval(progressInterval);
 
                     setTimeout(() => {
@@ -584,7 +612,7 @@
                         setTimeout(() => {
                             loadingScreen.remove();
                         }, 800);
-                    }, 500);
+                    }, 800); // Longer delay to show "Ready to crawl!"
                 }
 
                 // Update progress bar
@@ -592,14 +620,21 @@
                     progressFill.style.width = progress + '%';
                 }
 
-                // Update loading text
-                if (loadingSubtitle && currentStep < loadingSteps.length - 1) {
-                    if (progress > (currentStep + 1) * 20) {
-                        currentStep++;
+                // Better text update logic
+                const stepThreshold = 100 / loadingSteps.length;
+                const targetStep = Math.floor(progress / stepThreshold);
+
+                if (targetStep !== currentStep && targetStep < loadingSteps.length) {
+                    currentStep = targetStep;
+
+                    // Smooth text transition
+                    loadingSubtitle.style.opacity = '0.4';
+                    setTimeout(() => {
                         loadingSubtitle.textContent = loadingSteps[currentStep];
-                    }
+                        loadingSubtitle.style.opacity = '0.8';
+                    }, 150);
                 }
-            }, 200);
+            }, 300); // Slower interval for better visibility
         }
 
         // GSAP ScrollTrigger registration
