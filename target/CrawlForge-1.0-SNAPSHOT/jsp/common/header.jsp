@@ -2,8 +2,8 @@
 
 <!-- Enhanced Header with Authentication -->
 <nav class="navbar navbar-expand-lg navbar-custom" id="mainNavbar">
-    <div class="container">
-        <!-- Brand -->
+    <div class="container-fluid px-4">
+        <!-- Brand on Left -->
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
             <i class="bi bi-robot brand-icon logo-animate"></i>
             CrawlForge
@@ -14,38 +14,37 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Navigation -->
+        <!-- Navigation on Right -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">
-                        <i class="bi bi-house-door"></i>Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/dashboard">
-                        <i class="bi bi-speedometer2"></i>Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
+            <!-- Empty div to push everything to the right -->
+            <div class="navbar-nav ms-auto d-flex align-items-center">
+                <!-- Main Navigation Links -->
+                <a class="nav-link" href="${pageContext.request.contextPath}/">
+                    <i class="bi bi-house-door"></i>Home
+                </a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/dashboard">
+                    <i class="bi bi-speedometer2"></i>Dashboard
+                </a>
+                <div class="nav-item position-relative">
                     <a class="nav-link" href="${pageContext.request.contextPath}/reports">
                         <i class="bi bi-bar-chart"></i>Reports
                         <span class="notification-badge">3</span>
                     </a>
-                </li>
-            </ul>
+                </div>
 
-            <!-- Authentication Section -->
-            <ul class="navbar-nav">
+                <!-- Divider -->
+                <div class="nav-divider"></div>
+
+                <!-- Authentication Section -->
                 <!-- Sign In Button (Show when not logged in) -->
-                <li class="nav-item auth-signin" id="authSignIn">
+                <div class="auth-signin" id="authSignIn">
                     <a class="nav-link signin-btn" href="${pageContext.request.contextPath}/signin">
                         <i class="bi bi-box-arrow-in-right"></i>Sign In
                     </a>
-                </li>
+                </div>
 
                 <!-- Account Dropdown (Show when logged in) -->
-                <li class="nav-item dropdown auth-account" id="authAccount" style="display: none;">
+                <div class="dropdown auth-account" id="authAccount" style="display: none;">
                     <a class="nav-link dropdown-toggle account-btn" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
                         <div class="user-avatar">
                             <i class="bi bi-person-circle"></i>
@@ -87,8 +86,8 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
