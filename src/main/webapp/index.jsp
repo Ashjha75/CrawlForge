@@ -611,8 +611,8 @@
                         loadingScreen.classList.add('hidden');
                         setTimeout(() => {
                             loadingScreen.remove();
-                        }, 800);
-                    }, 800); // Longer delay to show "Ready to crawl!"
+                        }, 400);
+                    }, 400); // Longer delay to show "Ready to crawl!"
                 }
 
                 // Update progress bar
