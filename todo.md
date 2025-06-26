@@ -7,15 +7,15 @@
 
 ## 🧩 Core Features Overview
 
-| Feature                         | Description |
-|--------------------------------|-------------|
+| Feature                         | Description                                                 |
+|--------------------------------|-------------------------------------------------------------|
 | Multithreaded Web Crawler      | Crawl websites concurrently, respecting limits and policies |
-| Content Extraction             | Extract meta info, links, headings, keyword stats |
-| Data Persistence               | Store results in JSON / SQLite |
-| Crawl Dashboard                | View real-time status of crawling tasks |
-| Search Interface               | Search crawled content by keyword |
-| Scheduler + Crawl Resumption  | Schedule periodic crawling, resume from last session |
-| Robots.txt & Politeness Policy | Respect site rules and delays |
+| Content Extraction             | Extract meta info, links, headings, keyword stats           |
+| Data Persistence               | Store results in JSON / Mysql                                 |
+| Crawl Dashboard                | View real-time status of crawling tasks                     |
+| Search Interface               | Search crawled content by keyword                           |
+| Scheduler + Crawl Resumption  | Schedule periodic crawling, resume from last session        |
+| Robots.txt & Politeness Policy | Respect site rules and delays                               |
 
 ---
 
