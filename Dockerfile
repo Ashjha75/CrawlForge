@@ -44,3 +44,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
+
