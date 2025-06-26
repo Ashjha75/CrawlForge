@@ -2,6 +2,7 @@ package com.crawlforge.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.Index;
 
 @Entity
 @Table(name = "keywords",
@@ -23,7 +24,6 @@ public class Keyword {
     @Column(name = "keyword_id")
     @Setter(AccessLevel.NONE)
     private Long keywordId;
-import jakarta.persistence.Index;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id", nullable = false)

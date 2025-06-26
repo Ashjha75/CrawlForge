@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
 import jakarta.persistence.Index;
+import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

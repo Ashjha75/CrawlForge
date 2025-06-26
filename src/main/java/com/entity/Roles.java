@@ -3,6 +3,7 @@ package com.crawlforge.model;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.persistence.Index;
+import jakarta.persistence.CascadeType;
 
 import java.util.HashSet;
 import java.util.Set;
