@@ -1,11 +1,10 @@
 package com.service;
-package com.dao.userDao;
-import com.crawlforge.dao.UserDAO;
-import com.crawlforge.dao.RoleDAO;
-import com.crawlforge.model.User;
-import com.crawlforge.model.Role;
-import com.crawlforge.util.PasswordUtil;
-import com.crawlforge.util.JwtUtil;
+import com.dao.UserDAO;
+import com.dao.RoleDAO;
+import com.entity.User;
+import com.entity.Role;
+import com.utils.PasswordUtil;
+import com.utils.JwtUtil;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -38,7 +37,6 @@ public class AuthService {
                 .email(email)
                 .passwordHash(hashedPassword)
                 .newsletterSubscribed(newsletterSubscribed)
-                .termsAcceptedAt(LocalDateTime.now())
                 .privacyAcceptedAt(LocalDateTime.now())
                 .build();
         
