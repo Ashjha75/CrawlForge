@@ -453,3 +453,56 @@
     }
 }
 
+     /* Password Input Wrapper */
+     .password-input-wrapper {
+         position: relative;
+         display: flex;
+         align-items: center;
+     }
+
+     .password-input {
+         padding-right: 45px !important; /* Make space for eye button */
+     }
+
+     /* Password Toggle Button */
+     .password-toggle-btn {
+         position: absolute;
+         right: 12px;
+         top: 50%;
+         transform: translateY(-50%);
+         background: none;
+         border: none;
+         color: #c5c5d2;
+         cursor: pointer;
+         padding: 5px;
+         border-radius: 4px;
+         transition: all 0.3s ease;
+         z-index: 10;
+     }
+
+     .password-toggle-btn:hover {
+         color: #10a37f;
+         background-color: rgba(16, 163, 127, 0.1);
+     }
+
+     .password-toggle-btn:focus {
+         outline: none;
+         color: #10a37f;
+         background-color: rgba(16, 163, 127, 0.15);
+     }
+
+     .password-toggle-btn i {
+         font-size: 16px;
+         transition: all 0.3s ease;
+     }
+
+     /* Active state when password is visible */
+     .password-toggle-btn.active {
+         color: #10a37f;
+     }
+
+     .password-toggle-btn.active i {
+         transform: scale(1.1);
+     }
+
+
