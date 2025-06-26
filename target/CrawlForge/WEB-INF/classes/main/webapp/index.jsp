@@ -9,6 +9,8 @@
 
     <!-- SEO Meta Tags -->
     <title>${pageTitle != null ? pageTitle : 'CrawlForge - Advanced Web Scraping Platform'}</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+
     <meta name="description"
           content="CrawlForge is an advanced AI-powered web scraping platform that extracts data from any website with precision, scale, and intelligence.">
     <meta name="keywords"
@@ -41,7 +43,7 @@
 
     <!-- Your Custom CSS Files -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico">
+
 
     <!-- Page-specific CSS -->
     <c:if test="${pageCssFiles != null}">
