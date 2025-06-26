@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
+import com.crawlforge.model.Keyword;
 @Entity
 @Table(name = "pages",
         indexes = {

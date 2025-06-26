@@ -8,7 +8,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
+import com.crawlforge.model.Page;
 @Entity
 @Table(name = "crawl_sessions",
         indexes = {
