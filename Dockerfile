@@ -1,5 +1,5 @@
 # Multi-stage build for CrawlForge
-FROM maven:3.9.5-openjdk-21 AS builder
+FROM maven:3.8.3-openjdk-17 AS builder
 
 # Add maintainer
 LABEL maintainer="Ashish Jha <ajha5645@gmail.com>"
