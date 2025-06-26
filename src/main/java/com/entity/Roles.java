@@ -2,11 +2,11 @@ package com.crawlforge.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Index;
-import jakarta.persistence.CascadeType;
 
+import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
+import com.crawlforge.model.User;
 
 @Entity
 @Table(name = "roles")
@@ -38,8 +38,8 @@ public class Roles {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role)) return false;
-        Role role = (Role) o;
+        if (!(o instanceof Roles)) return false;
+        Role role = (Roles) o;
         return roleId != null && roleId.equals(role.roleId);
     }
 
