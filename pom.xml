@@ -14,8 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>6.4.4.Final</hibernate.version>
         <jackson.version>2.16.1</jackson.version>
-        <docker.image.name>crawlforge</docker.image.name>
-        <docker.image.tag>${project.version}</docker.image.tag>
     </properties>
 
     <build>
@@ -28,7 +26,6 @@
                 <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>ROOT</warName>
                 </configuration>
             </plugin>
 
@@ -61,63 +58,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <skipTests>false</skipTests>
-                </configuration>
-            </plugin>
-
-            <!-- Docker Maven Plugin -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.13</version>
-                <configuration>
-                    <repository>${docker.image.name}</repository>
-                    <tag>${docker.image.tag}</tag>
-                    <buildArgs>
-                        <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
-                    </buildArgs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Jib Plugin for Docker (Alternative to Dockerfile) -->
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.0</version>
-                <configuration>
-                    <from>
-                        <image>tomcat:10.1-jdk17</image>
-                    </from>
-                    <to>
-                        <image>${docker.image.name}:${docker.image.tag}</image>
-                    </to>
-                    <container>
-                        <ports>
-                            <port>8080</port>
-                        </ports>
-                        <environment>
-                            <CATALINA_OPTS>-Xmx512m -Xms256m</CATALINA_OPTS>
-                            <JAVA_OPTS>-Djava.security.egd=file:/dev/./urandom</JAVA_OPTS>
-                        </environment>
-                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                    </container>
-                    <extraDirectories>
-                        <paths>
-                            <path>
-                                <from>target</from>
-                                <into>/usr/local/tomcat/webapps</into>
-                                <includes>*.war</includes>
-                            </path>
-                        </paths>
-                    </extraDirectories>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
         </plugins>
@@ -295,79 +236,5 @@
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Testcontainers for Integration Testing -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>1.19.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>1.19.3</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
-    <!-- Profiles for different environments -->
-    <profiles>
-        <!-- Development Profile -->
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <spring.profiles.active>dev</spring.profiles.active>
-            </properties>
-        </profile>
-
-        <!-- Production Profile -->
-        <profile>
-            <id>prod</id>
-            <properties>
-                <spring.profiles.active>prod</spring.profiles.active>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/webapp</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Docker Profile -->
-        <profile>
-            <id>docker</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>build-image</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
