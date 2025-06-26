@@ -3,6 +3,7 @@ package com.crawlforge.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
+import jakarta.persistence.Index;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

@@ -23,6 +23,7 @@ public class Keyword {
     @Column(name = "keyword_id")
     @Setter(AccessLevel.NONE)
     private Long keywordId;
+import jakarta.persistence.Index;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id", nullable = false)

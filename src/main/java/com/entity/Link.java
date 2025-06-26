@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import jakarta.persistence.Index;
 
 @Entity
 @Table(name = "links",
