@@ -1,5 +1,8 @@
 # Multi-stage build for CrawlForge
-FROM maven:3.9.5-openjdk-21 AS build
+FROM maven:3.9.5-openjdk-21 AS builder
+
+# Add maintainer
+LABEL maintainer="Ashish Jha <ajha5645@gmail.com>"
 
 # Set working directory
 WORKDIR /app
@@ -19,14 +22,14 @@ RUN mvn clean package -DskipTests
 # Production stage
 FROM tomcat:10.1-jdk21-openjdk
 
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Remove default webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the WAR file from build stage
-COPY --from=build /app/target/CrawlForge-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
-
-# Copy custom server configuration if needed
-# COPY server.xml /usr/local/tomcat/conf/
+# Copy the WAR file from build stage (correct stage name!)
+COPY --from=builder /app/target/CrawlForge.war /usr/local/tomcat/webapps/ROOT.war
 
 # Create logs directory
 RUN mkdir -p /usr/local/tomcat/logs
@@ -44,4 +47,3 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
-
