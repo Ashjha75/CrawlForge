@@ -12,11 +12,11 @@ import java.util.Base64;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
-    
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Check if user is already authenticated
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -27,78 +27,84 @@ public class SignUpServlet extends HttpServlet {
                 return;
             }
         }
-        
+
         // Generate CSRF token for security
         String csrfToken = generateCSRFToken();
         HttpSession newSession = request.getSession(true);
         newSession.setAttribute("csrfToken", csrfToken);
-        
+
         // Set page attributes for master layout
         request.setAttribute("pageTitle", "Sign Up - CrawlForge");
         request.setAttribute("contentPage", "/jsp/auth/signup.jsp");
-        
+
         // Add CSS files specific to signup page
         String[] cssFiles = {"signup.css"};
         request.setAttribute("pageCssFiles", cssFiles);
-        
+
         // Add JavaScript files specific to signup page
-//        String[] jsFiles = {"signup.js"};
-//        request.setAttribute("pageJsFiles", jsFiles);
-        
+        String[] jsFiles = {"signup.js"};
+        request.setAttribute("pageJsFiles", jsFiles);
+
         // Add CSRF token to request for JSP
         request.setAttribute("csrfToken", csrfToken);
-        
+
         // Check for any error or success messages from previous requests
         String error = request.getParameter("error");
         String success = request.getParameter("success");
-        
+
         if (error != null) {
             switch (error) {
-                case "username_exists":
-                    request.setAttribute("error", "Username already exists. Please choose a different username.");
+                case "exists":
+                    request.setAttribute("error", "An account with this email already exists. Please sign in instead.");
                     break;
-                case "email_exists":
-                    request.setAttribute("error", "Email already registered. Please use a different email or sign in.");
+                case "invalid":
+                    request.setAttribute("error", "Please provide valid information for all required fields.");
                     break;
-                case "weak_password":
-                    request.setAttribute("error", "Password is too weak. Please use at least 8 characters with numbers and symbols.");
+                case "password":
+                    request.setAttribute("error", "Password must be at least 8 characters with uppercase, lowercase, and numbers.");
                     break;
-                case "validation_failed":
-                    request.setAttribute("error", "Please fill all required fields correctly.");
+                case "mismatch":
+                    request.setAttribute("error", "Passwords do not match. Please try again.");
                     break;
-                case "server_error":
-                    request.setAttribute("error", "Registration failed due to server error. Please try again.");
+                case "email":
+                    request.setAttribute("error", "Please provide a valid email address.");
+                    break;
+                case "server":
+                    request.setAttribute("error", "Server error occurred. Please try again later.");
                     break;
                 default:
                     request.setAttribute("error", "Registration failed. Please try again.");
                     break;
             }
         }
-        
+
         if (success != null) {
             switch (success) {
-                case "registered":
-                    request.setAttribute("success", "Registration successful! Please check your email to verify your account.");
+                case "created":
+                    request.setAttribute("success", "Account created successfully! Please check your email for verification.");
+                    break;
+                case "verified":
+                    request.setAttribute("success", "Email verified successfully! You can now sign in.");
                     break;
                 default:
                     request.setAttribute("success", "Operation completed successfully.");
                     break;
             }
         }
-        
+
         // Forward to master layout (index.jsp)
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
-    
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // POST requests to /signup should redirect to GET
         // This prevents form resubmission issues
         response.sendRedirect(request.getContextPath() + "/signup");
     }
-    
+
     /**
      * Generate a secure CSRF token for form protection
      */
@@ -108,6 +114,18 @@ public class SignUpServlet extends HttpServlet {
         random.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
-    
 
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        // Log servlet initialization
+        System.out.println("SignUpServlet initialized - CrawlForge Registration System");
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        // Cleanup if needed
+        System.out.println("SignUpServlet destroyed");
+    }
 }
