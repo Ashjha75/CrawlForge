@@ -31,7 +31,7 @@
         <property name="hibernate.format_sql">true</property>
 
         <!-- Entity Classes (No XML mapping needed) -->
-        <mapping class="com.crawlforge.model.User"/>
+        <mapping class="com.entity.User"/>
         <mapping class="com.crawlforge.model.Role"/>
         <mapping class="com.crawlforge.model.CrawlSession"/>
         <mapping class="com.crawlforge.model.Page"/>
