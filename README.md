@@ -197,6 +197,7 @@ This project is designed to help **2+ year Java developers** demonstrate:
 
 ![Home page](./src/main/webapp/img/home.png)
 ![Dashboard page](./src/main/webapp/img/dashboard.png)
+![CrawlForge Demo](./src/main/webapp/img/Home.mp4)
 - ✅ Dashboard mockup
 - ✅ Logs page
 
