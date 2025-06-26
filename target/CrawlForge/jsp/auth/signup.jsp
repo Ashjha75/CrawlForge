@@ -6,7 +6,7 @@
 <div class="signup-background"></div>
 
 <!-- Main Container -->
-<div class="signup-container">
+<div class="signup-container" style="margin-top: 5rem">
     <div class="signup-card">
         <!-- Header -->
         <div class="signup-header">
