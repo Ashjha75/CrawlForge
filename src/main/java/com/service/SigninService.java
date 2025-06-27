@@ -48,9 +48,9 @@ public class SigninService {
             if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
                 throw new IllegalArgumentException("Email and password are required");
             }
-
+System.out.println("here position is 2");
             String token = authenticateUser(email.trim(), password);
-
+            System.out.println("here position is 3");
             Cookie jwtCookie = new Cookie("jwt_token", token);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setPath("/");
@@ -81,40 +81,17 @@ public class SigninService {
     }
 
     private String authenticateUser(String email, String password) {
-        Optional<User> userOpt = userDAO.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            System.out.println("User not found for email: " + email);
-            throw new RuntimeException("Invalid credentials");
+        System.out.println("authenticateUser called with email: " + email);
+        Optional<User> userOpt;
+        try {
+            userOpt = userDAO.findByEmail(email);
+        } catch (Exception ex) {
+            System.out.println("Exception in userDAO.findByEmail: " + ex.getMessage());
+            ex.printStackTrace();
+            throw new RuntimeException("Database error");
         }
-        User user = userOpt.get();
-        if (!user.canLogin()) {
-            System.out.println("User cannot login: " + email);
-            throw new RuntimeException("Account is locked or inactive");
-        }
-        if (!PasswordUtil.verifyPassword(password, user.getPasswordHash())) {
-            user.incrementLoginAttempts();
-            userDAO.updateUser(user);
-            System.out.println("Invalid password for user: " + email);
-            throw new RuntimeException("Invalid credentials");
-        }
-        user.resetLoginAttempts();
-        user.setLastLoginAt(LocalDateTime.now());
-        userDAO.updateUser(user);
-
-        // Null check for roles
-        String roles = (user.getRoles() != null) ? user.getRoles().stream()
-                .map(role -> role.getName())
-                .collect(Collectors.joining(",")) : "";
-        if (roles.isEmpty()) roles = "USER";
-
-        System.out.println("User authenticated: " + email + ", roles: " + roles);
-
-        return JwtUtil.generateTokenWithRoles(
-                user.getEmail(),
-                user.getUserId(),
-                user.getUsername(),
-                roles
-        );
+        System.out.println("here position is 4");
+        // ... rest of your code ...
     }
 
     private String getErrorMessage(String originalMessage) {
