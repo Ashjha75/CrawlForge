@@ -6,7 +6,7 @@
 <div class="signup-background"></div>
 
 <!-- Main Container -->
-<div class="signup-container" style="margin-top: 5rem">
+<div class="signup-container">
     <div class="signup-card">
         <!-- Header -->
         <div class="signup-header">
@@ -17,23 +17,10 @@
             <p class="signup-subtitle">Create your account to start web scraping</p>
         </div>
 
-        <!-- Error/Success Messages -->
-        <c:if test="${not empty error}">
-            <div class="error-message">
-                <i class="bi bi-exclamation-triangle"></i>
-                <span>${error}</span>
-            </div>
-        </c:if>
+        <!-- Error/Success Messages will be inserted here by JavaScript -->
 
-        <c:if test="${not empty success}">
-            <div class="success-message">
-                <i class="bi bi-check-circle"></i>
-                <span>${success}</span>
-            </div>
-        </c:if>
-
-        <!-- Sign Up Form -->
-        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/register">
+        <!-- Sign Up Form - THIS IS THE KEY FIX -->
+        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/auth/register">
             <!-- Name Fields -->
             <div class="form-row">
                 <div class="form-group">
@@ -150,14 +137,19 @@
                 </div>
             </div>
 
+            <!-- Newsletter Subscription -->
+            <div class="terms-group">
+                <input type="checkbox" class="terms-checkbox" id="newsletter" name="newsletter">
+                <div class="terms-text">
+                    Subscribe to our newsletter for updates and tips
+                </div>
+            </div>
+
             <!-- Sign Up Button -->
             <button type="submit" class="signup-btn" id="signupBtn">
                 <div class="btn-spinner" id="btnSpinner"></div>
                 <span class="btn-text">Create Account</span>
             </button>
-
-            <!-- CSRF Token -->
-            <input type="hidden" name="csrfToken" value="${csrfToken}">
         </form>
 
         <!-- Divider -->
@@ -172,4 +164,5 @@
         </div>
     </div>
 </div>
+
 <script src="/js/signup.js"></script>
