@@ -8,9 +8,12 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDAO {
+
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
     public void saveUser(User user) {
         Transaction transaction = null;
@@ -22,7 +25,7 @@ public class UserDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error saving user: " + user, e);
         }
     }
 
@@ -31,6 +34,9 @@ public class UserDAO {
             Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
             query.setParameter("email", email);
             return query.uniqueResultOptional();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error finding user by email: " + email, e);
+            return Optional.empty();
         }
     }
 
@@ -39,20 +45,36 @@ public class UserDAO {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
             return query.uniqueResultOptional();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error finding user by username: " + username, e);
+            return Optional.empty();
         }
     }
 
     public boolean emailExists(String email) {
-        return findByEmail(email).isPresent();
+        try {
+            return findByEmail(email).isPresent();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error checking if email exists: " + email, e);
+            return false;
+        }
     }
 
     public boolean usernameExists(String username) {
-        return findByUsername(username).isPresent();
+        try {
+            return findByUsername(username).isPresent();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error checking if username exists: " + username, e);
+            return false;
+        }
     }
 
     public List<User> getAllUsers() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM User", User.class).list();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error retrieving all users", e);
+            return List.of();
         }
     }
 
@@ -66,7 +88,7 @@ public class UserDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error updating user: " + user, e);
         }
     }
 
@@ -83,7 +105,7 @@ public class UserDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error deleting user with ID: " + userId, e);
         }
     }
 }
