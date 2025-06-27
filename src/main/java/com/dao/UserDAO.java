@@ -1,6 +1,7 @@
 
 package com.dao;
 
+import com.entity.Role;
 import com.entity.User;
 import com.utils.HibernateUtil;
 import org.hibernate.Session;
