@@ -121,5 +121,12 @@ public class User {
     }
     @Override public int hashCode() { return getClass().hashCode(); }
 
+    public void addUserRole(Role userRole) {
+        if (userRole == null) return;
+        if (roles.contains(userRole)) return;
+        roles.add(userRole);
+        userRole.getUsers().add(this);
+    }
+
     public enum UserStatus { ACTIVE, SUSPENDED, INACTIVE }
 }
