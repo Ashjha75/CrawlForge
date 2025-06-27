@@ -20,7 +20,7 @@
         <!-- Error/Success Messages will be inserted here by JavaScript -->
 
         <!-- Sign Up Form - THIS IS THE KEY FIX -->
-        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/auth/register">
+        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/signup">
             <!-- Name Fields -->
             <div class="form-row">
                 <div class="form-group">
