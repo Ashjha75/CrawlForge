@@ -71,8 +71,22 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    public void addRole(Role role){
-
+    public void addUserRole(Role role){
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                user.getRoles().add(role); // assumes getRoles() returns a collection
+                session.update(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
     
     public void deleteUser(Long userId) {

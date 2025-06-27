@@ -41,7 +41,7 @@ public class AuthService {
         
         // Assign default USER role
         Role userRole = roleDAO.getOrCreateRole("USER", "Regular user role");
-        user.saveRole(userRole);
+        user.addUserRole(userRole);
         
         // Save user
         userDAO.saveUser(user);
