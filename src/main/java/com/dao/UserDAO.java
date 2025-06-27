@@ -38,7 +38,7 @@ public class UserDAO {
             query.setParameter("email", email);
             return query.uniqueResultOptional();
         } catch (HibernateException he) {
-            log.error("Error finding User by email='{}'", email, he);
+            LOGGER.log(Level.SEVERE, "Error finding user by email: " + email, e);
             return Optional.empty();
         }
     }
@@ -52,7 +52,7 @@ public class UserDAO {
             query.setParameter("username", username);
             return query.uniqueResultOptional();
         } catch (HibernateException he) {
-            log.error("Error finding User by username='{}'", username, he);
+            LOGGER.log(Level.SEVERE, "Error finding user by username: " + username, e);
             return Optional.empty();
         }
     }
