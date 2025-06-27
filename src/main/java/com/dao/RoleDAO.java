@@ -1,7 +1,7 @@
 package com.dao;
 
-import com.crawlforge.model.Role;
-import com.crawlforge.util.HibernateUtil;
+import com.entity.Role;
+import com.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class RoleDAO {
-    
+
     public void saveRole(Role role) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -24,7 +24,7 @@ public class RoleDAO {
             e.printStackTrace();
         }
     }
-    
+
     public Optional<Role> findByName(String name) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Role> query = session.createQuery("FROM Role WHERE name = :name", Role.class);
@@ -32,19 +32,19 @@ public class RoleDAO {
             return query.uniqueResultOptional();
         }
     }
-    
+
     public List<Role> getAllRoles() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Role", Role.class).list();
         }
     }
-    
+
     public Role getOrCreateRole(String roleName, String description) {
         Optional<Role> existingRole = findByName(roleName);
         if (existingRole.isPresent()) {
             return existingRole.get();
         }
-        
+
         Role newRole = Role.builder()
                 .name(roleName)
                 .description(description)

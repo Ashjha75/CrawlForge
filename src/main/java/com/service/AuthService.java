@@ -37,12 +37,11 @@ public class AuthService {
                 .email(email)
                 .passwordHash(hashedPassword)
                 .newsletterSubscribed(newsletterSubscribed)
-                .privacyAcceptedAt(LocalDateTime.now())
                 .build();
         
         // Assign default USER role
         Role userRole = roleDAO.getOrCreateRole("USER", "Regular user role");
-        user.addRole(userRole);
+        user.saveRole(userRole);
         
         // Save user
         userDAO.saveUser(user);

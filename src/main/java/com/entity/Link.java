@@ -1,4 +1,4 @@
-package com.crawlforge.model;
+package com.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;

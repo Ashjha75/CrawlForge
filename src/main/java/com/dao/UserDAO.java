@@ -1,13 +1,16 @@
+
 package com.dao;
 
-import com.crawlforge.model.User;
-import com.crawlforge.util.HibernateUtil;
+import com.entity.User;
+import com.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
+
+
 
 public class UserDAO {
     
@@ -67,6 +70,9 @@ public class UserDAO {
             }
             e.printStackTrace();
         }
+    }
+    public void addRole(Role role){
+
     }
     
     public void deleteUser(Long userId) {

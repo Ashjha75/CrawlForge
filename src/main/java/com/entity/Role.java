@@ -1,4 +1,4 @@
-package com.crawlforge.model;
+package com.entity;
 
         import jakarta.persistence.*;
         import lombok.*;
@@ -14,7 +14,7 @@ package com.crawlforge.model;
         @AllArgsConstructor
         @Builder
         @ToString(exclude = "users") // Avoid circular reference
-        public class Roles {
+        public class Role {
 
             @Id
             @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +36,8 @@ package com.crawlforge.model;
             @Override
             public boolean equals(Object o) {
                 if (this == o) return true;
-                if (!(o instanceof Roles)) return false;
-                Roles role = (Roles) o;
+                if (!(o instanceof Role)) return false;
+                Role role = (Role) o;
                 return roleId != null && roleId.equals(role.roleId);
             }
 

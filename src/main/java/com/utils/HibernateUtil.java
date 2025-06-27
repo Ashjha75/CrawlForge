@@ -1,4 +1,4 @@
-package com.crawlforge.util;
+package com.utils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

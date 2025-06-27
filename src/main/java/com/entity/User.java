@@ -1,4 +1,4 @@
-package com.crawlforge.model;
+package com.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 // Import the Role entity from the same package
-import com.crawlforge.model.Roles;
-import com.crawlforge.model.CrawlSession;
+
 @Entity
 @Table(name = "users",
    indexes = {
@@ -106,7 +105,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @Builder.Default
-    private Set<Roles> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     // Enums
     public enum UserStatus {
