@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC connection -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crawlforge?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">Ashish</property>
+        <property name="hibernate.connection.password">ashjha90</property>
+
+        <!-- Dialect & Pool -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.maximumPoolSize">20</property>
+
+        <!-- Schema -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Logging SQL -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Annotated Entities -->
+        <mapping class="com.entity.User"/>
+        <mapping class="com.entity.Role"/>
+        <mapping class="com.entity.CrawlSession"/>
+        <mapping class="com.entity.Page"/>
+        <mapping class="com.entity.Link"/>
+        <mapping class="com.entity.Keyword"/>
+    </session-factory>
+</hibernate-configuration>
