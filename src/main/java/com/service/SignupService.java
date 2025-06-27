@@ -62,7 +62,7 @@ public class SignupService {
 
             jsonResponse.put("success", true);
             jsonResponse.put("message", "Registration successful! Welcome to CrawlForge.");
-            jsonResponse.put("redirectUrl", "/dashboard");
+            jsonResponse.put("redirectUrl", "/signin");
             response.setStatus(HttpServletResponse.SC_OK);
 
         } catch (Exception e) {
