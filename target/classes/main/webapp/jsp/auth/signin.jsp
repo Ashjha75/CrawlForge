@@ -32,16 +32,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                    radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
             animation: float-bg 8s ease-in-out infinite;
             z-index: 0;
         }
 
         @keyframes float-bg {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
         }
 
         /* Main Container */
@@ -67,9 +70,8 @@
             padding: 3rem;
             width: 100%;
             max-width: 450px;
-            box-shadow:
-                    0 20px 60px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.8s ease-out;
@@ -90,8 +92,12 @@
         }
 
         @keyframes card-shine {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
 
         /* Header */
@@ -115,8 +121,12 @@
         }
 
         @keyframes logo-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         .signin-brand {
@@ -180,9 +190,8 @@
         .form-input:focus {
             outline: none;
             border-color: rgba(16, 163, 127, 0.5);
-            box-shadow:
-                    0 0 0 4px rgba(16, 163, 127, 0.1),
-                    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 4px rgba(16, 163, 127, 0.1),
+            inset 0 2px 4px rgba(0, 0, 0, 0.2);
             background: linear-gradient(135deg,
             rgba(31, 31, 43, 0.9) 0%,
             rgba(44, 44, 58, 0.95) 100%);
@@ -334,8 +343,12 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Divider */
@@ -400,9 +413,15 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
         }
 
         .error-message i {
@@ -456,13 +475,9 @@
     </style>
 </head>
 <body>
-<!-- Animated Background -->
 <div class="signin-background"></div>
-
-<!-- Main Container -->
 <div class="signin-container">
     <div class="signin-card">
-        <!-- Header -->
         <div class="signin-header">
             <div class="signin-logo">
                 <i class="bi bi-robot"></i>
@@ -470,25 +485,20 @@
             </div>
             <p class="signin-subtitle">Welcome back! Sign in to your account</p>
         </div>
-
-        <!-- Error/Success Messages -->
         <c:if test="${not empty error}">
             <div class="error-message">
                 <i class="bi bi-exclamation-triangle"></i>
                 <span>${error}</span>
             </div>
         </c:if>
-
         <c:if test="${not empty success}">
             <div class="success-message">
                 <i class="bi bi-check-circle"></i>
                 <span>${success}</span>
             </div>
         </c:if>
-
-        <!-- Sign In Form -->
-        <form class="signin-form" id="signinForm" method="POST" action="${pageContext.request.contextPath}/authenticate">
-            <!-- Username/Email Field -->
+        <form class="signin-form" id="signinForm" method="POST" action="${pageContext.request.contextPath}/authenticate"
+              data-dashboard-url="${pageContext.request.contextPath}/dashboard">
             <div class="form-group">
                 <label class="form-label" for="username">
                     <i class="bi bi-person"></i>
@@ -502,8 +512,6 @@
                        required
                        autocomplete="username">
             </div>
-
-            <!-- Password Field -->
             <div class="form-group">
                 <label class="form-label" for="password">
                     <i class="bi bi-lock"></i>
@@ -522,8 +530,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Remember Me & Forgot Password -->
             <div class="remember-forgot">
                 <label class="remember-me">
                     <input type="checkbox" class="remember-checkbox" name="rememberMe">
@@ -533,82 +539,39 @@
                     Forgot password?
                 </a>
             </div>
-
-            <!-- Sign In Button -->
             <button type="submit" class="signin-btn" id="signinBtn">
                 <div class="btn-spinner" id="btnSpinner"></div>
                 <span class="btn-text">Sign In</span>
             </button>
-
-            <!-- CSRF Token -->
             <input type="hidden" name="csrfToken" value="${csrfToken}">
         </form>
-
-        <!-- Divider -->
         <div class="signin-divider">
             <span>or</span>
         </div>
-
-        <!-- Sign Up Link -->
         <div class="signup-link">
             Don't have an account?
             <a href="${pageContext.request.contextPath}/signup">Sign up here</a>
         </div>
     </div>
 </div>
-
-<!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Form handling and validation
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('signinForm');
         const submitBtn = document.getElementById('signinBtn');
         const spinner = document.getElementById('btnSpinner');
 
-        // Form submission
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            // Show loading state
             submitBtn.disabled = true;
             spinner.style.display = 'inline-block';
             submitBtn.querySelector('.btn-text').textContent = 'Signing In...';
 
-            // Validate form
-            if (validateForm()) {
-                // Submit form via AJAX for better UX
-                submitForm();
-            } else {
+            if (!validateForm()) {
                 resetButton();
-            }
-        });
-
-        // Form validation
-        function validateForm() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-
-            if (!username) {
-                showError('Please enter your username or email');
-                return false;
+                return;
             }
 
-            if (!password) {
-                showError('Please enter your password');
-                return false;
-            }
-
-            if (password.length < 6) {
-                showError('Password must be at least 6 characters long');
-                return false;
-            }
-
-            return true;
-        }
-
-        // Submit form via AJAX
-        function submitForm() {
             const formData = new FormData(form);
 
             fetch(form.action, {
@@ -618,88 +581,102 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => response.text())
+            .then(text => {
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    showError('Server error: Invalid response');
+                    resetButton();
+                    return;
+                }
                 if (data.success) {
-                    // Store JWT token
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userName', data.user.name);
                     localStorage.setItem('userEmail', data.user.email);
-
-                    // Show success message
                     showSuccess('Sign in successful! Redirecting...');
-
-                    // Redirect after delay
                     setTimeout(() => {
-                        window.location.href = data.redirectUrl || '${pageContext.request.contextPath}/dashboard';
-                        }, 1500);
-                    } else {
-                        showError(data.message || 'Sign in failed. Please try again.');
-                        resetButton();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showError('An error occurred. Please try again.');
+                        window.location.href = data.redirectUrl || form.dataset.dashboardUrl;
+                    }, 1500);
+                } else {
+                    showError(data.message || 'Sign in failed. Please try again.');
                     resetButton();
-                });
-            }
-
-            // Reset button state
-            function resetButton() {
-                submitBtn.disabled = false;
-                spinner.style.display = 'none';
-                submitBtn.querySelector('.btn-text').textContent = 'Sign In';
-            }
-
-            // Show error message
-            function showError(message) {
-                removeMessages();
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.innerHTML = `
-                    <i class="bi bi-exclamation-triangle"></i>
-                    <span>${message}</span>
-                `;
-                form.insertBefore(errorDiv, form.firstChild);
-            }
-
-            // Show success message
-            function showSuccess(message) {
-                removeMessages();
-                const successDiv = document.createElement('div');
-                successDiv.className = 'success-message';
-                successDiv.innerHTML = `
-                    <i class="bi bi-check-circle"></i>
-                    <span>${message}</span>
-                `;
-                form.insertBefore(successDiv, form.firstChild);
-            }
-
-            // Remove existing messages
-            function removeMessages() {
-                const existingMessages = form.querySelectorAll('.error-message, .success-message');
-                existingMessages.forEach(msg => msg.remove());
-            }
+                }
+            })
+            .catch(error => {
+                console.error('Sign In Error:', error);
+                showError('Sign in failed. Please try again.');
+                resetButton();
+            });
         });
 
-        // Password toggle functionality
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const toggleIcon = document.getElementById('passwordToggleIcon');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.className = 'bi bi-eye-slash';
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.className = 'bi bi-eye';
+        function validateForm() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            if (!username) {
+                showError('Please enter your username or email');
+                return false;
             }
+            if (!password) {
+                showError('Please enter your password');
+                return false;
+            }
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return false;
+            }
+            return true;
         }
 
-        // Auto-focus first input
-        document.getElementById('username').focus();
+        function resetButton() {
+            submitBtn.disabled = false;
+            spinner.style.display = 'none';
+            submitBtn.querySelector('.btn-text').textContent = 'Sign In';
+        }
+
+        function showError(message) {
+            removeMessages();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <i class="bi bi-exclamation-triangle"></i>
+                <span>${message}</span>
+            `;
+            form.insertBefore(errorDiv, form.firstChild);
+        }
+
+        function showSuccess(message) {
+            removeMessages();
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `
+                <i class="bi bi-check-circle"></i>
+                <span>${message}</span>
+            `;
+            form.insertBefore(successDiv, form.firstChild);
+        }
+
+        function removeMessages() {
+            const existingMessages = form.querySelectorAll('.error-message, .success-message');
+            existingMessages.forEach(msg => msg.remove());
+        }
+    });
+
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('passwordToggleIcon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.className = 'bi bi-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.className = 'bi bi-eye';
+        }
+    }
+
+    document.getElementById('username').focus();
 </script>
 </body>
 </html>
