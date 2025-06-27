@@ -3,6 +3,7 @@ package com.service;
 import com.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utils.PasswordUtil;
+import com.utils.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class SignupService {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void handleRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -88,8 +89,13 @@ public class SignupService {
             session.save(user);
             tx.commit();
 
-            // TODO: Generate a real JWT token here
-            return "dummy-jwt-token";
+            // Generate JWT with user info and default role USER
+            return JwtUtil.generateTokenWithRoles(
+                user.getEmail(),
+                user.getId(),
+                user.getUsername(),
+                "USER"
+            );
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             throw new RuntimeException("Registration failed: " + e.getMessage(), e);
