@@ -19,25 +19,39 @@ public class SignupService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    // Java
     public void handleRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            boolean newsletter = "on".equals(request.getParameter("newsletter"));
+            // Parse JSON body
+            Map<String, Object> data = objectMapper.readValue(request.getReader(), Map.class);
 
-            if (firstName == null || lastName == null || username == null ||
-                    email == null || password == null) {
+            String firstName = (String) data.get("firstName");
+            String lastName = (String) data.get("lastName");
+            String username = (String) data.get("username");
+            String email = (String) data.get("email");
+            String password = (String) data.get("password");
+            String confirmPassword = (String) data.get("confirmPassword");
+            boolean agreeTerms = Boolean.TRUE.equals(data.get("agreeTerms"));
+            boolean newsletter = Boolean.TRUE.equals(data.get("newsletter"));
+
+            if (firstName == null || firstName.isEmpty() ||
+                lastName == null || lastName.isEmpty() ||
+                username == null || username.isEmpty() ||
+                email == null || email.isEmpty() ||
+                password == null || password.isEmpty() ||
+                confirmPassword == null || confirmPassword.isEmpty() ||
+                !agreeTerms) {
                 throw new IllegalArgumentException("All fields are required");
             }
 
-            // Registration logic
+            if (!password.equals(confirmPassword)) {
+                throw new IllegalArgumentException("Passwords do not match");
+            }
+
             String token = registerUser(firstName, lastName, username, email, password, newsletter);
 
             Cookie jwtCookie = new Cookie("jwt_token", token);
