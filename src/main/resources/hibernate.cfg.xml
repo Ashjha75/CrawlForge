@@ -7,7 +7,7 @@
     <session-factory>
         <!-- JDBC connection -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crawlforge?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crawlforge?allowPublicKeyRetrieval=true&useSSL=false?useSSL=false&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">Ashish</property>
         <property name="hibernate.connection.password">ashjha90</property>
 
