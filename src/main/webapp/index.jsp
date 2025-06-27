@@ -43,7 +43,6 @@
 
     <!-- Your Custom CSS Files -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/toast.css">
 
     <!-- Page-specific CSS -->
     <c:if test="${pageCssFiles != null}">
@@ -235,6 +234,5 @@
     `);
 });
 </script>
-<script src="${pageContext.request.contextPath}/js/toast.js"></script>
 </body>
 </html>
