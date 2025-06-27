@@ -506,3 +506,33 @@
      }
 
 
+     .success-message {
+         background: linear-gradient(135deg,
+         rgba(40, 167, 69, 0.15) 0%,
+         rgba(40, 167, 69, 0.1) 100%);
+         border: 1px solid rgba(40, 167, 69, 0.3);
+         border-radius: 8px;
+         padding: 0.8rem 1rem;
+         margin-bottom: 1rem;
+         color: #28a745;
+         font-size: 0.9rem;
+         display: flex;
+         align-items: center;
+         gap: 0.5rem;
+         animation: fadeInUp 0.3s ease-out;
+     }
+
+     .success-message i {
+         color: #28a745;
+     }
+
+     @keyframes fadeInUp {
+         from {
+             opacity: 0;
+             transform: translateY(20px);
+         }
+         to {
+             opacity: 1;
+             transform: translateY(0);
+         }
+     }
