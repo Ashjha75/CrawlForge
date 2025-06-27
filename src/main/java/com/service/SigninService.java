@@ -1,7 +1,7 @@
 package com.service;
 
 import com.dao.UserDAO;
-import com.model.User;
+import com.entity.User;
 import com.utils.PasswordUtil;
 import com.utils.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
