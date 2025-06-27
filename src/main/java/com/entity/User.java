@@ -121,12 +121,14 @@ public class User {
     }
     @Override public int hashCode() { return getClass().hashCode(); }
 
-    public void addUserRole(Role userRole) {
-        if (userRole == null) return;
-        if (roles.contains(userRole)) return;
-        roles.add(userRole);
-        userRole.getUsers().add(this);
+    // Add a role to the user
+    public void addUserRole(Role role) {
+        this.roles.add(role);
     }
 
+    // Optionally, make this public if you need to set lastLoginAt from outside the package
+    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
     public enum UserStatus { ACTIVE, SUSPENDED, INACTIVE }
 }
