@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Cacheable;
+import jakarta.persistence.Cacheable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -108,7 +108,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     // Add a role to the user
-    public void addRole(Role role) {
+    public void addUserRole(Role role) {
         this.roles.add(role);
     }
 
