@@ -1,15 +1,14 @@
 package com.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import lombok.*;
-import jakarta.persistence.Index;
-import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table(name = "crawl_sessions",
         indexes = {
@@ -98,10 +97,6 @@ public class CrawlSession {
     @Builder.Default
     private Set<Page> pages = new HashSet<>();
 
-    public enum CrawlStatus {
-        PENDING, RUNNING, PAUSED, COMPLETED, FAILED, CANCELLED
-    }
-
     // Business Methods
     public boolean isActive() {
         return status == CrawlStatus.RUNNING || status == CrawlStatus.PAUSED;
@@ -119,13 +114,16 @@ public class CrawlSession {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CrawlSession)) return false;
-        CrawlSession session = (CrawlSession) o;
+        if (!(o instanceof CrawlSession session)) return false;
         return sessionId != null && sessionId.equals(session.sessionId);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public enum CrawlStatus {
+        PENDING, RUNNING, PAUSED, COMPLETED, FAILED, CANCELLED
     }
 }
