@@ -1,9 +1,14 @@
 package com.service;
 
+import com.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utils.PasswordUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,7 +24,6 @@ public class SignupService {
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            // Extract and validate form data
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String username = request.getParameter("username");
@@ -32,10 +36,9 @@ public class SignupService {
                 throw new IllegalArgumentException("All fields are required");
             }
 
-            // Registration logic (stub)
+            // Registration logic
             String token = registerUser(firstName, lastName, username, email, password, newsletter);
 
-            // Set JWT token in HTTP-only cookie
             Cookie jwtCookie = new Cookie("jwt_token", token);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setMaxAge(24 * 60 * 60);
@@ -57,7 +60,41 @@ public class SignupService {
     }
 
     public String registerUser(String firstName, String lastName, String username, String email, String password, boolean newsletter) {
-        // Implement registration logic here
-        return "dummy-jwt-token";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+
+            // Check for duplicate username/email
+            Query<User> userQuery = session.createQuery(
+                "FROM User WHERE username = :username OR email = :email", User.class);
+            userQuery.setParameter("username", username);
+            userQuery.setParameter("email", email);
+            if (!userQuery.list().isEmpty()) {
+                throw new IllegalArgumentException("Username or email already exists");
+            }
+
+            // Hash password
+            String hashedPassword = PasswordUtil.hashPassword(password);
+
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(hashedPassword);
+            user.setNewsletter(newsletter);
+
+            session.save(user);
+            tx.commit();
+
+            // TODO: Generate a real JWT token here
+            return "dummy-jwt-token";
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw new RuntimeException("Registration failed: " + e.getMessage(), e);
+        } finally {
+            session.close();
+        }
     }
 }
