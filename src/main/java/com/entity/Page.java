@@ -1,14 +1,13 @@
 package com.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
-import jakarta.persistence.Index;
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table(name = "pages",
         indexes = {
@@ -128,8 +127,7 @@ public class Page {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Page)) return false;
-        Page page = (Page) o;
+        if (!(o instanceof Page page)) return false;
         return pageId != null && pageId.equals(page.pageId);
     }
 

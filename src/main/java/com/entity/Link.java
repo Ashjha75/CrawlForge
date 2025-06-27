@@ -1,12 +1,10 @@
 package com.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.Index;
 
 @Entity
 @Table(name = "links",
@@ -58,20 +56,19 @@ public class Link {
     @Setter(AccessLevel.NONE)
     private LocalDateTime discoveredAt;
 
-    public enum LinkType {
-        INTERNAL, EXTERNAL, MAILTO, JAVASCRIPT, ANCHOR
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Link)) return false;
-        Link link = (Link) o;
+        if (!(o instanceof Link link)) return false;
         return linkId != null && linkId.equals(link.linkId);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public enum LinkType {
+        INTERNAL, EXTERNAL, MAILTO, JAVASCRIPT, ANCHOR
     }
 }

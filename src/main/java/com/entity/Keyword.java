@@ -2,7 +2,6 @@ package com.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Index;
 
 @Entity
 @Table(name = "keywords",
@@ -43,20 +42,19 @@ public class Keyword {
     @Builder.Default
     private KeywordType keywordType = KeywordType.CONTENT;
 
-    public enum KeywordType {
-        TITLE, META, HEADING, CONTENT, ALT_TEXT
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Keyword)) return false;
-        Keyword keyword = (Keyword) o;
+        if (!(o instanceof Keyword keyword)) return false;
         return keywordId != null && keywordId.equals(keyword.keywordId);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public enum KeywordType {
+        TITLE, META, HEADING, CONTENT, ALT_TEXT
     }
 }
