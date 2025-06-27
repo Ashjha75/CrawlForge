@@ -16,17 +16,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validate form
         if (validateForm()) {
-            // Collect form data as JSON (same as signup)
+            // Collect form data as JSON (FIXED - was FormData before)
             const data = {
                 email: document.getElementById('email').value.trim(),
                 password: document.getElementById('password').value,
                 rememberMe: document.getElementById('rememberMe').checked
             };
 
+            // Send JSON data (FIXED - added proper headers)
             fetch(form.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
@@ -34,18 +36,21 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log('Login Response:', data);
                 if (data.success) {
+                    // Use toast instead of inline messages
                     showSuccess(data.message);
                     setTimeout(() => {
                         window.location.href = data.redirectUrl || '/dashboard';
                     }, 1500);
                 } else {
+                    // Use toast for errors
                     showError(data.message);
                     resetButton();
                 }
             })
             .catch(error => {
                 console.error('Login Error:', error);
-                showError('Login failed. Please try again.');
+                // Use toast for network errors
+                showError('Login failed. Please check your connection and try again.');
                 resetButton();
             });
         } else {
@@ -116,35 +121,10 @@ function resetButton() {
     submitBtn.querySelector('.btn-text').textContent = 'Sign In';
 }
 
-function showError(message) {
-    removeMessages();
-    const form = document.getElementById('signinForm');
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.innerHTML = `
-        <i class="bi bi-exclamation-triangle"></i>
-        <span>${message}</span>
-    `;
-    form.insertBefore(errorDiv, form.firstChild);
+// REMOVED - These functions will be handled by global toast system
+// function showError(message) { ... }
+// function showSuccess(message) { ... }
+// function removeMessages() { ... }
 
-    // Auto-remove after 5 seconds
-    setTimeout(() => errorDiv.remove(), 5000);
-}
-
-function showSuccess(message) {
-    removeMessages();
-    const form = document.getElementById('signinForm');
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-message';
-    successDiv.innerHTML = `
-        <i class="bi bi-check-circle"></i>
-        <span>${message}</span>
-    `;
-    form.insertBefore(successDiv, form.firstChild);
-}
-
-function removeMessages() {
-    const form = document.getElementById('signinForm');
-    const existingMessages = form.querySelectorAll('.error-message, .success-message');
-    existingMessages.forEach(msg => msg.remove());
-}
+// Toast functions are now global - defined in toast.js
+// showError() and showSuccess() are available globally
