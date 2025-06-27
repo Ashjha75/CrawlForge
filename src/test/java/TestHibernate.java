@@ -1,5 +1,6 @@
 import com.dao.RoleDAO;
 import com.service.AuthService;
+import com.utils.HibernateUtil;
 
 public class TestHibernate {
     
