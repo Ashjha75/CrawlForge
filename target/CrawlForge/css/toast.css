@@ -1,39 +1,49 @@
-/* Toast Container */
+/* Toast Container - CENTERED FROM TOP */
 .toast-container {
     position: fixed;
     top: 20px;
-    right: 20px;
-    z-index: 9999;
-    max-width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000; /* Higher z-index to avoid header conflicts */
+    max-width: 500px;
+    width: 90%;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Toast Base Styles */
+/* Toast Base Styles - CENTERED ANIMATION */
 .toast {
     background: linear-gradient(135deg,
     rgba(64, 65, 79, 0.95) 0%,
     rgba(44, 44, 58, 0.95) 100%);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     margin-bottom: 10px;
     min-height: 60px;
+    width: 100%;
+    max-width: 450px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transform: translateX(100%);
+
+    /* CENTERED ANIMATION - comes from top */
+    transform: translateY(-100px);
     opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: auto;
     position: relative;
     overflow: hidden;
 }
 
 .toast.show {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
 }
 
 .toast.hide {
-    transform: translateX(100%);
+    transform: translateY(-100px);
     opacity: 0;
 }
 
@@ -56,6 +66,7 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 1.4;
+    text-align: left;
 }
 
 .toast-close {
@@ -87,12 +98,8 @@
 }
 
 @keyframes toast-progress {
-    from {
-        width: 100%;
-    }
-    to {
-        width: 0%;
-    }
+    from { width: 100%; }
+    to { width: 0%; }
 }
 
 /* Toast Type Variations */
@@ -155,9 +162,12 @@
 /* Responsive Design */
 @media (max-width: 480px) {
     .toast-container {
-        top: 10px;
-        right: 10px;
-        left: 10px;
+        top: 15px;
+        width: 95%;
+        max-width: none;
+    }
+
+    .toast {
         max-width: none;
     }
 
@@ -170,9 +180,37 @@
     }
 }
 
-/* Animation for multiple toasts */
-.toast:nth-child(1) { animation-delay: 0s; }
-.toast:nth-child(2) { animation-delay: 0.1s; }
-.toast:nth-child(3) { animation-delay: 0.2s; }
-.toast:nth-child(4) { animation-delay: 0.3s; }
-.toast:nth-child(5) { animation-delay: 0.4s; }
+/* Ensure toast doesn't interfere with navbar */
+.navbar-fixed-top + .toast-container {
+    top: 80px; /* Adjust based on your navbar height */
+}
+
+/* Animation for multiple toasts - staggered */
+.toast:nth-child(1) {
+    animation-delay: 0s;
+}
+.toast:nth-child(2) {
+    animation-delay: 0.1s;
+    margin-top: 5px;
+}
+.toast:nth-child(3) {
+    animation-delay: 0.2s;
+    margin-top: 10px;
+}
+.toast:nth-child(4) {
+    animation-delay: 0.3s;
+    margin-top: 15px;
+}
+.toast:nth-child(5) {
+    animation-delay: 0.4s;
+    margin-top: 20px;
+}
+
+/* Prevent toast from affecting page layout */
+body {
+    position: relative;
+}
+
+.toast-container * {
+    box-sizing: border-box;
+}
