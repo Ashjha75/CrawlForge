@@ -1,238 +1,165 @@
-// Global Toast Notification System for CrawlForge - CENTERED VERSION
-class ToastManager {
-    constructor() {
-        this.createToastContainer();
-        this.setupGlobalErrorHandler();
-        this.toastQueue = [];
-        this.maxToasts = 5;
-    }
+package com.service;
 
-    createToastContainer() {
-        // Remove existing container if it exists
-        const existingContainer = document.getElementById('toast-container');
-        if (existingContainer) {
-            existingContainer.remove();
-        }
+import com.dao.UserDAO;
+import com.entity.User;
+import com.utils.PasswordUtil;
+import com.utils.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 
-        const container = document.createElement('div');
-        container.id = 'toast-container';
-        container.className = 'toast-container';
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-        // Insert at the beginning of body to avoid z-index issues
-        document.body.insertBefore(container, document.body.firstChild);
-    }
+public class SigninService {
 
-    setupGlobalErrorHandler() {
-        // Handle uncaught JavaScript errors
-        window.addEventListener('error', (event) => {
-            this.showToast('An unexpected error occurred', 'error');
-        });
+    private UserDAO userDAO = new UserDAO();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-        // Handle unhandled promise rejections
-        window.addEventListener('unhandledrejection', (event) => {
-            this.showToast('Network error occurred', 'error');
-        });
-    }
+    public void handleAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
 
-    showToast(message, type = 'info', duration = 5000) {
-        // Limit number of toasts
-        if (this.toastQueue.length >= this.maxToasts) {
-            this.removeOldestToast();
-        }
+        System.out.println("✅ SigninService.handleAuthentication called");
 
-        const toast = this.createToast(message, type);
-        const container = document.getElementById('toast-container');
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        if (!container) {
-            this.createToastContainer();
-            return this.showToast(message, type, duration);
-        }
+        Map<String, Object> jsonResponse = new HashMap<>();
 
-        container.appendChild(toast);
-        this.toastQueue.push(toast);
+        try {
+            // Read JSON from request body
+            String jsonBody = request.getReader().lines().collect(Collectors.joining());
+            System.out.println("Request JSON: " + jsonBody);
 
-        // Trigger animation after a small delay
-        setTimeout(() => {
-            toast.classList.add('show');
-        }, 50);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> requestData = objectMapper.readValue(jsonBody, Map.class);
 
-        // Auto remove
-        setTimeout(() => {
-            this.removeToast(toast);
-        }, duration);
+            // Extract data
+            String email = (String) requestData.get("email");
+            String password = (String) requestData.get("password");
+            Boolean rememberMe = (Boolean) requestData.get("rememberMe");
 
-        return toast;
-    }
+            if (rememberMe == null) rememberMe = false;
 
-    createToast(message, type) {
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
+            System.out.println("Login attempt for email: " + email);
+            System.out.println("Remember me: " + rememberMe);
 
-        const icon = this.getIcon(type);
-
-        toast.innerHTML = `
-            <div class="toast-content">
-                <div class="toast-icon">
-                    <i class="bi ${icon}"></i>
-                </div>
-                <div class="toast-message">${this.escapeHtml(message)}</div>
-                <button class="toast-close" onclick="toastManager.removeToast(this.closest('.toast'))">
-                    <i class="bi bi-x"></i>
-                </button>
-            </div>
-            <div class="toast-progress"></div>
-        `;
-
-        return toast;
-    }
-
-    getIcon(type) {
-        const icons = {
-            success: 'bi-check-circle-fill',
-            error: 'bi-exclamation-triangle-fill',
-            warning: 'bi-exclamation-circle-fill',
-            info: 'bi-info-circle-fill'
-        };
-        return icons[type] || icons.info;
-    }
-
-    removeToast(toast) {
-        if (!toast || !toast.parentNode) return;
-
-        toast.classList.add('hide');
-
-        // Remove from queue
-        const index = this.toastQueue.indexOf(toast);
-        if (index > -1) {
-            this.toastQueue.splice(index, 1);
-        }
-
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.parentNode.removeChild(toast);
+            // Validate input
+            if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
+                throw new IllegalArgumentException("Email and password are required");
             }
-        }, 400);
+
+            // Authenticate user
+            String token = authenticateUser(email.trim(), password);
+
+            System.out.println("✅ User authenticated successfully! Token: " + token);
+
+            // Set JWT token in HTTP-only cookie
+            Cookie jwtCookie = new Cookie("jwt_token", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+
+            if (rememberMe) {
+                jwtCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days
+            } else {
+                jwtCookie.setMaxAge(24 * 60 * 60); // 24 hours
+            }
+
+            response.addCookie(jwtCookie);
+
+            // Get user info for response
+            JwtUtil.UserInfo userInfo = JwtUtil.getUserInfoFromToken(token);
+
+            // Success response with toast-friendly format
+            jsonResponse.put("success", true);
+            jsonResponse.put("message", "Welcome back! Login successful.");
+            jsonResponse.put("redirectUrl", "/dashboard");
+            jsonResponse.put("toast", true); // Indicate this should show as toast
+            jsonResponse.put("toastType", "success"); // Toast type
+            jsonResponse.put("user", Map.of(
+                    "email", userInfo.getEmail(),
+                    "username", userInfo.getUsername() != null ? userInfo.getUsername() : "User",
+                    "isAdmin", userInfo.isAdmin()
+            ));
+
+            response.setStatus(HttpServletResponse.SC_OK);
+
+        } catch (Exception e) {
+            System.err.println("❌ Login failed: " + e.getMessage());
+            e.printStackTrace();
+
+            // Error response with toast-friendly format
+            jsonResponse.put("success", false);
+            jsonResponse.put("error", true);
+            jsonResponse.put("message", getErrorMessage(e.getMessage()));
+            jsonResponse.put("toast", true); // Indicate this should show as toast
+            jsonResponse.put("toastType", "error"); // Toast type
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+
+        // Write JSON response
+        response.getWriter().write(objectMapper.writeValueAsString(jsonResponse));
     }
 
-    removeOldestToast() {
-        if (this.toastQueue.length > 0) {
-            this.removeToast(this.toastQueue[0]);
+    private String authenticateUser(String email, String password) {
+        Optional<User> userOpt = userDAO.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        User user = userOpt.get();
+
+        // Check if account is locked or inactive
+        if (!user.canLogin()) {
+            throw new RuntimeException("Account is locked or inactive");
+        }
+
+        // Verify password
+        if (!PasswordUtil.verifyPassword(password, user.getPasswordHash())) {
+            user.incrementLoginAttempts();
+            userDAO.updateUser(user);
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        // Reset login attempts and update last login
+        user.resetLoginAttempts();
+        user.setLastLoginAt(LocalDateTime.now());
+        userDAO.updateUser(user);
+
+        // Get user roles for token
+        String roles = user.getRoles().stream()
+                .map(role -> role.getName())
+                .collect(Collectors.joining(","));
+
+        if (roles.isEmpty()) {
+            roles = "USER"; // Default role
+        }
+
+        // Generate JWT token with roles
+        return JwtUtil.generateTokenWithRoles(
+                user.getEmail(),
+                user.getUserId(),
+                user.getUsername(),
+                roles
+        );
+    }
+
+    private String getErrorMessage(String originalMessage) {
+        if (originalMessage.contains("Invalid credentials")) {
+            return "Invalid email or password. Please try again.";
+        } else if (originalMessage.contains("Account is locked")) {
+            return "Your account has been temporarily locked due to multiple failed login attempts.";
+        } else if (originalMessage.contains("inactive")) {
+            return "Your account is inactive. Please contact support.";
+        } else {
+            return "Login failed. Please try again.";
         }
     }
-
-    clearAllToasts() {
-        this.toastQueue.forEach(toast => this.removeToast(toast));
-        this.toastQueue = [];
-    }
-
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    // Convenience methods
-    success(message, duration = 5000) {
-        return this.showToast(message, 'success', duration);
-    }
-
-    error(message, duration = 7000) {
-        return this.showToast(message, 'error', duration);
-    }
-
-    warning(message, duration = 6000) {
-        return this.showToast(message, 'warning', duration);
-    }
-
-    info(message, duration = 5000) {
-        return this.showToast(message, 'info', duration);
-    }
-}
-
-// Initialize global toast manager when DOM is ready
-let toastManager;
-
-document.addEventListener('DOMContentLoaded', function() {
-    toastManager = new ToastManager();
-});
-
-// Global functions for easy access
-function showToast(message, type = 'info', duration = 5000) {
-    if (!toastManager) {
-        toastManager = new ToastManager();
-    }
-    return toastManager.showToast(message, type, duration);
-}
-
-function showSuccess(message, duration = 5000) {
-    if (!toastManager) {
-        toastManager = new ToastManager();
-    }
-    return toastManager.success(message, duration);
-}
-
-function showError(message, duration = 7000) {
-    if (!toastManager) {
-        toastManager = new ToastManager();
-    }
-    return toastManager.error(message, duration);
-}
-
-function showWarning(message, duration = 6000) {
-    if (!toastManager) {
-        toastManager = new ToastManager();
-    }
-    return toastManager.warning(message, duration);
-}
-
-function showInfo(message, duration = 5000) {
-    if (!toastManager) {
-        toastManager = new ToastManager();
-    }
-    return toastManager.info(message, duration);
-}
-
-// Clear all toasts function
-function clearAllToasts() {
-    if (toastManager) {
-        toastManager.clearAllToasts();
-    }
-}
-
-// Check for server-side messages on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Check URL parameters for error messages
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-    const success = urlParams.get('success');
-
-    if (error) {
-        setTimeout(() => showError(getErrorMessage(error)), 500);
-    }
-
-    if (success) {
-        setTimeout(() => showSuccess(getSuccessMessage(success)), 500);
-    }
-});
-
-function getErrorMessage(errorCode) {
-    const messages = {
-        'system': 'A system error occurred. Please try again.',
-        'validation': 'Please check your input and try again.',
-        'auth': 'Authentication failed. Please sign in again.',
-        'permission': 'You do not have permission to perform this action.',
-        'network': 'Network error. Please check your connection.',
-        'timeout': 'Request timed out. Please try again.'
-    };
-    return messages[errorCode] || 'An unexpected error occurred.';
-}
-
-function getSuccessMessage(successCode) {
-    const messages = {
-        'saved': 'Data saved successfully!',
-        'deleted': 'Item deleted successfully!',
-        'updated': 'Information updated successfully!',
-        'sent': 'Message sent successfully!'
-    };
-    return messages[successCode] || 'Operation completed successfully!';
 }
