@@ -974,7 +974,7 @@
 <%--                <span>${success}</span>--%>
 <%--            </div>--%>
 <%--        </c:if>--%>
-        <form class="signin-form" id="signinForm" method="POST" action="${pageContext.request.contextPath}/authenticate"
+        <form class="signin-form" id="signinForm" method="POST" action="${pageContext.request.contextPath}/signin"
               data-dashboard-url="${pageContext.request.contextPath}/dashboard">
             <div class="form-group">
                 <label class="form-label" for="username">
