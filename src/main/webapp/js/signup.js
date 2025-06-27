@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create FormData and submit via fetch API
             const formData = new FormData(this);
 
-            fetch('/auth/register', {
+            fetch('/signup', {
                 method: 'POST',
                 body: formData
             })
