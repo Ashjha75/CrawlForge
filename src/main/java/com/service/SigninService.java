@@ -2,12 +2,12 @@ package com.service;
 
 import com.dao.UserDAO;
 import com.entity.User;
-import com.utils.PasswordUtil;
-import com.utils.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utils.JwtUtil;
+import com.utils.PasswordUtil;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -24,125 +24,91 @@ public class SigninService {
     public void handleAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        System.out.println("✅ SigninService.handleAuthentication called");
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            // Read JSON from request body
             String jsonBody = request.getReader().lines().collect(Collectors.joining());
-            System.out.println("Request JSON: " + jsonBody);
-
-            @SuppressWarnings("unchecked")
             Map<String, Object> requestData = objectMapper.readValue(jsonBody, Map.class);
 
-            // Extract data
             String email = (String) requestData.get("email");
             String password = (String) requestData.get("password");
             Boolean rememberMe = (Boolean) requestData.get("rememberMe");
-
             if (rememberMe == null) rememberMe = false;
+            System.out.println("Email: " + email + ", Password: " + password + ", Remember Me: " + rememberMe);
 
-            System.out.println("Login attempt for email: " + email);
-            System.out.println("Remember me: " + rememberMe);
+            // CSRF token validation (optional, if implemented)
+            // String csrfToken = (String) requestData.get("csrfToken");
+            // String sessionToken = (String) request.getSession().getAttribute("csrfToken");
+            // if (csrfToken == null || !csrfToken.equals(sessionToken)) {
+            //     throw new RuntimeException("Invalid CSRF token");
+            // }
 
-            // Validate input
             if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
                 throw new IllegalArgumentException("Email and password are required");
             }
 
-            // Authenticate user
             String token = authenticateUser(email.trim(), password);
 
-            System.out.println("✅ User authenticated successfully! Token: " + token);
-
-            // Set JWT token in HTTP-only cookie
             Cookie jwtCookie = new Cookie("jwt_token", token);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setPath("/");
-
-            if (rememberMe) {
-                jwtCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days
-            } else {
-                jwtCookie.setMaxAge(24 * 60 * 60); // 24 hours
-            }
-
+            jwtCookie.setMaxAge(rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60);
             response.addCookie(jwtCookie);
 
-            // Get user info for response
+            System.out.println("JWT Token: " + token);
             JwtUtil.UserInfo userInfo = JwtUtil.getUserInfoFromToken(token);
-
-            // Success response with toast-friendly format
+            System.out.println("User info: " + userInfo);
             jsonResponse.put("success", true);
             jsonResponse.put("message", "Welcome back! Login successful.");
             jsonResponse.put("redirectUrl", "/dashboard");
-            jsonResponse.put("toast", true); // Indicate this should show as toast
-            jsonResponse.put("toastType", "success"); // Toast type
             jsonResponse.put("user", Map.of(
                     "email", userInfo.getEmail(),
                     "username", userInfo.getUsername() != null ? userInfo.getUsername() : "User",
                     "isAdmin", userInfo.isAdmin()
             ));
-
+            System.out.println("User info2: " + userInfo);
             response.setStatus(HttpServletResponse.SC_OK);
 
         } catch (Exception e) {
-            System.err.println("❌ Login failed: " + e.getMessage());
-            e.printStackTrace();
-
-            // Error response with toast-friendly format
             jsonResponse.put("success", false);
-            jsonResponse.put("error", true);
             jsonResponse.put("message", getErrorMessage(e.getMessage()));
-            jsonResponse.put("toast", true); // Indicate this should show as toast
-            jsonResponse.put("toastType", "error"); // Toast type
-
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
-        // Write JSON response
         response.getWriter().write(objectMapper.writeValueAsString(jsonResponse));
     }
 
     private String authenticateUser(String email, String password) {
         Optional<User> userOpt = userDAO.findByEmail(email);
-
         if (userOpt.isEmpty()) {
+            System.out.println("User not found for email: " + email);
             throw new RuntimeException("Invalid credentials");
         }
-
         User user = userOpt.get();
-
-        // Check if account is locked or inactive
         if (!user.canLogin()) {
+            System.out.println("User cannot login: " + email);
             throw new RuntimeException("Account is locked or inactive");
         }
-
-        // Verify password
         if (!PasswordUtil.verifyPassword(password, user.getPasswordHash())) {
             user.incrementLoginAttempts();
             userDAO.updateUser(user);
+            System.out.println("Invalid password for user: " + email);
             throw new RuntimeException("Invalid credentials");
         }
-
-        // Reset login attempts and update last login
         user.resetLoginAttempts();
         user.setLastLoginAt(LocalDateTime.now());
         userDAO.updateUser(user);
 
-        // Get user roles for token
-        String roles = user.getRoles().stream()
+        // Null check for roles
+        String roles = (user.getRoles() != null) ? user.getRoles().stream()
                 .map(role -> role.getName())
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(",")) : "";
+        if (roles.isEmpty()) roles = "USER";
 
-        if (roles.isEmpty()) {
-            roles = "USER"; // Default role
-        }
+        System.out.println("User authenticated: " + email + ", roles: " + roles);
 
-        // Generate JWT token with roles
         return JwtUtil.generateTokenWithRoles(
                 user.getEmail(),
                 user.getUserId(),

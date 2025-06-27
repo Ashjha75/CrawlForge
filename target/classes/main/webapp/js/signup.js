@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.success) {
                         showSuccess(data.message);
                         setTimeout(() => {
-                            window.location.href = data.redirectUrl || '/dashboard';
+                            window.location.href = data.redirectUrl || '/signin';
                         }, 1500);
                     } else {
                         showError(data.message);
