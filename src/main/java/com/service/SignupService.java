@@ -83,8 +83,8 @@ public class SignupService {
             user.setLastName(lastName);
             user.setUsername(username);
             user.setEmail(email);
-            user.setPassword(hashedPassword);
-            user.setNewsletter(newsletter);
+            user.setPasswordHash(hashedPassword);
+            user.setNewsletterSubscribed(newsletter);
 
             session.save(user);
             tx.commit();
@@ -92,7 +92,7 @@ public class SignupService {
             // Generate JWT with user info and default role USER
             return JwtUtil.generateTokenWithRoles(
                 user.getEmail(),
-                user.getId(),
+                user.getUserId(),
                 user.getUsername(),
                 "USER"
             );
