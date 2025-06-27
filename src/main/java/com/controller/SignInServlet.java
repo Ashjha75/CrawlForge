@@ -6,17 +6,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet {
-    
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Check if user is already authenticated
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -27,31 +28,31 @@ public class SignInServlet extends HttpServlet {
                 return;
             }
         }
-        
+
         // Generate CSRF token for security
         String csrfToken = generateCSRFToken();
         HttpSession newSession = request.getSession(true);
         newSession.setAttribute("csrfToken", csrfToken);
-        
+
         // Set page attributes for master layout
         request.setAttribute("pageTitle", "Sign In - CrawlForge");
         request.setAttribute("contentPage", "/jsp/auth/signin.jsp");
-        
+
         // Add CSS files specific to signin page
         String[] cssFiles = {"signin.css"};
         request.setAttribute("pageCssFiles", cssFiles);
-        
+
         // Add JavaScript files specific to signin page
         String[] jsFiles = {"signin.js"};
         request.setAttribute("pageJsFiles", jsFiles);
-        
+
         // Add CSRF token to request for JSP
         request.setAttribute("csrfToken", csrfToken);
-        
+
         // Check for any error or success messages from previous requests
         String error = request.getParameter("error");
         String success = request.getParameter("success");
-        
+
         if (error != null) {
             switch (error) {
                 case "invalid":
@@ -71,7 +72,7 @@ public class SignInServlet extends HttpServlet {
                     break;
             }
         }
-        
+
         if (success != null) {
             switch (success) {
                 case "logout":
@@ -85,20 +86,20 @@ public class SignInServlet extends HttpServlet {
                     break;
             }
         }
-        
+
         // Forward to master layout (index.jsp)
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
-    
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // POST requests to /signin should redirect to GET
         // This prevents form resubmission issues
         response.sendRedirect(request.getContextPath() + "/signin");
     }
-    
+
     /**
      * Generate a secure CSRF token for form protection
      */
@@ -108,14 +109,14 @@ public class SignInServlet extends HttpServlet {
         random.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
-    
+
     @Override
     public void init() throws ServletException {
         super.init();
         // Log servlet initialization
         System.out.println("SignInServlet initialized - CrawlForge Authentication System");
     }
-    
+
     @Override
     public void destroy() {
         super.destroy();

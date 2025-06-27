@@ -1,7 +1,5 @@
-
 package com.dao;
 
-import com.entity.Role;
 import com.entity.User;
 import com.utils.HibernateUtil;
 import org.hibernate.Session;
@@ -12,9 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 public class UserDAO {
-    
+
     public void saveUser(User user) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -28,7 +25,7 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    
+
     public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
@@ -36,7 +33,7 @@ public class UserDAO {
             return query.uniqueResultOptional();
         }
     }
-    
+
     public Optional<User> findByUsername(String username) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
@@ -44,21 +41,21 @@ public class UserDAO {
             return query.uniqueResultOptional();
         }
     }
-    
+
     public boolean emailExists(String email) {
         return findByEmail(email).isPresent();
     }
-    
+
     public boolean usernameExists(String username) {
         return findByUsername(username).isPresent();
     }
-    
+
     public List<User> getAllUsers() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM User", User.class).list();
         }
     }
-    
+
     public void updateUser(User user) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

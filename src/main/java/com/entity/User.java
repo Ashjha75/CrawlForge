@@ -1,4 +1,3 @@
-
 package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import jakarta.persistence.Cacheable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -117,10 +115,6 @@ public class User {
         this.lastLoginAt = lastLoginAt;
     }
 
-    public enum UserStatus {
-        ACTIVE, SUSPENDED, INACTIVE
-    }
-
     public String getFullName() {
         return firstName + " " + lastName;
     }
@@ -152,13 +146,16 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
+        if (!(o instanceof User user)) return false;
         return userId != null && userId.equals(user.userId);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public enum UserStatus {
+        ACTIVE, SUSPENDED, INACTIVE
     }
 }
