@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.service.SigninService;
+import com.utils.CsrfUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,10 +16,12 @@ import java.util.Base64;
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet {
 
+    private SigninService signinService = new SigninService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         // Check if user is already authenticated
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -30,7 +34,7 @@ public class SignInServlet extends HttpServlet {
         }
 
         // Generate CSRF token for security
-        String csrfToken = generateCSRFToken();
+        String csrfToken = CsrfUtil.generateCSRFToken();
         HttpSession newSession = request.getSession(true);
         newSession.setAttribute("csrfToken", csrfToken);
 
@@ -94,20 +98,8 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // POST requests to /signin should redirect to GET
-        // This prevents form resubmission issues
-        response.sendRedirect(request.getContextPath() + "/signin");
-    }
-
-    /**
-     * Generate a secure CSRF token for form protection
-     */
-    private String generateCSRFToken() {
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[32];
-        random.nextBytes(bytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+        
+        signinService.handleAuthentication(request, response);
     }
 
     @Override
