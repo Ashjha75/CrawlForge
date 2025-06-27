@@ -963,10 +963,10 @@
             <p class="signin-subtitle">Welcome back! Sign in to your account</p>
         </div>
         <c:if test="${not empty error}">
-            <div class="error-message">
-                <i class="bi bi-exclamation-triangle"></i>
-                <span>${error}</span>
-            </div>
+<%--            <div class="error-message">--%>
+<%--                <i class="bi bi-exclamation-triangle"></i>--%>
+<%--                <span>${error}</span>--%>
+<%--            </div>--%>
         </c:if>
         <c:if test="${not empty success}">
             <div class="success-message">

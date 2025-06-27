@@ -1,130 +1,165 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('signinForm');
-    const submitBtn = document.getElementById('signinBtn');
-    const spinner = document.getElementById('btnSpinner');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
+package com.service;
 
-    // Form submission - send as JSON (matching your signup pattern)
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+import com.dao.UserDAO;
+import com.entity.User;
+import com.utils.PasswordUtil;
+import com.utils.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 
-        // Show loading state
-        submitBtn.disabled = true;
-        spinner.style.display = 'inline-block';
-        submitBtn.querySelector('.btn-text').textContent = 'Signing In...';
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-        // Validate form
-        if (validateForm()) {
-            // Collect form data as JSON (FIXED - was FormData before)
-            const data = {
-                email: document.getElementById('email').value.trim(),
-                password: document.getElementById('password').value,
-                rememberMe: document.getElementById('rememberMe').checked
-            };
+public class SigninService {
 
-            // Send JSON data (FIXED - added proper headers)
-            fetch(form.action, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Login Response:', data);
-                if (data.success) {
-                    // Use toast instead of inline messages
-                    showSuccess(data.message);
-                    setTimeout(() => {
-                        window.location.href = data.redirectUrl || '/dashboard';
-                    }, 1500);
-                } else {
-                    // Use toast for errors
-                    showError(data.message);
-                    resetButton();
-                }
-            })
-            .catch(error => {
-                console.error('Login Error:', error);
-                // Use toast for network errors
-                showError('Login failed. Please check your connection and try again.');
-                resetButton();
-            });
-        } else {
-            resetButton();
+    private UserDAO userDAO = new UserDAO();
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    public void handleAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        System.out.println("✅ SigninService.handleAuthentication called");
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Map<String, Object> jsonResponse = new HashMap<>();
+
+        try {
+            // Read JSON from request body
+            String jsonBody = request.getReader().lines().collect(Collectors.joining());
+            System.out.println("Request JSON: " + jsonBody);
+
+            @SuppressWarnings("unchecked")
+            Map<String, Object> requestData = objectMapper.readValue(jsonBody, Map.class);
+
+            // Extract data
+            String email = (String) requestData.get("email");
+            String password = (String) requestData.get("password");
+            Boolean rememberMe = (Boolean) requestData.get("rememberMe");
+
+            if (rememberMe == null) rememberMe = false;
+
+            System.out.println("Login attempt for email: " + email);
+            System.out.println("Remember me: " + rememberMe);
+
+            // Validate input
+            if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
+                throw new IllegalArgumentException("Email and password are required");
+            }
+
+            // Authenticate user
+            String token = authenticateUser(email.trim(), password);
+
+            System.out.println("✅ User authenticated successfully! Token: " + token);
+
+            // Set JWT token in HTTP-only cookie
+            Cookie jwtCookie = new Cookie("jwt_token", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+
+            if (rememberMe) {
+                jwtCookie.setMaxAge(30 * 24 * 60 * 60); // 30 days
+            } else {
+                jwtCookie.setMaxAge(24 * 60 * 60); // 24 hours
+            }
+
+            response.addCookie(jwtCookie);
+
+            // Get user info for response
+            JwtUtil.UserInfo userInfo = JwtUtil.getUserInfoFromToken(token);
+
+            // Success response with toast-friendly format
+            jsonResponse.put("success", true);
+            jsonResponse.put("message", "Welcome back! Login successful.");
+            jsonResponse.put("redirectUrl", "/dashboard");
+            jsonResponse.put("toast", true); // Indicate this should show as toast
+            jsonResponse.put("toastType", "success"); // Toast type
+            jsonResponse.put("user", Map.of(
+                    "email", userInfo.getEmail(),
+                    "username", userInfo.getUsername() != null ? userInfo.getUsername() : "User",
+                    "isAdmin", userInfo.isAdmin()
+            ));
+
+            response.setStatus(HttpServletResponse.SC_OK);
+
+        } catch (Exception e) {
+            System.err.println("❌ Login failed: " + e.getMessage());
+            e.printStackTrace();
+
+            // Error response with toast-friendly format
+            jsonResponse.put("success", false);
+            jsonResponse.put("error", true);
+            jsonResponse.put("message", getErrorMessage(e.getMessage()));
+            jsonResponse.put("toast", true); // Indicate this should show as toast
+            jsonResponse.put("toastType", "error"); // Toast type
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-    });
 
-    // Auto-focus email input
-    emailInput.focus();
-});
-
-// Password visibility toggle function
-function togglePasswordVisibility(inputId) {
-    const passwordInput = document.getElementById(inputId);
-    const eyeIcon = document.getElementById(inputId + '-eye');
-    const toggleBtn = eyeIcon.closest('.password-toggle-btn');
-
-    if (passwordInput.type === 'password') {
-        // Show password
-        passwordInput.type = 'text';
-        eyeIcon.classList.remove('bi-eye');
-        eyeIcon.classList.add('bi-eye-slash');
-        toggleBtn.classList.add('active');
-        toggleBtn.setAttribute('title', 'Hide password');
-    } else {
-        // Hide password
-        passwordInput.type = 'password';
-        eyeIcon.classList.remove('bi-eye-slash');
-        eyeIcon.classList.add('bi-eye');
-        toggleBtn.classList.remove('active');
-        toggleBtn.setAttribute('title', 'Show password');
-    }
-}
-
-function validateForm() {
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-
-    if (!email) {
-        showError('Please enter your email address');
-        return false;
+        // Write JSON response
+        response.getWriter().write(objectMapper.writeValueAsString(jsonResponse));
     }
 
-    if (!isValidEmail(email)) {
-        showError('Please enter a valid email address');
-        return false;
+    private String authenticateUser(String email, String password) {
+        Optional<User> userOpt = userDAO.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        User user = userOpt.get();
+
+        // Check if account is locked or inactive
+        if (!user.canLogin()) {
+            throw new RuntimeException("Account is locked or inactive");
+        }
+
+        // Verify password
+        if (!PasswordUtil.verifyPassword(password, user.getPasswordHash())) {
+            user.incrementLoginAttempts();
+            userDAO.updateUser(user);
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        // Reset login attempts and update last login
+        user.resetLoginAttempts();
+        user.setLastLoginAt(LocalDateTime.now());
+        userDAO.updateUser(user);
+
+        // Get user roles for token
+        String roles = user.getRoles().stream()
+                .map(role -> role.getName())
+                .collect(Collectors.joining(","));
+
+        if (roles.isEmpty()) {
+            roles = "USER"; // Default role
+        }
+
+        // Generate JWT token with roles
+        return JwtUtil.generateTokenWithRoles(
+                user.getEmail(),
+                user.getUserId(),
+                user.getUsername(),
+                roles
+        );
     }
 
-    if (!password) {
-        showError('Please enter your password');
-        return false;
+    private String getErrorMessage(String originalMessage) {
+        if (originalMessage.contains("Invalid credentials")) {
+            return "Invalid email or password. Please try again.";
+        } else if (originalMessage.contains("Account is locked")) {
+            return "Your account has been temporarily locked due to multiple failed login attempts.";
+        } else if (originalMessage.contains("inactive")) {
+            return "Your account is inactive. Please contact support.";
+        } else {
+            return "Login failed. Please try again.";
+        }
     }
-
-    return true;
 }
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function resetButton() {
-    const submitBtn = document.getElementById('signinBtn');
-    const spinner = document.getElementById('btnSpinner');
-
-    submitBtn.disabled = false;
-    spinner.style.display = 'none';
-    submitBtn.querySelector('.btn-text').textContent = 'Sign In';
-}
-
-// REMOVED - These functions will be handled by global toast system
-// function showError(message) { ... }
-// function showSuccess(message) { ... }
-// function removeMessages() { ... }
-
-// Toast functions are now global - defined in toast.js
-// showError() and showSuccess() are available globally
