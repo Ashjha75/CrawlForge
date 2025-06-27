@@ -30,10 +30,12 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
-        <!-- Entity Classes (No XML mapping needed) -->
-        <mapping class="com.entity.User"/>
-        <mapping class="com.crawlforge.model.Role"/>
-        <mapping class="com.crawlforge.model.CrawlSession"/>
-        <mapping class="com.crawlforge.model.Page"/>
+       <!-- Entity Classes -->
+       <mapping class="com.entity.User"/>
+       <mapping class="com.entity.Role"/>
+       <mapping class="com.entity.CrawlSession"/>
+       <mapping class="com.entity.Page"/>
+       <mapping class="com.entity.Link"/>
+       <mapping class="com.entity.Keyword"/>
     </session-factory>
 </hibernate-configuration>
