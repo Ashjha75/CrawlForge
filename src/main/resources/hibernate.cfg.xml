@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
     <session-factory>
+        <!-- MySQL Database Connection -->
+        <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crawlforge?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">Ashish</property>
+        <property name="hibernate.connection.password">ashjha90</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- HikariCP MySQL Optimized Settings -->
         <property name="hibernate.hikari.minimumIdle">5</property>
         <property name="hibernate.hikari.maximumPoolSize">20</property>
+        <property name="hibernate.hikari.idleTimeout">300000</property>
+        <property name="hibernate.hikari.maxLifetime">1200000</property>
+        <property name="hibernate.hikari.connectionTimeout">20000</property>
+
+        <!-- MySQL Performance Settings -->
+        <property name="hibernate.jdbc.batch_size">25</property>
+        <property name="hibernate.order_inserts">true</property>
+        <property name="hibernate.order_updates">true</property>
+
+        <!-- Schema Management -->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
+        <!-- Entity Classes (No XML mapping needed) -->
         <mapping class="com.entity.User"/>
         <mapping class="com.entity.Role"/>
         <mapping class="com.entity.CrawlSession"/>
