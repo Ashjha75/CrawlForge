@@ -1,39 +1,40 @@
-package com.utils;
+package com.crawlforge.util;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
-import java.io.InputStream;
-import java.util.Properties;
+import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+
+    private static SessionFactory sessionFactory;
 
     private static SessionFactory buildSessionFactory() {
         try {
-            Configuration configuration = new Configuration().configure();
+            // Create the SessionFactory from hibernate.cfg.xml
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml");
 
-            Properties props = new Properties();
-            try (InputStream input = HibernateUtil.class.getClassLoader().getResourceAsStream("db.properties")) {
-                if (input == null) {
-                    throw new RuntimeException("db.properties not found in classpath");
-                }
-                props.load(input);
-            }
+            System.out.println("Hibernate Configuration loaded");
 
-            configuration.setProperty("hibernate.connection.driver_class", props.getProperty("db.driver"));
-            configuration.setProperty("hibernate.connection.url", props.getProperty("db.url"));
-            configuration.setProperty("hibernate.connection.username", props.getProperty("db.username"));
-            configuration.setProperty("hibernate.connection.password", props.getProperty("db.password"));
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
 
-            return configuration.buildSessionFactory();
+            System.out.println("Hibernate serviceRegistry created");
+
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            return sessionFactory;
+
         } catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed: " + ex);
+            System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
 
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            sessionFactory = buildSessionFactory();
+        }
         return sessionFactory;
     }
 
