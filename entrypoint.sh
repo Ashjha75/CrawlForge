@@ -14,4 +14,9 @@ db.username=${DB_USERNAME}
 db.password=${DB_PASSWORD}
 EOL
 
+# Patch server.xml to use the actual PORT value
+if [ -n "$PORT" ]; then
+  sed -i "s/port=\"\${PORT}\"/port=\"$PORT\"/" /usr/local/tomcat/conf/server.xml
+fi
+
 exec "$@"
