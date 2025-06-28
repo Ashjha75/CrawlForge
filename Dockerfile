@@ -1,60 +1,49 @@
 # Multi-stage build for CrawlForge
 FROM maven:3.8.3-openjdk-17 AS builder
 
+# Add maintainer
 LABEL maintainer="Ashish Jha <ajha5645@gmail.com>"
+
+# Set working directory
 WORKDIR /app
 
+# Copy pom.xml first for dependency caching
 COPY pom.xml .
+
+# Download dependencies
 RUN mvn dependency:go-offline -B
 
+# Copy source code
 COPY src ./src
+
+# Build the application
 RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime image with Tomcat
+# Production stage
 FROM tomcat:10.1-jdk21-openjdk
 
-# Install curl for the healthcheck
+# Install curl for health checks
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-# Remove default webapps for a cleaner deployment
+# Remove default webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy your compiled WAR file to Tomcat's webapps directory
-# Naming it ROOT.war makes it accessible at the root context (e.g., http://your-app.render.com/)
+# Copy the WAR file from build stage (correct stage name!)
 COPY --from=builder /app/target/CrawlForge.war /usr/local/tomcat/webapps/ROOT.war
 
 # Create logs directory
 RUN mkdir -p /usr/local/tomcat/logs
 
-# --- START CHANGES FOR AIVEN SSL CERTIFICATE ---
-# Copy the Aiven CA certificate into a standard location for system CAs
-# The .crt extension is important for update-ca-certificates on Debian/Ubuntu based images
-COPY ca.pem /usr/local/share/ca-certificates/aiven-mysql-ca.crt
-
-# Update the system's trusted CA certificates store.
-# This makes the JVM running in the container automatically trust the Aiven CA.
-RUN update-ca-certificates
-# --- END CHANGES FOR AIVEN SSL CERTIFICATE ---
-
-# Copy entrypoint script and make it executable
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Set JVM options. These will be picked up by catalina.sh.
+# Set environment variables
 ENV CATALINA_OPTS="-Xmx512m -Xms256m"
 ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom"
 
-# Expose the default Tomcat port.
-# Render will map its assigned PORT to this internal container port.
-# However, our entrypoint.sh will dynamically change Tomcat's port if PORT env var is present.
+# Expose port
 EXPOSE 8080
 
-# Define a health check to verify the application is responsive
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:${PORT:-8080}/ || exit 1
+  CMD curl -f http://localhost:8080/ || exit 1
 
-# Use the entrypoint script as the container's entry point
-ENTRYPOINT ["/entrypoint.sh"]
-
-# Default command to run Tomcat, passed as arguments to the entrypoint script
+# Start Tomcat
 CMD ["catalina.sh", "run"]
