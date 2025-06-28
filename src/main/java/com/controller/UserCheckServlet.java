@@ -30,7 +30,7 @@ package com.controller;
                             if (jwt != null) {
                                 isLoggedIn = true;
                                 userEmail = jwt.getClaim("email").asString();
-                                userName = jwt.getClaim("name").asString();
+                                userName = jwt.getClaim("username").asString();
                             }
                             break;
                         }
