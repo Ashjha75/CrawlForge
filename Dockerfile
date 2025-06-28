@@ -19,6 +19,9 @@ COPY --from=builder /app/target/CrawlForge.war /usr/local/tomcat/webapps/ROOT.wa
 
 RUN mkdir -p /usr/local/tomcat/logs
 
+# Patch server.xml to use the PORT env variable for HTTP connector
+RUN sed -i 's/port="8080"/port="${PORT}"/' /usr/local/tomcat/conf/server.xml
+
 # Add entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -29,7 +32,7 @@ ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom"
 EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:8080/ || exit 1
+  CMD curl -f http://localhost:${PORT:-8080}/ || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["catalina.sh", "run"]
