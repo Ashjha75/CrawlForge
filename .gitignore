@@ -34,3 +34,6 @@ db.properties
 # Misc
 *.war
 *.ear
+
+
+/target/
