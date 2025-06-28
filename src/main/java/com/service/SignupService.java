@@ -2,6 +2,7 @@ package com.service;
 
 import com.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utils.HibernateUtil;
 import com.utils.PasswordUtil;
 import com.utils.JwtUtil;
 import jakarta.servlet.http.Cookie;

@@ -30,7 +30,7 @@ C:/Users/ashis/OneDrive/Desktop/Personal/WebCrawler_Analytics/src/main/resources
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@crawlforge-decodewp-bc20.c.aivencloud.com" uuid="446610f3-4976-42d2-b8b3-16aa004136df">
+    <data-source source="LOCAL" name="@crawlforge-decodewp-bc20.c.aivencloud.com" uuid="c7488d65-c60a-47ba-8255-4ca929a5be40">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
