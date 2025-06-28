@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-Sitemap: https://yoursite.com/sitemap.xml
+Sitemap: https://crawlforge.onrender.com/sitemap.xml
