@@ -26,6 +26,16 @@ COPY --from=builder /app/target/CrawlForge.war /usr/local/tomcat/webapps/ROOT.wa
 # Create logs directory
 RUN mkdir -p /usr/local/tomcat/logs
 
+# --- START CHANGES FOR AIVEN SSL CERTIFICATE ---
+# Copy the Aiven CA certificate into a standard location for system CAs
+# The .crt extension is important for update-ca-certificates on Debian/Ubuntu based images
+COPY ca.pem /usr/local/share/ca-certificates/aiven-mysql-ca.crt
+
+# Update the system's trusted CA certificates store.
+# This makes the JVM running in the container automatically trust the Aiven CA.
+RUN update-ca-certificates
+# --- END CHANGES FOR AIVEN SSL CERTIFICATE ---
+
 # Copy entrypoint script and make it executable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
