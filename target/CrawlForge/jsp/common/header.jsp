@@ -24,6 +24,10 @@
                         <span class="notification-badge">3</span>
                     </a>
                 </div>
+                <a class="nav-link" href="https://docs-crawlforge-onrender.gitbook.io/crawlforge-docs" target="_blank">
+                    <i class="bi bi-book"></i>Docs
+                    <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.8em;"></i>
+                </a>
                 <div class="nav-divider"></div>
 
                 <!-- Auth Account Dropdown -->
@@ -67,24 +71,24 @@
 </nav>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Navbar scroll effect
-    const navbar = document.getElementById('mainNavbar');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Navbar scroll effect
+        const navbar = document.getElementById('mainNavbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-    // Active link logic (only one active at a time)
-    const contextPath = '${pageContext.request.contextPath}';
+        // Active link logic (only one active at a time) - exclude external links
+        const contextPath = '${pageContext.request.contextPath}';
     const currentPath = window.location.pathname.replace(contextPath, '') || '/';
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link:not([target="_blank"])');
     navLinks.forEach(link => {
         let href = link.getAttribute('href');
-        if (href) {
+        if (href && !href.startsWith('http')) {
             href = href.replace(contextPath, '') || '/';
             if (href === currentPath) {
                 link.classList.add('active');
