@@ -1,5 +1,5 @@
 
-# 🌐 WebCrawler_Analytics
+# 🌐 CrawlForge
 
 ![System Architecture](./src/main/webapp/img/Flowchart.jpg)
 
