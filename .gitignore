@@ -30,7 +30,7 @@ Thumbs.db
 
 # Local environment properties
 db.properties
-
+**/db.properties
 # Misc
 *.war
 *.ear
