@@ -1,11 +1,11 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -116,27 +116,39 @@ public class ChartData {
     @Builder.Default
     private Integer dataVersion = 1;
 
-    // Chart Type Enumeration
-    public enum ChartType {
-        BAR("bar"),
-        LINE("line"),
-        PIE("pie"),
-        DOUGHNUT("doughnut"),
-        RADAR("radar"),
-        POLAR_AREA("polarArea"),
-        SCATTER("scatter"),
-        BUBBLE("bubble"),
-        MIXED("mixed");
+    // Static Factory Methods
+    public static ChartData createBarChart(User user, String title, String timeRange) {
+        return ChartData.builder()
+                .user(user)
+                .chartTitle(title)
+                .chartType(ChartType.BAR)
+                .timeRange(timeRange)
+                .refreshIntervalSeconds(60)
+                .dataVersion(1)
+                .build();
+    }
 
-        private final String chartJsType;
+    public static ChartData createPieChart(User user, String title, String timeRange) {
+        return ChartData.builder()
+                .user(user)
+                .chartTitle(title)
+                .chartType(ChartType.PIE)
+                .timeRange(timeRange)
+                .refreshIntervalSeconds(60)
+                .dataVersion(1)
+                .build();
+    }
 
-        ChartType(String chartJsType) {
-            this.chartJsType = chartJsType;
-        }
-
-        public String getChartJsType() {
-            return chartJsType;
-        }
+    public static ChartData createLineChart(User user, String title, String timeRange) {
+        return ChartData.builder()
+                .user(user)
+                .chartTitle(title)
+                .chartType(ChartType.LINE)
+                .timeRange(timeRange)
+                .isRealtime(true)
+                .refreshIntervalSeconds(30)
+                .dataVersion(1)
+                .build();
     }
 
     // Business Methods
@@ -208,38 +220,26 @@ public class ChartData {
         return getClass().hashCode();
     }
 
-    // Static Factory Methods
-    public static ChartData createBarChart(User user, String title, String timeRange) {
-        return ChartData.builder()
-                .user(user)
-                .chartTitle(title)
-                .chartType(ChartType.BAR)
-                .timeRange(timeRange)
-                .refreshIntervalSeconds(60)
-                .dataVersion(1)
-                .build();
-    }
+    // Chart Type Enumeration
+    public enum ChartType {
+        BAR("bar"),
+        LINE("line"),
+        PIE("pie"),
+        DOUGHNUT("doughnut"),
+        RADAR("radar"),
+        POLAR_AREA("polarArea"),
+        SCATTER("scatter"),
+        BUBBLE("bubble"),
+        MIXED("mixed");
 
-    public static ChartData createPieChart(User user, String title, String timeRange) {
-        return ChartData.builder()
-                .user(user)
-                .chartTitle(title)
-                .chartType(ChartType.PIE)
-                .timeRange(timeRange)
-                .refreshIntervalSeconds(60)
-                .dataVersion(1)
-                .build();
-    }
+        private final String chartJsType;
 
-    public static ChartData createLineChart(User user, String title, String timeRange) {
-        return ChartData.builder()
-                .user(user)
-                .chartTitle(title)
-                .chartType(ChartType.LINE)
-                .timeRange(timeRange)
-                .isRealtime(true)
-                .refreshIntervalSeconds(30)
-                .dataVersion(1)
-                .build();
+        ChartType(String chartJsType) {
+            this.chartJsType = chartJsType;
+        }
+
+        public String getChartJsType() {
+            return chartJsType;
+        }
     }
 }
