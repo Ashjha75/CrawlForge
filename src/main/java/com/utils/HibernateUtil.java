@@ -22,6 +22,7 @@ public class HibernateUtil {
                 props.load(input);
             }
 
+
             configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
             configuration.setProperty("hibernate.connection.url", props.getProperty("DB_URL"));
             configuration.setProperty("hibernate.connection.username", props.getProperty("DB_USER"));
