@@ -1,185 +1,277 @@
 package com.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
-import java.time.Duration;
-import java.util.List;
-import java.util.Collections;
 
+@Entity
+@Table(name = "crawl_statistics")
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"user"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CrawlStatistics {
-
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "statistics_id")
+    @Setter(AccessLevel.NONE)
+    private Long statisticsId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    
     // Core Session Statistics
-    private final Long totalSessions;
-    private final Long activeSessions;
-    private final Long completedSessions;
-    private final Long failedSessions;
-    private final Long pausedSessions;
-    private final Long cancelledSessions;
-
+    @Column(name = "total_sessions")
+    @Builder.Default
+    private Long totalSessions = 0L;
+    
+    @Column(name = "active_sessions")
+    @Builder.Default
+    private Long activeSessions = 0L;
+    
+    @Column(name = "completed_sessions")
+    @Builder.Default
+    private Long completedSessions = 0L;
+    
+    @Column(name = "failed_sessions")
+    @Builder.Default
+    private Long failedSessions = 0L;
+    
+    @Column(name = "paused_sessions")
+    @Builder.Default
+    private Long pausedSessions = 0L;
+    
+    @Column(name = "cancelled_sessions")
+    @Builder.Default
+    private Long cancelledSessions = 0L;
+    
     // Page Crawling Metrics
-    private final Long totalPagesCrawled;
-    private final Long totalPagesFailed;
-    private final Long totalPagesSuccessful;
-    private final Double overallSuccessRate;
-    private final Double averagePagesPerSession;
-    private final Integer maxPagesInSession;
-    private final Integer minPagesInSession;
-
+    @Column(name = "total_pages_crawled")
+    @Builder.Default
+    private Long totalPagesCrawled = 0L;
+    
+    @Column(name = "total_pages_failed")
+    @Builder.Default
+    private Long totalPagesFailed = 0L;
+    
+    @Column(name = "total_pages_successful")
+    @Builder.Default
+    private Long totalPagesSuccessful = 0L;
+    
+    @Column(name = "overall_success_rate")
+    @Builder.Default
+    private Double overallSuccessRate = 0.0;
+    
+    @Column(name = "average_pages_per_session")
+    @Builder.Default
+    private Double averagePagesPerSession = 0.0;
+    
+    @Column(name = "max_pages_in_session")
+    @Builder.Default
+    private Integer maxPagesInSession = 0;
+    
+    @Column(name = "min_pages_in_session")
+    @Builder.Default
+    private Integer minPagesInSession = 0;
+    
     // Performance Analytics
-    private final Double averageLoadTimeMs;
-    private final Long totalLoadTimeMs;
-    private final Double averageSessionDurationMinutes;
-    private final Long fastestPageLoadMs;
-    private final Long slowestPageLoadMs;
-
+    @Column(name = "average_load_time_ms")
+    @Builder.Default
+    private Double averageLoadTimeMs = 0.0;
+    
+    @Column(name = "total_load_time_ms")
+    @Builder.Default
+    private Long totalLoadTimeMs = 0L;
+    
+    @Column(name = "average_session_duration_minutes")
+    @Builder.Default
+    private Double averageSessionDurationMinutes = 0.0;
+    
+    @Column(name = "fastest_page_load_ms")
+    private Long fastestPageLoadMs;
+    
+    @Column(name = "slowest_page_load_ms")
+    private Long slowestPageLoadMs;
+    
     // Link Discovery Statistics
-    private final Long totalLinksFound;
-    private final Long totalInternalLinks;
-    private final Long totalExternalLinks;
-    private final Double averageLinksPerPage;
-    private final Integer maxLinksOnPage;
-
+    @Column(name = "total_links_found")
+    @Builder.Default
+    private Long totalLinksFound = 0L;
+    
+    @Column(name = "total_internal_links")
+    @Builder.Default
+    private Long totalInternalLinks = 0L;
+    
+    @Column(name = "total_external_links")
+    @Builder.Default
+    private Long totalExternalLinks = 0L;
+    
+    @Column(name = "average_links_per_page")
+    @Builder.Default
+    private Double averageLinksPerPage = 0.0;
+    
+    @Column(name = "max_links_on_page")
+    @Builder.Default
+    private Integer maxLinksOnPage = 0;
+    
     // Keyword Analysis Metrics
-    private final Long totalKeywordsExtracted;
-    private final Double averageKeywordsPerPage;
-    private final Double averageKeywordDensity;
-    private final Integer uniqueKeywordCount;
-
+    @Column(name = "total_keywords_extracted")
+    @Builder.Default
+    private Long totalKeywordsExtracted = 0L;
+    
+    @Column(name = "average_keywords_per_page")
+    @Builder.Default
+    private Double averageKeywordsPerPage = 0.0;
+    
+    @Column(name = "average_keyword_density")
+    @Builder.Default
+    private Double averageKeywordDensity = 0.0;
+    
+    @Column(name = "unique_keyword_count")
+    @Builder.Default
+    private Integer uniqueKeywordCount = 0;
+    
     // Error and Status Code Analytics
-    private final Long total2xxResponses;
-    private final Long total3xxResponses;
-    private final Long total4xxResponses;
-    private final Long total5xxResponses;
-    private final Integer mostCommonStatusCode;
-    private final Long totalTimeouts;
-    private final Long totalConnectionErrors;
-
+    @Column(name = "total_2xx_responses")
+    @Builder.Default
+    private Long total2xxResponses = 0L;
+    
+    @Column(name = "total_3xx_responses")
+    @Builder.Default
+    private Long total3xxResponses = 0L;
+    
+    @Column(name = "total_4xx_responses")
+    @Builder.Default
+    private Long total4xxResponses = 0L;
+    
+    @Column(name = "total_5xx_responses")
+    @Builder.Default
+    private Long total5xxResponses = 0L;
+    
+    @Column(name = "most_common_status_code")
+    private Integer mostCommonStatusCode;
+    
+    @Column(name = "total_timeouts")
+    @Builder.Default
+    private Long totalTimeouts = 0L;
+    
+    @Column(name = "total_connection_errors")
+    @Builder.Default
+    private Long totalConnectionErrors = 0L;
+    
     // Depth and Threading Analysis
-    private final Double averageDepthReached;
-    private final Integer maxDepthReached;
-    private final Double averageThreadUtilization;
-    private final Long totalThreadHours;
-
+    @Column(name = "average_depth_reached")
+    @Builder.Default
+    private Double averageDepthReached = 0.0;
+    
+    @Column(name = "max_depth_reached")
+    @Builder.Default
+    private Integer maxDepthReached = 0;
+    
+    @Column(name = "average_thread_utilization")
+    @Builder.Default
+    private Double averageThreadUtilization = 0.0;
+    
+    @Column(name = "total_thread_hours")
+    @Builder.Default
+    private Long totalThreadHours = 0L;
+    
     // Time-based Trends
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime firstCrawlTime;
-
+    @Column(name = "first_crawl_time")
+    private LocalDateTime firstCrawlTime;
+    
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime lastCrawlTime;
-
-    private final Long crawlsLast24Hours;
-    private final Long crawlsLast7Days;
-    private final Long crawlsLast30Days;
-    private final Long pagesLast24Hours;
-    private final Long pagesLast7Days;
-    private final Long pagesLast30Days;
-
+    @Column(name = "last_crawl_time")
+    private LocalDateTime lastCrawlTime;
+    
+    @Column(name = "crawls_last_24_hours")
+    @Builder.Default
+    private Long crawlsLast24Hours = 0L;
+    
+    @Column(name = "crawls_last_7_days")
+    @Builder.Default
+    private Long crawlsLast7Days = 0L;
+    
+    @Column(name = "crawls_last_30_days")
+    @Builder.Default
+    private Long crawlsLast30Days = 0L;
+    
+    @Column(name = "pages_last_24_hours")
+    @Builder.Default
+    private Long pagesLast24Hours = 0L;
+    
+    @Column(name = "pages_last_7_days")
+    @Builder.Default
+    private Long pagesLast7Days = 0L;
+    
+    @Column(name = "pages_last_30_days")
+    @Builder.Default
+    private Long pagesLast30Days = 0L;
+    
     // Domain and Content Statistics
-    private final Integer uniqueDomainsCount;
-    private final String mostCrawledDomain;
-    private final Long mostCrawledDomainCount;
-    private final List<DomainStatistic> topDomains;
-
+    @Column(name = "unique_domains_count")
+    @Builder.Default
+    private Integer uniqueDomainsCount = 0;
+    
+    @Column(name = "most_crawled_domain", length = 255)
+    private String mostCrawledDomain;
+    
+    @Column(name = "most_crawled_domain_count")
+    @Builder.Default
+    private Long mostCrawledDomainCount = 0L;
+    
     // Content Type Analysis
-    private final Long htmlPagesCount;
-    private final Long imageLinksCount;
-    private final Long documentLinksCount;
-    private final Long otherContentCount;
-
-    // User-specific Statistics
-    private final Long userId;
-    private final Integer userSessionCount;
-    private final Long userTotalPages;
-    private final Double userAverageSuccessRate;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime userFirstCrawl;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime userLastCrawl;
-
-    // System Health Indicators
-    private final SystemHealthMetrics systemHealth;
-
-    // Embedded Static Records for Detailed Statistics
-    @Builder
-    @Getter
-    @ToString
-    public static class DomainStatistic {
-        private final String domain;
-        private final Long pageCount;
-        private final Double averageLoadTime;
-        private final Double successRate;
-        private final Integer errorCount;
-        private final Long totalLinksFound;
-
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private final LocalDateTime lastCrawled;
-    }
-
-    @Builder
-    @Getter
-    @ToString
-    public static class SystemHealthMetrics {
-        private final Double systemCpuUsage;
-        private final Long systemMemoryUsageMB;
-        private final Long systemFreeMemoryMB;
-        private final Integer activeThreadCount;
-        private final Integer totalThreadPoolSize;
-        private final Long databaseConnectionsActive;
-        private final Long databaseConnectionsIdle;
-        private final Double diskSpaceUsagePercent;
-        private final String systemStatus; // HEALTHY, WARNING, CRITICAL
-
-        public boolean isHealthy() {
-            return "HEALTHY".equals(systemStatus);
-        }
-
-        public boolean needsAttention() {
-            return "WARNING".equals(systemStatus) || "CRITICAL".equals(systemStatus);
-        }
-    }
-
-    // Embedded Records for Time-based Analysis
-    @Builder
-    @Getter
-    @ToString
-    public static class TimeBasedMetric {
-        @JsonFormat(pattern = "yyyy-MM-dd")
-        private final LocalDateTime date;
-        private final Long sessionCount;
-        private final Long pageCount;
-        private final Double averageSuccessRate;
-        private final Double averageLoadTime;
-    }
-
-    // Builder Defaults for Null Safety
-    public static class CrawlStatisticsBuilder {
-        private List<DomainStatistic> topDomains = Collections.emptyList();
-        private Long totalSessions = 0L;
-        private Long activeSessions = 0L;
-        private Long completedSessions = 0L;
-        private Long failedSessions = 0L;
-        private Long pausedSessions = 0L;
-        private Long cancelledSessions = 0L;
-        private Long totalPagesCrawled = 0L;
-        private Long totalPagesFailed = 0L;
-        private Double overallSuccessRate = 0.0;
-        private Double averagePagesPerSession = 0.0;
-        private Double averageLoadTimeMs = 0.0;
-        private Long totalLinksFound = 0L;
-        private Long totalKeywordsExtracted = 0L;
-        private Integer uniqueDomainsCount = 0;
-        private Integer uniqueKeywordCount = 0;
-    }
-
-    // Utility Methods for Statistical Calculations
+    @Column(name = "html_pages_count")
+    @Builder.Default
+    private Long htmlPagesCount = 0L;
+    
+    @Column(name = "image_links_count")
+    @Builder.Default
+    private Long imageLinksCount = 0L;
+    
+    @Column(name = "document_links_count")
+    @Builder.Default
+    private Long documentLinksCount = 0L;
+    
+    @Column(name = "other_content_count")
+    @Builder.Default
+    private Long otherContentCount = 0L;
+    
+    // Configuration
+    @Column(name = "time_range", length = 20)
+    @Builder.Default
+    private String timeRange = "24h"; // "24h", "7d", "30d", "all"
+    
+    @Column(name = "statistics_type", length = 50)
+    @Builder.Default
+    private String statisticsType = "USER"; // "USER", "ADMIN", "GLOBAL"
+    
+    // Audit Fields
+    @CreationTimestamp
+    @Column(name = "generated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime generatedAt;
+    
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime updatedAt;
+    
+    @Column(name = "data_version")
+    @Builder.Default
+    private Integer dataVersion = 1;
+    
+    // Business Methods
     public Double getSessionCompletionRate() {
         if (totalSessions == null || totalSessions == 0) {
             return 0.0;
@@ -187,7 +279,7 @@ public class CrawlStatistics {
         Long completed = completedSessions != null ? completedSessions : 0L;
         return (completed.doubleValue() / totalSessions.doubleValue()) * 100.0;
     }
-
+    
     public Double getErrorRate() {
         if (totalPagesCrawled == null || totalPagesCrawled == 0) {
             return 0.0;
@@ -195,17 +287,7 @@ public class CrawlStatistics {
         Long failed = totalPagesFailed != null ? totalPagesFailed : 0L;
         return (failed.doubleValue() / totalPagesCrawled.doubleValue()) * 100.0;
     }
-
-    public Double getAverageSessionsPerDay() {
-        if (firstCrawlTime == null || lastCrawlTime == null) {
-            return 0.0;
-        }
-        long daysBetween = Duration.between(firstCrawlTime, lastCrawlTime).toDays();
-        if (daysBetween == 0) daysBetween = 1; // Avoid division by zero
-
-        return totalSessions != null ? totalSessions.doubleValue() / daysBetween : 0.0;
-    }
-
+    
     public Double getLinkDiscoveryRate() {
         if (totalPagesCrawled == null || totalPagesCrawled == 0) {
             return 0.0;
@@ -213,21 +295,15 @@ public class CrawlStatistics {
         Long links = totalLinksFound != null ? totalLinksFound : 0L;
         return links.doubleValue() / totalPagesCrawled.doubleValue();
     }
-
+    
     public boolean hasRecentActivity() {
-        return lastCrawlTime != null &&
-                lastCrawlTime.isAfter(LocalDateTime.now().minusHours(24));
+        return lastCrawlTime != null && 
+               lastCrawlTime.isAfter(LocalDateTime.now().minusHours(24));
     }
-
-    public boolean isSystemUnderLoad() {
-        return systemHealth != null &&
-                systemHealth.getSystemCpuUsage() != null &&
-                systemHealth.getSystemCpuUsage() > 80.0;
-    }
-
+    
     public String getPerformanceGrade() {
         if (overallSuccessRate == null) return "N/A";
-
+        
         if (overallSuccessRate >= 95.0) return "A+";
         if (overallSuccessRate >= 90.0) return "A";
         if (overallSuccessRate >= 85.0) return "B+";
@@ -236,27 +312,34 @@ public class CrawlStatistics {
         if (overallSuccessRate >= 70.0) return "C";
         return "D";
     }
-
-    // Factory Methods for Common Scenarios
-    public static CrawlStatistics empty(Long userId) {
-        return CrawlStatistics.builder()
-                .userId(userId)
-                .systemHealth(SystemHealthMetrics.builder()
-                        .systemStatus("HEALTHY")
-                        .systemCpuUsage(0.0)
-                        .systemMemoryUsageMB(0L)
-                        .activeThreadCount(0)
-                        .databaseConnectionsActive(0L)
-                        .build())
-                .build();
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CrawlStatistics that)) return false;
+        return statisticsId != null && statisticsId.equals(that.statisticsId);
     }
-
-    public static CrawlStatistics forUser(Long userId, Long userSessionCount, Long userTotalPages) {
+    
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+    
+    // Static Factory Methods
+    public static CrawlStatistics createEmpty(User user, String timeRange) {
         return CrawlStatistics.builder()
-                .userId(userId)
-                .userSessionCount(userSessionCount.intValue())
-                .userTotalPages(userTotalPages)
-                .userAverageSuccessRate(0.0)
-                .build();
+            .user(user)
+            .timeRange(timeRange)
+            .statisticsType("USER")
+            .dataVersion(1)
+            .build();
+    }
+    
+    public static CrawlStatistics createGlobal(String timeRange) {
+        return CrawlStatistics.builder()
+            .timeRange(timeRange)
+            .statisticsType("GLOBAL")
+            .dataVersion(1)
+            .build();
     }
 }
