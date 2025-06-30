@@ -3,8 +3,8 @@ package com.service;
 import com.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utils.HibernateUtil;
-import com.utils.PasswordUtil;
 import com.utils.JwtUtil;
+import com.utils.PasswordUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,12 +40,12 @@ public class SignupService {
             boolean newsletter = Boolean.TRUE.equals(data.get("newsletter"));
 
             if (firstName == null || firstName.isEmpty() ||
-                lastName == null || lastName.isEmpty() ||
-                username == null || username.isEmpty() ||
-                email == null || email.isEmpty() ||
-                password == null || password.isEmpty() ||
-                confirmPassword == null || confirmPassword.isEmpty() ||
-                !agreeTerms) {
+                    lastName == null || lastName.isEmpty() ||
+                    username == null || username.isEmpty() ||
+                    email == null || email.isEmpty() ||
+                    password == null || password.isEmpty() ||
+                    confirmPassword == null || confirmPassword.isEmpty() ||
+                    !agreeTerms) {
                 throw new IllegalArgumentException("All fields are required");
             }
 
@@ -83,7 +83,7 @@ public class SignupService {
 
             // Check for duplicate username/email
             Query<User> userQuery = session.createQuery(
-                "FROM User WHERE username = :username OR email = :email", User.class);
+                    "FROM User WHERE username = :username OR email = :email", User.class);
             userQuery.setParameter("username", username);
             userQuery.setParameter("email", email);
             if (!userQuery.list().isEmpty()) {
@@ -106,10 +106,10 @@ public class SignupService {
 
             // Generate JWT with user info and default role USER
             return JwtUtil.generateTokenWithRoles(
-                user.getEmail(),
-                user.getUserId(),
-                user.getUsername(),
-                "USER"
+                    user.getEmail(),
+                    user.getUserId(),
+                    user.getUsername(),
+                    "USER"
             );
         } catch (Exception e) {
             if (tx != null) tx.rollback();
