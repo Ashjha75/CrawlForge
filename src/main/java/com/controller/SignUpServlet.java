@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
 
-    private SignupService signupService = new SignupService();
+    private final SignupService signupService = new SignupService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
