@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class SigninService {
 
-    private UserDAO userDAO = new UserDAO();
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final UserDAO userDAO = new UserDAO();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void handleAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -48,7 +48,7 @@ public class SigninService {
             if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
                 throw new IllegalArgumentException("Email and password are required");
             }
-System.out.println("here position is 2");
+            System.out.println("here position is 2");
             String token = authenticateUser(email.trim(), password);
             System.out.println("here position is 3");
             Cookie jwtCookie = new Cookie("jwt_token", token);
@@ -108,7 +108,7 @@ System.out.println("here position is 2");
         userDAO.updateUser(user);
         System.out.println("here position is 6");
 
-System.out.println("User authenticated: " + email);
+        System.out.println("User authenticated: " + email);
         // Null check for roles
         String roles = (user.getRoles() != null) ? user.getRoles().stream()
                 .map(role -> role.getName())
