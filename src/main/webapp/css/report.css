@@ -17,9 +17,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background:
-            radial-gradient(circle at 15% 25%, rgba(16, 163, 127, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 85% 75%, rgba(16, 163, 127, 0.03) 0%, transparent 50%);
+    background: radial-gradient(circle at 15% 25%, rgba(16, 163, 127, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(16, 163, 127, 0.03) 0%, transparent 50%);
     animation: float 10s ease-in-out infinite;
     pointer-events: none;
 }
@@ -349,9 +348,17 @@
     border-radius: 50%;
 }
 
-.legend-color.success { background: #28a745; }
-.legend-color.warning { background: #ffc107; }
-.legend-color.error { background: #dc3545; }
+.legend-color.success {
+    background: #28a745;
+}
+
+.legend-color.warning {
+    background: #ffc107;
+}
+
+.legend-color.error {
+    background: #dc3545;
+}
 
 /* Analytics Grid */
 .analytics-grid {
@@ -568,8 +575,12 @@
 }
 
 @keyframes gauge-shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .gauge-value {
@@ -848,8 +859,12 @@
 
 /* Animation Keyframes */
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
 @keyframes pulse-dot {
@@ -864,6 +879,10 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
