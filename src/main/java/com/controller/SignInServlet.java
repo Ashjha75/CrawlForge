@@ -10,18 +10,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet {
 
-    private SigninService signinService = new SigninService();
+    private final SigninService signinService = new SigninService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Check if user is already authenticated
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -98,7 +96,7 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         signinService.handleAuthentication(request, response);
     }
 
