@@ -12,11 +12,11 @@
     min-height: calc(100vh - var(--header-height));
     z-index: 1;
     background: linear-gradient(135deg,
-        #1f1f2b 0%,
-        #2c2c3a 25%,
-        #40414f 50%,
-        #2c2c3a 75%,
-        #1f1f2b 100%);
+    #1f1f2b 0%,
+    #2c2c3a 25%,
+    #40414f 50%,
+    #2c2c3a 75%,
+    #1f1f2b 100%);
     overflow: hidden;
     display: flex;
     align-items: flex-start;
