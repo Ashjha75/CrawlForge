@@ -163,6 +163,27 @@ public class DashboardData {
     @Builder.Default
     private Integer dataVersion = 1;
 
+    // Static Factory Methods
+    public static DashboardData createEmpty(User user, String timeRange) {
+        return DashboardData.builder()
+                .user(user)
+                .timeRange(timeRange)
+                .dashboardType("STANDARD")
+                .refreshIntervalMinutes(15)
+                .dataVersion(1)
+                .build();
+    }
+
+    public static DashboardData createForAdmin(User user) {
+        return DashboardData.builder()
+                .user(user)
+                .timeRange("7d")
+                .dashboardType("ADMIN")
+                .refreshIntervalMinutes(5)
+                .dataVersion(1)
+                .build();
+    }
+
     // Business Methods
     public boolean hasRecentActivity() {
         return lastCrawlTime != null &&
@@ -227,26 +248,5 @@ public class DashboardData {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    // Static Factory Methods
-    public static DashboardData createEmpty(User user, String timeRange) {
-        return DashboardData.builder()
-                .user(user)
-                .timeRange(timeRange)
-                .dashboardType("STANDARD")
-                .refreshIntervalMinutes(15)
-                .dataVersion(1)
-                .build();
-    }
-
-    public static DashboardData createForAdmin(User user) {
-        return DashboardData.builder()
-                .user(user)
-                .timeRange("7d")
-                .dashboardType("ADMIN")
-                .refreshIntervalMinutes(5)
-                .dataVersion(1)
-                .build();
     }
 }

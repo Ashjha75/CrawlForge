@@ -1,21 +1,16 @@
-
 package com.controller;
 
-import com.entity.DashboardData;
 import com.entity.CrawlStatistics;
-import com.entity.ChartData;
+import com.entity.DashboardData;
 import com.entity.UserActivity;
-import com.service.DashboardService;
-import com.service.AnalyticsService;
-import com.utils.JsonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.service.AnalyticsService;
+import com.service.DashboardService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
