@@ -49,7 +49,9 @@
                                 </div>
                             </div>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <a class="dropdown-item logout-btn" href="${pageContext.request.contextPath}/logout">
                                 <i class="bi bi-box-arrow-right"></i>

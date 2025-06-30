@@ -1,12 +1,12 @@
 package com.dao;
 
 import com.entity.DashboardData;
-import com.entity.User;
 import com.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DashboardDataDAO {
-    
+
     private static final Logger LOGGER = Logger.getLogger(DashboardDataDAO.class.getName());
-    
+
     // Create Operations
     public void saveDashboardData(DashboardData dashboardData) {
         Transaction transaction = null;
@@ -31,7 +31,7 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error saving dashboard data: " + dashboardData, e);
         }
     }
-    
+
     public void saveAllDashboardData(List<DashboardData> dashboardDataList) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -47,7 +47,7 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error saving dashboard data list", e);
         }
     }
-    
+
     // Read Operations
     public Optional<DashboardData> findById(Long dashboardId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -58,7 +58,7 @@ public class DashboardDataDAO {
             return Optional.empty();
         }
     }
-    
+
     public List<DashboardData> getAllDashboardData() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM DashboardData ORDER BY generatedAt DESC", DashboardData.class).list();
@@ -67,12 +67,12 @@ public class DashboardDataDAO {
             return List.of();
         }
     }
-    
+
     public List<DashboardData> findByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("userId", userId);
             return query.list();
@@ -81,12 +81,12 @@ public class DashboardDataDAO {
             return List.of();
         }
     }
-    
+
     public Optional<DashboardData> findLatestByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("userId", userId);
             query.setMaxResults(1);
@@ -96,12 +96,12 @@ public class DashboardDataDAO {
             return Optional.empty();
         }
     }
-    
+
     public Optional<DashboardData> findByUserIdAndTimeRange(Long userId, String timeRange) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.user.userId = :userId AND d.timeRange = :timeRange ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.user.userId = :userId AND d.timeRange = :timeRange ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("userId", userId);
             query.setParameter("timeRange", timeRange);
@@ -112,12 +112,12 @@ public class DashboardDataDAO {
             return Optional.empty();
         }
     }
-    
+
     public List<DashboardData> findValidCachedData() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.isCached = true AND d.cacheExpiresAt > :now ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.isCached = true AND d.cacheExpiresAt > :now ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("now", LocalDateTime.now());
             return query.list();
@@ -126,12 +126,12 @@ public class DashboardDataDAO {
             return List.of();
         }
     }
-    
+
     public List<DashboardData> findByDashboardType(String dashboardType) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.dashboardType = :dashboardType ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.dashboardType = :dashboardType ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("dashboardType", dashboardType);
             return query.list();
@@ -140,13 +140,13 @@ public class DashboardDataDAO {
             return List.of();
         }
     }
-    
+
     // Analytics Queries for Dashboard Service Layer
     public Long getTotalSessionsForUser(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Long> query = session.createQuery(
-                "SELECT COALESCE(SUM(d.totalSessions), 0L) FROM DashboardData d WHERE d.user.userId = :userId", 
-                Long.class
+                    "SELECT COALESCE(SUM(d.totalSessions), 0L) FROM DashboardData d WHERE d.user.userId = :userId",
+                    Long.class
             );
             query.setParameter("userId", userId);
             return query.uniqueResult();
@@ -155,12 +155,12 @@ public class DashboardDataDAO {
             return 0L;
         }
     }
-    
+
     public Double getAverageSuccessRateForUser(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Double> query = session.createQuery(
-                "SELECT COALESCE(AVG(d.averageSuccessRate), 0.0) FROM DashboardData d WHERE d.user.userId = :userId AND d.averageSuccessRate IS NOT NULL", 
-                Double.class
+                    "SELECT COALESCE(AVG(d.averageSuccessRate), 0.0) FROM DashboardData d WHERE d.user.userId = :userId AND d.averageSuccessRate IS NOT NULL",
+                    Double.class
             );
             query.setParameter("userId", userId);
             return query.uniqueResult();
@@ -169,14 +169,14 @@ public class DashboardDataDAO {
             return 0.0;
         }
     }
-    
+
     public List<Object[]> getDashboardSummaryByTimeRange(String timeRange) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Object[]> query = session.createQuery(
-                "SELECT d.user.userId, d.user.username, SUM(d.totalSessions), AVG(d.averageSuccessRate), MAX(d.generatedAt) " +
-                "FROM DashboardData d WHERE d.timeRange = :timeRange " +
-                "GROUP BY d.user.userId, d.user.username ORDER BY SUM(d.totalSessions) DESC", 
-                Object[].class
+                    "SELECT d.user.userId, d.user.username, SUM(d.totalSessions), AVG(d.averageSuccessRate), MAX(d.generatedAt) " +
+                            "FROM DashboardData d WHERE d.timeRange = :timeRange " +
+                            "GROUP BY d.user.userId, d.user.username ORDER BY SUM(d.totalSessions) DESC",
+                    Object[].class
             );
             query.setParameter("timeRange", timeRange);
             return query.list();
@@ -185,7 +185,7 @@ public class DashboardDataDAO {
             return List.of();
         }
     }
-    
+
     // Update Operations
     public void updateDashboardData(DashboardData dashboardData) {
         Transaction transaction = null;
@@ -200,13 +200,13 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error updating dashboard data: " + dashboardData, e);
         }
     }
-    
+
     public void markCacheExpired(Long dashboardId) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Query query = session.createQuery(
-                "UPDATE DashboardData d SET d.isCached = false, d.cacheExpiresAt = null WHERE d.dashboardId = :dashboardId"
+                    "UPDATE DashboardData d SET d.isCached = false, d.cacheExpiresAt = null WHERE d.dashboardId = :dashboardId"
             );
             query.setParameter("dashboardId", dashboardId);
             query.executeUpdate();
@@ -218,13 +218,13 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error marking cache expired for dashboard ID: " + dashboardId, e);
         }
     }
-    
+
     public void markAllCacheExpiredForUser(Long userId) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Query query = session.createQuery(
-                "UPDATE DashboardData d SET d.isCached = false, d.cacheExpiresAt = null WHERE d.user.userId = :userId"
+                    "UPDATE DashboardData d SET d.isCached = false, d.cacheExpiresAt = null WHERE d.user.userId = :userId"
             );
             query.setParameter("userId", userId);
             query.executeUpdate();
@@ -236,7 +236,7 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error marking all cache expired for user ID: " + userId, e);
         }
     }
-    
+
     // Delete Operations
     public void deleteDashboardData(Long dashboardId) {
         Transaction transaction = null;
@@ -254,13 +254,13 @@ public class DashboardDataDAO {
             LOGGER.log(Level.SEVERE, "Error deleting dashboard data with ID: " + dashboardId, e);
         }
     }
-    
+
     public int deleteExpiredCache() {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Query query = session.createQuery(
-                "DELETE FROM DashboardData d WHERE d.isCached = true AND d.cacheExpiresAt < :now"
+                    "DELETE FROM DashboardData d WHERE d.isCached = true AND d.cacheExpiresAt < :now"
             );
             query.setParameter("now", LocalDateTime.now());
             int deleted = query.executeUpdate();
@@ -274,14 +274,14 @@ public class DashboardDataDAO {
             return 0;
         }
     }
-    
+
     public int deleteOldDataForUser(Long userId, int daysToKeep) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             LocalDateTime cutoffDate = LocalDateTime.now().minusDays(daysToKeep);
             Query query = session.createQuery(
-                "DELETE FROM DashboardData d WHERE d.user.userId = :userId AND d.generatedAt < :cutoffDate"
+                    "DELETE FROM DashboardData d WHERE d.user.userId = :userId AND d.generatedAt < :cutoffDate"
             );
             query.setParameter("userId", userId);
             query.setParameter("cutoffDate", cutoffDate);
@@ -296,7 +296,7 @@ public class DashboardDataDAO {
             return 0;
         }
     }
-    
+
     // Utility Methods
     public boolean existsByUserIdAndTimeRange(Long userId, String timeRange) {
         try {
@@ -306,7 +306,7 @@ public class DashboardDataDAO {
             return false;
         }
     }
-    
+
     public boolean userIdExists(Long userId) {
         try {
             return !findByUserId(userId).isEmpty();
@@ -315,12 +315,12 @@ public class DashboardDataDAO {
             return false;
         }
     }
-    
+
     public long countByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Long> query = session.createQuery(
-                "SELECT COUNT(d) FROM DashboardData d WHERE d.user.userId = :userId", 
-                Long.class
+                    "SELECT COUNT(d) FROM DashboardData d WHERE d.user.userId = :userId",
+                    Long.class
             );
             query.setParameter("userId", userId);
             return query.uniqueResult();
@@ -329,12 +329,12 @@ public class DashboardDataDAO {
             return 0L;
         }
     }
-    
+
     public List<DashboardData> findRecentByUserId(Long userId, int limit) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<DashboardData> query = session.createQuery(
-                "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC", 
-                DashboardData.class
+                    "FROM DashboardData d WHERE d.user.userId = :userId ORDER BY d.generatedAt DESC",
+                    DashboardData.class
             );
             query.setParameter("userId", userId);
             query.setMaxResults(limit);

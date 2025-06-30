@@ -1,12 +1,12 @@
 package com.dao;
 
 import com.entity.CrawlStatistics;
-import com.entity.User;
 import com.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CrawlStatisticsDAO {
-    
+
     private static final Logger LOGGER = Logger.getLogger(CrawlStatisticsDAO.class.getName());
-    
+
     // Create Operations
     public void saveCrawlStatistics(CrawlStatistics crawlStatistics) {
         Transaction transaction = null;
@@ -31,7 +31,7 @@ public class CrawlStatisticsDAO {
             LOGGER.log(Level.SEVERE, "Error saving crawl statistics: " + crawlStatistics, e);
         }
     }
-    
+
     public void saveAllCrawlStatistics(List<CrawlStatistics> statisticsList) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -47,7 +47,7 @@ public class CrawlStatisticsDAO {
             LOGGER.log(Level.SEVERE, "Error saving crawl statistics list", e);
         }
     }
-    
+
     // Read Operations
     public Optional<CrawlStatistics> findById(Long statisticsId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -58,7 +58,7 @@ public class CrawlStatisticsDAO {
             return Optional.empty();
         }
     }
-    
+
     public List<CrawlStatistics> getAllCrawlStatistics() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM CrawlStatistics ORDER BY generatedAt DESC", CrawlStatistics.class).list();
@@ -67,12 +67,12 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public List<CrawlStatistics> findByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("userId", userId);
             return query.list();
@@ -81,12 +81,12 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public Optional<CrawlStatistics> findLatestByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("userId", userId);
             query.setMaxResults(1);
@@ -96,12 +96,12 @@ public class CrawlStatisticsDAO {
             return Optional.empty();
         }
     }
-    
+
     public Optional<CrawlStatistics> findByUserIdAndTimeRange(Long userId, String timeRange) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.user.userId = :userId AND s.timeRange = :timeRange ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.user.userId = :userId AND s.timeRange = :timeRange ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("userId", userId);
             query.setParameter("timeRange", timeRange);
@@ -112,12 +112,12 @@ public class CrawlStatisticsDAO {
             return Optional.empty();
         }
     }
-    
+
     public List<CrawlStatistics> findByStatisticsType(String statisticsType) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.statisticsType = :statisticsType ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.statisticsType = :statisticsType ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("statisticsType", statisticsType);
             return query.list();
@@ -126,12 +126,12 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public List<CrawlStatistics> findByTimeRange(String timeRange) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.timeRange = :timeRange ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.timeRange = :timeRange ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("timeRange", timeRange);
             return query.list();
@@ -140,13 +140,13 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     // Analytics Queries for Dashboard Service Layer
     public Long getTotalSessionsAcrossAllUsers() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Long> query = session.createQuery(
-                "SELECT COALESCE(SUM(s.totalSessions), 0L) FROM CrawlStatistics s", 
-                Long.class
+                    "SELECT COALESCE(SUM(s.totalSessions), 0L) FROM CrawlStatistics s",
+                    Long.class
             );
             return query.uniqueResult();
         } catch (Exception e) {
@@ -154,12 +154,12 @@ public class CrawlStatisticsDAO {
             return 0L;
         }
     }
-    
+
     public Double getGlobalAverageSuccessRate() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Double> query = session.createQuery(
-                "SELECT COALESCE(AVG(s.overallSuccessRate), 0.0) FROM CrawlStatistics s WHERE s.overallSuccessRate IS NOT NULL", 
-                Double.class
+                    "SELECT COALESCE(AVG(s.overallSuccessRate), 0.0) FROM CrawlStatistics s WHERE s.overallSuccessRate IS NOT NULL",
+                    Double.class
             );
             return query.uniqueResult();
         } catch (Exception e) {
@@ -167,14 +167,14 @@ public class CrawlStatisticsDAO {
             return 0.0;
         }
     }
-    
+
     public List<Object[]> getTopPerformingUsers(int limit) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Object[]> query = session.createQuery(
-                "SELECT s.user.userId, s.user.username, s.overallSuccessRate, s.totalPagesCrawled " +
-                "FROM CrawlStatistics s WHERE s.overallSuccessRate IS NOT NULL " +
-                "ORDER BY s.overallSuccessRate DESC, s.totalPagesCrawled DESC", 
-                Object[].class
+                    "SELECT s.user.userId, s.user.username, s.overallSuccessRate, s.totalPagesCrawled " +
+                            "FROM CrawlStatistics s WHERE s.overallSuccessRate IS NOT NULL " +
+                            "ORDER BY s.overallSuccessRate DESC, s.totalPagesCrawled DESC",
+                    Object[].class
             );
             query.setMaxResults(limit);
             return query.list();
@@ -183,14 +183,14 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public List<Object[]> getDomainStatistics() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Object[]> query = session.createQuery(
-                "SELECT s.mostCrawledDomain, SUM(s.mostCrawledDomainCount), AVG(s.averageLoadTimeMs) " +
-                "FROM CrawlStatistics s WHERE s.mostCrawledDomain IS NOT NULL " +
-                "GROUP BY s.mostCrawledDomain ORDER BY SUM(s.mostCrawledDomainCount) DESC", 
-                Object[].class
+                    "SELECT s.mostCrawledDomain, SUM(s.mostCrawledDomainCount), AVG(s.averageLoadTimeMs) " +
+                            "FROM CrawlStatistics s WHERE s.mostCrawledDomain IS NOT NULL " +
+                            "GROUP BY s.mostCrawledDomain ORDER BY SUM(s.mostCrawledDomainCount) DESC",
+                    Object[].class
             );
             return query.list();
         } catch (Exception e) {
@@ -198,14 +198,14 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public List<Object[]> getTimeBasedTrends(String timeRange) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Object[]> query = session.createQuery(
-                "SELECT DATE(s.generatedAt), SUM(s.totalSessions), SUM(s.totalPagesCrawled), AVG(s.overallSuccessRate) " +
-                "FROM CrawlStatistics s WHERE s.timeRange = :timeRange " +
-                "GROUP BY DATE(s.generatedAt) ORDER BY DATE(s.generatedAt) DESC", 
-                Object[].class
+                    "SELECT DATE(s.generatedAt), SUM(s.totalSessions), SUM(s.totalPagesCrawled), AVG(s.overallSuccessRate) " +
+                            "FROM CrawlStatistics s WHERE s.timeRange = :timeRange " +
+                            "GROUP BY DATE(s.generatedAt) ORDER BY DATE(s.generatedAt) DESC",
+                    Object[].class
             );
             query.setParameter("timeRange", timeRange);
             return query.list();
@@ -214,7 +214,7 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     // Update Operations
     public void updateCrawlStatistics(CrawlStatistics crawlStatistics) {
         Transaction transaction = null;
@@ -229,7 +229,7 @@ public class CrawlStatisticsDAO {
             LOGGER.log(Level.SEVERE, "Error updating crawl statistics: " + crawlStatistics, e);
         }
     }
-    
+
     // Delete Operations
     public void deleteCrawlStatistics(Long statisticsId) {
         Transaction transaction = null;
@@ -247,14 +247,14 @@ public class CrawlStatisticsDAO {
             LOGGER.log(Level.SEVERE, "Error deleting crawl statistics with ID: " + statisticsId, e);
         }
     }
-    
+
     public int deleteOldStatistics(int daysToKeep) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             LocalDateTime cutoffDate = LocalDateTime.now().minusDays(daysToKeep);
             Query query = session.createQuery(
-                "DELETE FROM CrawlStatistics s WHERE s.generatedAt < :cutoffDate"
+                    "DELETE FROM CrawlStatistics s WHERE s.generatedAt < :cutoffDate"
             );
             query.setParameter("cutoffDate", cutoffDate);
             int deleted = query.executeUpdate();
@@ -268,13 +268,13 @@ public class CrawlStatisticsDAO {
             return 0;
         }
     }
-    
+
     public int deleteByUserId(Long userId) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Query query = session.createQuery(
-                "DELETE FROM CrawlStatistics s WHERE s.user.userId = :userId"
+                    "DELETE FROM CrawlStatistics s WHERE s.user.userId = :userId"
             );
             query.setParameter("userId", userId);
             int deleted = query.executeUpdate();
@@ -288,7 +288,7 @@ public class CrawlStatisticsDAO {
             return 0;
         }
     }
-    
+
     // Utility Methods
     public boolean existsByUserIdAndTimeRange(Long userId, String timeRange) {
         try {
@@ -298,12 +298,12 @@ public class CrawlStatisticsDAO {
             return false;
         }
     }
-    
+
     public long countByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Long> query = session.createQuery(
-                "SELECT COUNT(s) FROM CrawlStatistics s WHERE s.user.userId = :userId", 
-                Long.class
+                    "SELECT COUNT(s) FROM CrawlStatistics s WHERE s.user.userId = :userId",
+                    Long.class
             );
             query.setParameter("userId", userId);
             return query.uniqueResult();
@@ -312,12 +312,12 @@ public class CrawlStatisticsDAO {
             return 0L;
         }
     }
-    
+
     public List<CrawlStatistics> findRecentByUserId(Long userId, int limit) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics s WHERE s.user.userId = :userId ORDER BY s.generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setParameter("userId", userId);
             query.setMaxResults(limit);
@@ -327,13 +327,13 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     // Pagination Support
     public List<CrawlStatistics> findWithPagination(int offset, int limit) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<CrawlStatistics> query = session.createQuery(
-                "FROM CrawlStatistics ORDER BY generatedAt DESC", 
-                CrawlStatistics.class
+                    "FROM CrawlStatistics ORDER BY generatedAt DESC",
+                    CrawlStatistics.class
             );
             query.setFirstResult(offset);
             query.setMaxResults(limit);
@@ -343,12 +343,12 @@ public class CrawlStatisticsDAO {
             return List.of();
         }
     }
-    
+
     public long getTotalCount() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Long> query = session.createQuery(
-                "SELECT COUNT(s) FROM CrawlStatistics s", 
-                Long.class
+                    "SELECT COUNT(s) FROM CrawlStatistics s",
+                    Long.class
             );
             return query.uniqueResult();
         } catch (Exception e) {

@@ -44,18 +44,21 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background:
-                    radial-gradient(2px 2px at 20px 30px, rgba(16, 163, 127, 0.3), transparent),
-                    radial-gradient(2px 2px at 40px 70px, rgba(16, 163, 127, 0.2), transparent),
-                    radial-gradient(1px 1px at 90px 40px, rgba(16, 163, 127, 0.4), transparent),
-                    radial-gradient(1px 1px at 130px 80px, rgba(16, 163, 127, 0.2), transparent);
+            background: radial-gradient(2px 2px at 20px 30px, rgba(16, 163, 127, 0.3), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(16, 163, 127, 0.2), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(16, 163, 127, 0.4), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(16, 163, 127, 0.2), transparent);
             background-size: 200px 100px;
             animation: float-particles 20s linear infinite;
         }
 
         @keyframes float-particles {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-100vh) rotate(360deg); }
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
         }
 
         .glitch-overlay {
@@ -64,14 +67,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                    linear-gradient(90deg, transparent 0%, rgba(16, 163, 127, 0.03) 50%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(16, 163, 127, 0.03) 50%, transparent 100%);
             animation: glitch-sweep 8s ease-in-out infinite;
         }
 
         @keyframes glitch-sweep {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+            0%, 100% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(100%);
+            }
         }
 
         /* Main Container */
@@ -143,14 +149,24 @@
         }
 
         @keyframes digit-bounce {
-            0%, 100% { transform: translateY(0) rotateX(0deg); }
-            25% { transform: translateY(-20px) rotateX(10deg); }
-            75% { transform: translateY(10px) rotateX(-5deg); }
+            0%, 100% {
+                transform: translateY(0) rotateX(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotateX(10deg);
+            }
+            75% {
+                transform: translateY(10px) rotateX(-5deg);
+            }
         }
 
         @keyframes digit-spin {
-            0%, 100% { transform: rotateY(0deg); }
-            50% { transform: rotateY(360deg); }
+            0%, 100% {
+                transform: rotateY(0deg);
+            }
+            50% {
+                transform: rotateY(360deg);
+            }
         }
 
         /* Glitch Effect for Middle Zero */
@@ -183,19 +199,39 @@
         }
 
         @keyframes glitch-1 {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-2px); }
-            40% { transform: translateX(2px); }
-            60% { transform: translateX(-1px); }
-            80% { transform: translateX(1px); }
+            0%, 100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-2px);
+            }
+            40% {
+                transform: translateX(2px);
+            }
+            60% {
+                transform: translateX(-1px);
+            }
+            80% {
+                transform: translateX(1px);
+            }
         }
 
         @keyframes glitch-2 {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(2px); }
-            40% { transform: translateX(-2px); }
-            60% { transform: translateX(1px); }
-            80% { transform: translateX(-1px); }
+            0%, 100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(2px);
+            }
+            40% {
+                transform: translateX(-2px);
+            }
+            60% {
+                transform: translateX(1px);
+            }
+            80% {
+                transform: translateX(-1px);
+            }
         }
 
         /* Robot Character */
@@ -225,9 +261,8 @@
             border-radius: 20px;
             margin: 0 auto;
             position: relative;
-            box-shadow:
-                    0 8px 32px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .robot-head {
@@ -282,13 +317,21 @@
         }
 
         @keyframes robot-float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
         }
 
         @keyframes robot-blink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
+            0%, 90%, 100% {
+                transform: scaleY(1);
+            }
+            95% {
+                transform: scaleY(0.1);
+            }
         }
 
         @keyframes antenna-pulse {
@@ -476,9 +519,8 @@
         .search-input:focus {
             outline: none;
             border-color: rgba(16, 163, 127, 0.5);
-            box-shadow:
-                    0 0 0 4px rgba(16, 163, 127, 0.1),
-                    0 8px 25px rgba(16, 163, 127, 0.2);
+            box-shadow: 0 0 0 4px rgba(16, 163, 127, 0.1),
+            0 8px 25px rgba(16, 163, 127, 0.2);
         }
 
         .search-input::placeholder {
