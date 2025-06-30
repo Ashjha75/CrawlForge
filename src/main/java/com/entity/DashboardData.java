@@ -2,177 +2,176 @@ package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 
+@Entity
+@Table(name = "dashboard_data")
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"user"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DashboardData {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "dashboard_id")
+    @Setter(AccessLevel.NONE)
+    private Long dashboardId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     // Summary Statistics
-    private final Long totalSessions;
-    private final Long activeSessions;
-    private final Long completedSessions;
-    private final Long totalPagesCrawled;
-    private final Long totalPagesFailed;
-    private final Long totalLinksFound;
+    @Column(name = "total_sessions")
+    @Builder.Default
+    private Long totalSessions = 0L;
+
+    @Column(name = "active_sessions")
+    @Builder.Default
+    private Long activeSessions = 0L;
+
+    @Column(name = "completed_sessions")
+    @Builder.Default
+    private Long completedSessions = 0L;
+
+    @Column(name = "total_pages_crawled")
+    @Builder.Default
+    private Long totalPagesCrawled = 0L;
+
+    @Column(name = "total_pages_failed")
+    @Builder.Default
+    private Long totalPagesFailed = 0L;
+
+    @Column(name = "total_links_found")
+    @Builder.Default
+    private Long totalLinksFound = 0L;
 
     // Performance Metrics
-    private final Double averageSuccessRate;
-    private final Double averagePagesPerSession;
-    private final Long averageLoadTimeMs;
-    private final Integer totalErrorCount;
+    @Column(name = "average_success_rate")
+    @Builder.Default
+    private Double averageSuccessRate = 0.0;
+
+    @Column(name = "average_pages_per_session")
+    @Builder.Default
+    private Double averagePagesPerSession = 0.0;
+
+    @Column(name = "average_load_time_ms")
+    @Builder.Default
+    private Long averageLoadTimeMs = 0L;
+
+    @Column(name = "total_error_count")
+    @Builder.Default
+    private Integer totalErrorCount = 0;
 
     // Time-based Analytics
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime lastCrawlTime;
-    private final Long crawlsToday;
-    private final Long crawlsThisWeek;
-    private final Long crawlsThisMonth;
+    @Column(name = "last_crawl_time")
+    private LocalDateTime lastCrawlTime;
 
-    // Chart Data Collections
-    private final List<ChartDataPoint> domainDistribution;
-    private final List<ChartDataPoint> statusCodeDistribution;
-    private final List<ChartDataPoint> keywordFrequency;
-    private final List<ChartDataPoint> linkTypeDistribution;
-    private final List<ChartDataPoint> dailyCrawlTrend;
+    @Column(name = "crawls_today")
+    @Builder.Default
+    private Long crawlsToday = 0L;
 
-    // Recent Activity
-    private final List<RecentSession> recentSessions;
-    private final List<TopDomain> topDomains;
-    private final List<PopularKeyword> popularKeywords;
+    @Column(name = "crawls_this_week")
+    @Builder.Default
+    private Long crawlsThisWeek = 0L;
+
+    @Column(name = "crawls_this_month")
+    @Builder.Default
+    private Long crawlsThisMonth = 0L;
+
+    // Chart Data as JSON Strings (for database storage)
+    @Column(name = "domain_distribution", columnDefinition = "TEXT")
+    private String domainDistributionJson;
+
+    @Column(name = "status_code_distribution", columnDefinition = "TEXT")
+    private String statusCodeDistributionJson;
+
+    @Column(name = "keyword_frequency", columnDefinition = "TEXT")
+    private String keywordFrequencyJson;
+
+    @Column(name = "link_type_distribution", columnDefinition = "TEXT")
+    private String linkTypeDistributionJson;
+
+    @Column(name = "daily_crawl_trend", columnDefinition = "TEXT")
+    private String dailyCrawlTrendJson;
+
+    // Recent Activity as JSON
+    @Column(name = "recent_sessions", columnDefinition = "TEXT")
+    private String recentSessionsJson;
+
+    @Column(name = "top_domains", columnDefinition = "TEXT")
+    private String topDomainsJson;
+
+    @Column(name = "popular_keywords", columnDefinition = "TEXT")
+    private String popularKeywordsJson;
 
     // User-specific Data
-    private final Long userId;
-    private final String userName;
-    private final Integer userTotalSessions;
-    private final LocalDateTime userLastActivity;
+    @Column(name = "user_total_sessions")
+    @Builder.Default
+    private Integer userTotalSessions = 0;
 
-    // System Health Indicators
-    private final SystemHealth systemHealth;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "user_last_activity")
+    private LocalDateTime userLastActivity;
 
-    // Embedded Static Records for Chart Data
-    @Builder
-    @Getter
-    @ToString
-    public static class ChartDataPoint {
-        private final String label;
-        private final Long value;
-        private final Double percentage;
-        private final String color;
+    // System Health as JSON
+    @Column(name = "system_health", columnDefinition = "TEXT")
+    private String systemHealthJson;
 
-        public static ChartDataPoint of(String label, Long value, Double percentage) {
-            return ChartDataPoint.builder()
-                    .label(label)
-                    .value(value)
-                    .percentage(percentage)
-                    .build();
-        }
+    // Dashboard Configuration
+    @Column(name = "time_range", length = 20)
+    @Builder.Default
+    private String timeRange = "24h"; // "24h", "7d", "30d", "all"
 
-        public static ChartDataPoint of(String label, Long value, Double percentage, String color) {
-            return ChartDataPoint.builder()
-                    .label(label)
-                    .value(value)
-                    .percentage(percentage)
-                    .color(color)
-                    .build();
-        }
-    }
+    @Column(name = "dashboard_type", length = 50)
+    @Builder.Default
+    private String dashboardType = "STANDARD"; // "STANDARD", "ADMIN", "ANALYTICS"
 
-    @Builder
-    @Getter
-    @ToString
-    public static class RecentSession {
-        private final Long sessionId;
-        private final String sessionName;
-        private final String seedUrl;
-        private final CrawlSession.CrawlStatus status;
-        private final Integer pagesCrawled;
-        private final Double successRate;
+    @Column(name = "refresh_interval_minutes")
+    @Builder.Default
+    private Integer refreshIntervalMinutes = 15;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private final LocalDateTime createdAt;
+    @Column(name = "is_cached")
+    @Builder.Default
+    private Boolean isCached = false;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private final LocalDateTime completedAt;
-    }
+    @Column(name = "cache_expires_at")
+    private LocalDateTime cacheExpiresAt;
 
-    @Builder
-    @Getter
-    @ToString
-    public static class TopDomain {
-        private final String domain;
-        private final Long pageCount;
-        private final Double averageLoadTime;
-        private final Double successRate;
-        private final Integer errorCount;
-    }
+    // Audit Fields
+    @CreationTimestamp
+    @Column(name = "generated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime generatedAt;
 
-    @Builder
-    @Getter
-    @ToString
-    public static class PopularKeyword {
-        private final String keyword;
-        private final Long totalFrequency;
-        private final Integer pageCount;
-        private final Double averageDensity;
-        private final Keyword.KeywordType keywordType;
-    }
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime updatedAt;
 
-    @Builder
-    @Getter
-    @ToString
-    public static class SystemHealth {
-        private final String status; // HEALTHY, WARNING, CRITICAL
-        private final Integer activeThreads;
-        private final Long memoryUsageMB;
-        private final Double cpuUsagePercent;
-        private final Long databaseConnections;
-        private final List<String> warnings;
-        private final List<String> errors;
+    @Column(name = "data_version")
+    @Builder.Default
+    private Integer dataVersion = 1;
 
-        public boolean isHealthy() {
-            return "HEALTHY".equals(status);
-        }
-
-        public boolean hasWarnings() {
-            return warnings != null && !warnings.isEmpty();
-        }
-
-        public boolean hasErrors() {
-            return errors != null && !errors.isEmpty();
-        }
-    }
-
-    // Builder Defaults for Null Safety
-    public static class DashboardDataBuilder {
-        private List<ChartDataPoint> domainDistribution = Collections.emptyList();
-        private List<ChartDataPoint> statusCodeDistribution = Collections.emptyList();
-        private List<ChartDataPoint> keywordFrequency = Collections.emptyList();
-        private List<ChartDataPoint> linkTypeDistribution = Collections.emptyList();
-        private List<ChartDataPoint> dailyCrawlTrend = Collections.emptyList();
-        private List<RecentSession> recentSessions = Collections.emptyList();
-        private List<TopDomain> topDomains = Collections.emptyList();
-        private List<PopularKeyword> popularKeywords = Collections.emptyList();
-        private List<String> warnings = Collections.emptyList();
-        private List<String> errors = Collections.emptyList();
-    }
-
-    // Utility Methods for Dashboard Logic
+    // Business Methods
     public boolean hasRecentActivity() {
         return lastCrawlTime != null &&
                 lastCrawlTime.isAfter(LocalDateTime.now().minusHours(24));
     }
 
     public boolean isSystemHealthy() {
-        return systemHealth != null && systemHealth.isHealthy();
+        return systemHealthJson != null &&
+                systemHealthJson.contains("\"status\":\"HEALTHY\"");
     }
 
     public Double getOverallSuccessRate() {
@@ -187,35 +186,67 @@ public class DashboardData {
         return activeSessions != null && activeSessions > 0;
     }
 
-    // Factory Methods for Common Dashboard Scenarios
-//    Factory methods are static methods that return instances of a class, often with preconfigured or default values.
-//    They provide an alternative to constructors for object creation, allowing for more descriptive names, encapsulation of complex creation logic, or returning specific subclasses or cached instances.
-//    In your code, the empty method is a factory method that creates a DashboardData object with default values.
-    public static DashboardData empty(Long userId, String userName) {
+    public boolean isCacheValid() {
+        return isCached != null && isCached &&
+                cacheExpiresAt != null &&
+                cacheExpiresAt.isAfter(LocalDateTime.now());
+    }
+
+    public void markCacheExpired() {
+        this.isCached = false;
+        this.cacheExpiresAt = null;
+    }
+
+    public void setCacheExpiry(int minutes) {
+        this.isCached = true;
+        this.cacheExpiresAt = LocalDateTime.now().plusMinutes(minutes);
+    }
+
+    public boolean needsRefresh() {
+        if (generatedAt == null) return true;
+        return generatedAt.isBefore(LocalDateTime.now().minusMinutes(refreshIntervalMinutes));
+    }
+
+    public String getFormattedTimeRange() {
+        return switch (timeRange) {
+            case "24h" -> "Last 24 Hours";
+            case "7d" -> "Last 7 Days";
+            case "30d" -> "Last 30 Days";
+            case "all" -> "All Time";
+            default -> "Custom Range";
+        };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DashboardData that)) return false;
+        return dashboardId != null && dashboardId.equals(that.dashboardId);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    // Static Factory Methods
+    public static DashboardData createEmpty(User user, String timeRange) {
         return DashboardData.builder()
-                .userId(userId)
-                .userName(userName)
-                .totalSessions(0L)
-                .activeSessions(0L)
-                .completedSessions(0L)
-                .totalPagesCrawled(0L)
-                .totalPagesFailed(0L)
-                .totalLinksFound(0L)
-                .averageSuccessRate(0.0)
-                .averagePagesPerSession(0.0)
-                .averageLoadTimeMs(0L)
-                .totalErrorCount(0)
-                .crawlsToday(0L)
-                .crawlsThisWeek(0L)
-                .crawlsThisMonth(0L)
-                .userTotalSessions(0)
-                .systemHealth(SystemHealth.builder()
-                        .status("HEALTHY")
-                        .activeThreads(0)
-                        .memoryUsageMB(0L)
-                        .cpuUsagePercent(0.0)
-                        .databaseConnections(0L)
-                        .build())
+                .user(user)
+                .timeRange(timeRange)
+                .dashboardType("STANDARD")
+                .refreshIntervalMinutes(15)
+                .dataVersion(1)
+                .build();
+    }
+
+    public static DashboardData createForAdmin(User user) {
+        return DashboardData.builder()
+                .user(user)
+                .timeRange("7d")
+                .dashboardType("ADMIN")
+                .refreshIntervalMinutes(5)
+                .dataVersion(1)
                 .build();
     }
 }
