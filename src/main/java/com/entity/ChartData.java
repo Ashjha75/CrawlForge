@@ -1,286 +1,120 @@
 package com.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Collections;
-import java.util.Map;
 
+@Entity
+@Table(name = "chart_data")
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"user"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChartData {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chart_id")
+    @Setter(AccessLevel.NONE)
+    private Long chartId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     // Chart Metadata
-    private final String chartId;
-    private final String chartTitle;
-    private final ChartType chartType;
-    private final String description;
+    @Column(name = "chart_title", length = 200)
+    private String chartTitle;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime generatedAt;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "chart_type", nullable = false)
+    @Builder.Default
+    private ChartType chartType = ChartType.BAR;
 
-    private final Long userId;
-    private final String timeRange; // "24h", "7d", "30d", "all"
+    @Column(name = "description", length = 500)
+    private String description;
 
-    // Chart.js Compatible Data Structure
-    private final ChartDataset datasets;
-    private final List<String> labels;
-    private final ChartOptions options;
-    private final ChartColors colors;
+    @Column(name = "time_range", length = 20)
+    @Builder.Default
+    private String timeRange = "24h"; // "24h", "7d", "30d", "all"
+
+    // Chart.js Compatible Data Structure (stored as JSON)
+    @Column(name = "datasets_json", columnDefinition = "TEXT")
+    private String datasetsJson;
+
+    @Column(name = "labels_json", columnDefinition = "TEXT")
+    private String labelsJson;
+
+    @Column(name = "options_json", columnDefinition = "TEXT")
+    private String optionsJson;
+
+    @Column(name = "colors_json", columnDefinition = "TEXT")
+    private String colorsJson;
 
     // Raw Data for Export/Processing
-    private final List<DataPoint> rawData;
-    private final Map<String, Object> metadata;
+    @Column(name = "raw_data_json", columnDefinition = "TEXT")
+    private String rawDataJson;
+
+    @Column(name = "metadata_json", columnDefinition = "TEXT")
+    private String metadataJson;
 
     // Summary Statistics
-    private final Long totalDataPoints;
-    private final Double maxValue;
-    private final Double minValue;
-    private final Double averageValue;
-    private final String topCategory;
-    private final Long topCategoryValue;
+    @Column(name = "total_data_points")
+    @Builder.Default
+    private Long totalDataPoints = 0L;
 
-    // Embedded Static Records for Chart.js Integration
-    @Builder
-    @Getter
-    @ToString
-    public static class ChartDataset {
-        private final String label;
-        private final List<Double> data;
-        private final List<String> backgroundColor;
-        private final List<String> borderColor;
-        private final String borderWidth;
-        private final String fill;
-        private final String tension;
-        private final String pointRadius;
-        private final String pointHoverRadius;
-        private final List<String> hoverBackgroundColor;
-        private final List<String> hoverBorderColor;
+    @Column(name = "max_value")
+    private Double maxValue;
 
-        // Multiple datasets for complex charts
-        private final List<SingleDataset> datasets;
+    @Column(name = "min_value")
+    private Double minValue;
 
-        @Builder
-        @Getter
-        @ToString
-        public static class SingleDataset {
-            private final String label;
-            private final List<Double> data;
-            private final String backgroundColor;
-            private final String borderColor;
-            private final Integer borderWidth;
-            private final Boolean fill;
-            private final Double tension;
-            private final Integer pointRadius;
-            private final Integer pointHoverRadius;
-            private final String type; // "line", "bar", "doughnut", etc.
-        }
-    }
+    @Column(name = "average_value")
+    private Double averageValue;
 
-    @Builder
-    @Getter
-    @ToString
-    public static class ChartOptions {
-        private final Boolean responsive;
-        private final Boolean maintainAspectRatio;
-        private final ChartScales scales;
-        private final ChartLegend legend;
-        private final ChartTooltip tooltip;
-        private final ChartAnimation animation;
-        private final ChartPlugins plugins;
+    @Column(name = "top_category", length = 100)
+    private String topCategory;
 
-        @Builder
-        @Getter
-        @ToString
-        public static class ChartScales {
-            private final ChartAxis x;
-            private final ChartAxis y;
+    @Column(name = "top_category_value")
+    private Long topCategoryValue;
 
-            @Builder
-            @Getter
-            @ToString
-            public static class ChartAxis {
-                private final Boolean display;
-                private final String type;
-                private final String position;
-                private final ChartGrid grid;
-                private final ChartTicks ticks;
-                private final String title;
+    // Configuration
+    @Column(name = "is_realtime")
+    @Builder.Default
+    private Boolean isRealtime = false;
 
-                @Builder
-                @Getter
-                @ToString
-                public static class ChartGrid {
-                    private final Boolean display;
-                    private final String color;
-                    private final Integer lineWidth;
-                }
+    @Column(name = "refresh_interval_seconds")
+    @Builder.Default
+    private Integer refreshIntervalSeconds = 60;
 
-                @Builder
-                @Getter
-                @ToString
-                public static class ChartTicks {
-                    private final Boolean display;
-                    private final String color;
-                    private final Integer fontSize;
-                    private final String fontFamily;
-                    private final Integer maxTicksLimit;
-                    private final String callback;
-                }
-            }
-        }
+    @Column(name = "is_cached")
+    @Builder.Default
+    private Boolean isCached = false;
 
-        @Builder
-        @Getter
-        @ToString
-        public static class ChartLegend {
-            private final Boolean display;
-            private final String position;
-            private final ChartLegendLabels labels;
+    @Column(name = "cache_expires_at")
+    private LocalDateTime cacheExpiresAt;
 
-            @Builder
-            @Getter
-            @ToString
-            public static class ChartLegendLabels {
-                private final String color;
-                private final Integer fontSize;
-                private final String fontFamily;
-                private final Integer padding;
-                private final Boolean usePointStyle;
-            }
-        }
+    // Audit Fields
+    @CreationTimestamp
+    @Column(name = "generated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime generatedAt;
 
-        @Builder
-        @Getter
-        @ToString
-        public static class ChartTooltip {
-            private final Boolean enabled;
-            private final String mode;
-            private final Boolean intersect;
-            private final String backgroundColor;
-            private final String titleColor;
-            private final String bodyColor;
-            private final String borderColor;
-            private final Integer borderWidth;
-        }
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime updatedAt;
 
-        @Builder
-        @Getter
-        @ToString
-        public static class ChartAnimation {
-            private final Integer duration;
-            private final String easing;
-            private final Boolean animateRotate;
-            private final Boolean animateScale;
-        }
-
-        @Builder
-        @Getter
-        @ToString
-        public static class ChartPlugins {
-            private final ChartTitle title;
-            private final ChartSubtitle subtitle;
-
-            @Builder
-            @Getter
-            @ToString
-            public static class ChartTitle {
-                private final Boolean display;
-                private final String text;
-                private final String color;
-                private final Integer fontSize;
-                private final String fontFamily;
-                private final String position;
-            }
-
-            @Builder
-            @Getter
-            @ToString
-            public static class ChartSubtitle {
-                private final Boolean display;
-                private final String text;
-                private final String color;
-                private final Integer fontSize;
-            }
-        }
-    }
-
-    @Builder
-    @Getter
-    @ToString
-    public static class ChartColors {
-        private final List<String> primary;
-        private final List<String> secondary;
-        private final List<String> success;
-        private final List<String> warning;
-        private final List<String> danger;
-        private final List<String> info;
-        private final String backgroundGradient;
-        private final String borderGradient;
-
-        // Predefined color schemes
-        public static ChartColors getDefaultColors() {
-            return ChartColors.builder()
-                    .primary(List.of("#10a37f", "#0d8465", "#0a6b52"))
-                    .secondary(List.of("#40414f", "#2b2c39", "#1f1f2b"))
-                    .success(List.of("#1db954", "#1ed760", "#17a34a"))
-                    .warning(List.of("#ff9900", "#ffb84d", "#f59e0b"))
-                    .danger(List.of("#ff4757", "#ff3742", "#ef4444"))
-                    .info(List.of("#3b82f6", "#60a5fa", "#2563eb"))
-                    .backgroundGradient("linear-gradient(135deg, rgba(16, 163, 127, 0.1) 0%, rgba(16, 163, 127, 0.05) 100%)")
-                    .borderGradient("linear-gradient(135deg, #10a37f 0%, #0d8465 100%)")
-                    .build();
-        }
-
-        public static ChartColors getDarkModeColors() {
-            return ChartColors.builder()
-                    .primary(List.of("#10a37f", "#0d8465", "#0a6b52"))
-                    .secondary(List.of("#c5c5d2", "#ffffff", "#5c5f6e"))
-                    .success(List.of("#22c55e", "#16a34a", "#15803d"))
-                    .warning(List.of("#f59e0b", "#d97706", "#b45309"))
-                    .danger(List.of("#ef4444", "#dc2626", "#b91c1c"))
-                    .info(List.of("#3b82f6", "#2563eb", "#1d4ed8"))
-                    .backgroundGradient("linear-gradient(135deg, rgba(64, 65, 79, 0.9) 0%, rgba(31, 31, 43, 0.8) 100%)")
-                    .borderGradient("linear-gradient(135deg, #10a37f 0%, #0d8465 100%)")
-                    .build();
-        }
-    }
-
-    @Builder
-    @Getter
-    @ToString
-    public static class DataPoint {
-        private final String label;
-        private final Double value;
-        private final String category;
-        private final String color;
-        private final Map<String, Object> additionalData;
-
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private final LocalDateTime timestamp;
-
-        public static DataPoint of(String label, Double value) {
-            return DataPoint.builder()
-                    .label(label)
-                    .value(value)
-                    .timestamp(LocalDateTime.now())
-                    .build();
-        }
-
-        public static DataPoint of(String label, Double value, String category) {
-            return DataPoint.builder()
-                    .label(label)
-                    .value(value)
-                    .category(category)
-                    .timestamp(LocalDateTime.now())
-                    .build();
-        }
-    }
+    @Column(name = "data_version")
+    @Builder.Default
+    private Integer dataVersion = 1;
 
     // Chart Type Enumeration
     public enum ChartType {
@@ -300,44 +134,24 @@ public class ChartData {
             this.chartJsType = chartJsType;
         }
 
-        @JsonProperty("type")
         public String getChartJsType() {
             return chartJsType;
         }
     }
 
-    // Builder Defaults for Null Safety
-    public static class ChartDataBuilder {
-        private List<String> labels = Collections.emptyList();
-        private List<DataPoint> rawData = Collections.emptyList();
-        private Map<String, Object> metadata = Collections.emptyMap();
-        private ChartColors colors = ChartColors.getDefaultColors();
-        private LocalDateTime generatedAt = LocalDateTime.now();
-        private Long totalDataPoints = 0L;
-        private Double maxValue = 0.0;
-        private Double minValue = 0.0;
-        private Double averageValue = 0.0;
-        private String timeRange = "24h";
-    }
-
-    // Utility Methods for Chart Processing
+    // Business Methods
     public boolean hasData() {
-        return rawData != null && !rawData.isEmpty() && totalDataPoints > 0;
+        return totalDataPoints != null && totalDataPoints > 0 &&
+                rawDataJson != null && !rawDataJson.trim().isEmpty();
     }
 
     public boolean isRealtimeChart() {
-        return chartType == ChartType.LINE && "realtime".equals(metadata.get("mode"));
+        return isRealtime != null && isRealtime &&
+                metadataJson != null && metadataJson.contains("\"mode\":\"realtime\"");
     }
 
     public String getFormattedTitle() {
         return chartTitle != null ? chartTitle : "Chart Data";
-    }
-
-    public List<String> getColorPalette() {
-        if (colors != null && colors.getPrimary() != null) {
-            return colors.getPrimary();
-        }
-        return ChartColors.getDefaultColors().getPrimary();
     }
 
     public Double getDataRange() {
@@ -351,95 +165,81 @@ public class ChartData {
         return totalDataPoints != null && totalDataPoints > 1000;
     }
 
-    // Factory Methods for Common Chart Types
-    public static ChartData createBarChart(String title, List<String> labels, List<Double> data, Long userId) {
+    public boolean isCacheValid() {
+        return isCached != null && isCached &&
+                cacheExpiresAt != null &&
+                cacheExpiresAt.isAfter(LocalDateTime.now());
+    }
+
+    public void markCacheExpired() {
+        this.isCached = false;
+        this.cacheExpiresAt = null;
+    }
+
+    public void setCacheExpiry(int minutes) {
+        this.isCached = true;
+        this.cacheExpiresAt = LocalDateTime.now().plusMinutes(minutes);
+    }
+
+    public boolean needsRefresh() {
+        if (generatedAt == null) return true;
+        return generatedAt.isBefore(LocalDateTime.now().minusSeconds(refreshIntervalSeconds));
+    }
+
+    public String getFormattedTimeRange() {
+        return switch (timeRange) {
+            case "24h" -> "Last 24 Hours";
+            case "7d" -> "Last 7 Days";
+            case "30d" -> "Last 30 Days";
+            case "all" -> "All Time";
+            default -> "Custom Range";
+        };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChartData that)) return false;
+        return chartId != null && chartId.equals(that.chartId);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    // Static Factory Methods
+    public static ChartData createBarChart(User user, String title, String timeRange) {
         return ChartData.builder()
-                .chartId("bar_" + System.currentTimeMillis())
+                .user(user)
                 .chartTitle(title)
                 .chartType(ChartType.BAR)
-                .userId(userId)
-                .labels(labels)
-                .datasets(ChartDataset.builder()
-                        .label(title)
-                        .data(data)
-                        .backgroundColor(ChartColors.getDefaultColors().getPrimary())
-                        .borderColor(ChartColors.getDefaultColors().getPrimary())
-                        .borderWidth("1")
-                        .build())
-                .options(ChartOptions.builder()
-                        .responsive(true)
-                        .maintainAspectRatio(false)
-                        .build())
-                .totalDataPoints((long) data.size())
-                .maxValue(data.stream().mapToDouble(Double::doubleValue).max().orElse(0.0))
-                .minValue(data.stream().mapToDouble(Double::doubleValue).min().orElse(0.0))
-                .averageValue(data.stream().mapToDouble(Double::doubleValue).average().orElse(0.0))
+                .timeRange(timeRange)
+                .refreshIntervalSeconds(60)
+                .dataVersion(1)
                 .build();
     }
 
-    public static ChartData createPieChart(String title, List<String> labels, List<Double> data, Long userId) {
+    public static ChartData createPieChart(User user, String title, String timeRange) {
         return ChartData.builder()
-                .chartId("pie_" + System.currentTimeMillis())
+                .user(user)
                 .chartTitle(title)
                 .chartType(ChartType.PIE)
-                .userId(userId)
-                .labels(labels)
-                .datasets(ChartDataset.builder()
-                        .label(title)
-                        .data(data)
-                        .backgroundColor(ChartColors.getDefaultColors().getPrimary())
-                        .hoverBackgroundColor(ChartColors.getDefaultColors().getSecondary())
-                        .build())
-                .options(ChartOptions.builder()
-                        .responsive(true)
-                        .maintainAspectRatio(false)
-                        .legend(ChartOptions.ChartLegend.builder()
-                                .display(true)
-                                .position("bottom")
-                                .build())
-                        .build())
-                .totalDataPoints((long) data.size())
+                .timeRange(timeRange)
+                .refreshIntervalSeconds(60)
+                .dataVersion(1)
                 .build();
     }
 
-    public static ChartData createLineChart(String title, List<String> labels, List<Double> data, Long userId) {
+    public static ChartData createLineChart(User user, String title, String timeRange) {
         return ChartData.builder()
-                .chartId("line_" + System.currentTimeMillis())
+                .user(user)
                 .chartTitle(title)
                 .chartType(ChartType.LINE)
-                .userId(userId)
-                .labels(labels)
-                .datasets(ChartDataset.builder()
-                        .label(title)
-                        .data(data)
-                        .borderColor(List.of("#10a37f"))
-                        .backgroundColor(List.of("rgba(16, 163, 127, 0.1)"))
-                        .fill("true")
-                        .tension("0.4")
-                        .pointRadius("4")
-                        .pointHoverRadius("6")
-                        .build())
-                .options(ChartOptions.builder()
-                        .responsive(true)
-                        .maintainAspectRatio(false)
-                        .scales(ChartOptions.ChartScales.builder()
-                                .y(ChartOptions.ChartScales.ChartAxis.builder()
-                                        .display(true)
-                                        .type("linear")
-                                        .build())
-                                .build())
-                        .build())
-                .totalDataPoints((long) data.size())
-                .build();
-    }
-
-    public static ChartData empty(Long userId) {
-        return ChartData.builder()
-                .chartId("empty_" + System.currentTimeMillis())
-                .chartTitle("No Data Available")
-                .chartType(ChartType.BAR)
-                .userId(userId)
-                .description("No data available for the selected time range")
+                .timeRange(timeRange)
+                .isRealtime(true)
+                .refreshIntervalSeconds(30)
+                .dataVersion(1)
                 .build();
     }
 }
