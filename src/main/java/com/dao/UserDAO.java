@@ -33,7 +33,7 @@ public class UserDAO {
     public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery(
-                "select u from User u left join fetch u.roles where u.email = :email", User.class
+                    "select u from User u left join fetch u.roles where u.email = :email", User.class
             );
             query.setParameter("email", email);
             return query.uniqueResultOptional();
