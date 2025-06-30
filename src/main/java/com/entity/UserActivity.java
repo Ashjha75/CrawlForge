@@ -1,11 +1,12 @@
 package com.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -224,6 +225,27 @@ public class UserActivity {
     @Builder.Default
     private Integer dataVersion = 1;
 
+    // Static Factory Methods
+    public static UserActivity createEmpty(User user, String timeRange) {
+        return UserActivity.builder()
+                .user(user)
+                .timeRange(timeRange)
+                .activityType("USER")
+                .accountCreatedAt(user.getCreatedAt())
+                .daysSinceRegistration(java.time.Duration.between(user.getCreatedAt(), LocalDateTime.now()).toDays())
+                .dataVersion(1)
+                .build();
+    }
+
+    public static UserActivity createForAdmin(User user) {
+        return UserActivity.builder()
+                .user(user)
+                .timeRange("30d")
+                .activityType("ADMIN")
+                .dataVersion(1)
+                .build();
+    }
+
     // Business Methods
     public boolean isActiveUser() {
         return lastCrawlActivity != null &&
@@ -290,26 +312,5 @@ public class UserActivity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    // Static Factory Methods
-    public static UserActivity createEmpty(User user, String timeRange) {
-        return UserActivity.builder()
-                .user(user)
-                .timeRange(timeRange)
-                .activityType("USER")
-                .accountCreatedAt(user.getCreatedAt())
-                .daysSinceRegistration(java.time.Duration.between(user.getCreatedAt(), LocalDateTime.now()).toDays())
-                .dataVersion(1)
-                .build();
-    }
-
-    public static UserActivity createForAdmin(User user) {
-        return UserActivity.builder()
-                .user(user)
-                .timeRange("30d")
-                .activityType("ADMIN")
-                .dataVersion(1)
-                .build();
     }
 }
