@@ -962,18 +962,18 @@
             </div>
             <p class="signin-subtitle">Welcome back! Sign in to your account</p>
         </div>
-<%--        <c:if test="${not empty error}">--%>
-<%--            <div class="error-message">--%>
-<%--                <i class="bi bi-exclamation-triangle"></i>--%>
-<%--                <span>${error}</span>--%>
-<%--            </div>--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${not empty success}">--%>
-<%--            <div class="success-message">--%>
-<%--                <i class="bi bi-check-circle"></i>--%>
-<%--                <span>${success}</span>--%>
-<%--            </div>--%>
-<%--        </c:if>--%>
+        <%--        <c:if test="${not empty error}">--%>
+        <%--            <div class="error-message">--%>
+        <%--                <i class="bi bi-exclamation-triangle"></i>--%>
+        <%--                <span>${error}</span>--%>
+        <%--            </div>--%>
+        <%--        </c:if>--%>
+        <%--        <c:if test="${not empty success}">--%>
+        <%--            <div class="success-message">--%>
+        <%--                <i class="bi bi-check-circle"></i>--%>
+        <%--                <span>${success}</span>--%>
+        <%--            </div>--%>
+        <%--        </c:if>--%>
         <form class="signin-form" id="signinForm" method="POST" action="${pageContext.request.contextPath}/signin"
               data-dashboard-url="${pageContext.request.contextPath}/dashboard">
             <div class="form-group">
