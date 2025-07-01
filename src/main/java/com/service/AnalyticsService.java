@@ -168,14 +168,17 @@ public class AnalyticsService {
     }
 
     // Chart data retrieval method
-    public List<ChartData> getChartData(Long userId, String timeRange) {
-        try {
-            return chartDataDAO.findByUserIdAndTimeRange(userId, timeRange);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error fetching chart data for user: " + userId, e);
-            return List.of();
-        }
-    }
+   public List<ChartData> getChartData(Long userId, String timeRange) {
+       try {
+           Optional<ChartData> optionalChartData = chartDataDAO.findByUserIdAndTimeRange(userId, timeRange);
+           return optionalChartData
+                   .map(List::of)
+                   .orElse(List.of());
+       } catch (Exception e) {
+           LOGGER.log(Level.SEVERE, "Error fetching chart data for user: " + userId, e);
+           return List.of();
+       }
+   }
 
     // Generate crawl statistics from raw data
     private CrawlStatistics generateCrawlStatistics(Long userId, String timeRange) {
