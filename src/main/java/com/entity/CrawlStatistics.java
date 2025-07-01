@@ -339,6 +339,30 @@ public class CrawlStatistics {
         return statisticsId != null && statisticsId.equals(that.statisticsId);
     }
 
+    public static CrawlStatistics empty(Long userId) {
+        return CrawlStatistics.builder()
+            .user(null) // or fetch user by userId if needed
+            .totalSessions(0L)
+            .activeSessions(0L)
+            .completedSessions(0L)
+            .failedSessions(0L)
+            .totalPagesCrawled(0L)
+            .totalPagesFailed(0L)
+            .totalPagesSuccessful(0L)
+            .overallSuccessRate(0.0)
+            .averagePagesPerSession(0.0)
+            .averageLoadTimeMs(0.0)
+            .totalKeywordsExtracted(0L)
+            .totalLinksFound(0L)
+            .crawlsLast24Hours(0L)
+            .crawlsLast7Days(0L)
+            .crawlsLast30Days(0L)
+            .timeRange(null)
+            .statisticsType("USER")
+            .dataVersion(1)
+            .generatedAt(java.time.LocalDateTime.now())
+            .build();
+    }
     @Override
     public int hashCode() {
         return getClass().hashCode();
