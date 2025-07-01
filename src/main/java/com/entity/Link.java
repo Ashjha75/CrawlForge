@@ -7,12 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "links",
-        indexes = {
-                @Index(name = "idx_link_source_page", columnList = "source_page_id"),
-                @Index(name = "idx_link_target_page", columnList = "target_page_id"),
-                @Index(name = "idx_link_type", columnList = "link_type")
-        })
+@Table(name = "links")
 @Getter
 @Setter
 @NoArgsConstructor
