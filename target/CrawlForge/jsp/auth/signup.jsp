@@ -122,7 +122,8 @@
                            placeholder="Confirm your password"
                            required
                            autocomplete="new-password">
-                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirmPassword')">
+                    <button type="button" class="password-toggle-btn"
+                            onclick="togglePasswordVisibility('confirmPassword')">
                         <i class="bi bi-eye" id="confirmPassword-eye"></i>
                     </button>
                 </div>
@@ -132,7 +133,8 @@
             <div class="terms-group">
                 <input type="checkbox" class="terms-checkbox" id="agreeTerms" name="agreeTerms" required>
                 <div class="terms-text">
-                    I agree to the <a href="${pageContext.request.contextPath}/terms" target="_blank">Terms of Service</a>
+                    I agree to the <a href="${pageContext.request.contextPath}/terms" target="_blank">Terms of
+                    Service</a>
                     and <a href="${pageContext.request.contextPath}/privacy" target="_blank">Privacy Policy</a>
                 </div>
             </div>
