@@ -115,7 +115,8 @@
                         </button>
                     </div>
                     <div class="pagination-info">
-                        Showing <span id="showingStart">1</span>-<span id="showingEnd">10</span> of <span id="totalRecords">247</span> results
+                        Showing <span id="showingStart">1</span>-<span id="showingEnd">10</span> of <span
+                            id="totalRecords">247</span> results
                     </div>
                 </div>
             </div>

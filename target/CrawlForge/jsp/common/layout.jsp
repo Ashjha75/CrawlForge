@@ -26,7 +26,7 @@
 
 <!-- Main Content Area -->
 <main class="main-content">
-    <jsp:include page="${contentPage}" />
+    <jsp:include page="${contentPage}"/>
 </main>
 
 <!-- Include Footer -->
