@@ -31,15 +31,18 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background:
-                radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
+        background: radial-gradient(circle at 20% 30%, rgba(16, 163, 127, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(16, 163, 127, 0.08) 0%, transparent 50%);
         animation: float-bg 8s ease-in-out infinite;
     }
 
     @keyframes float-bg {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(2deg); }
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-20px) rotate(2deg);
+        }
     }
 
     .page-loading.hidden {
@@ -125,23 +128,20 @@
         font-size: 1.5rem;
         color: #10a37f;
         animation: pulse-center 2s ease-in-out infinite;
-        box-shadow:
-                0 8px 32px rgba(16, 163, 127, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(16, 163, 127, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
     @keyframes pulse-center {
         0%, 100% {
             transform: translate(-50%, -50%) scale(1);
-            box-shadow:
-                    0 8px 32px rgba(16, 163, 127, 0.2),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(16, 163, 127, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         50% {
             transform: translate(-50%, -50%) scale(1.1);
-            box-shadow:
-                    0 12px 40px rgba(16, 163, 127, 0.4),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(16, 163, 127, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
     }
 
@@ -255,8 +255,12 @@
     }
 
     @keyframes fade-pulse {
-        0%, 100% { opacity: 0.8; }
-        50% { opacity: 0.4; }
+        0%, 100% {
+            opacity: 0.8;
+        }
+        50% {
+            opacity: 0.4;
+        }
     }
 
     /* Progress Bar */
@@ -294,20 +298,34 @@
     }
 
     @keyframes progress-fill {
-        0% { width: 0%; }
-        70% { width: 100%; }
-        100% { width: 100%; }
+        0% {
+            width: 0%;
+        }
+        70% {
+            width: 100%;
+        }
+        100% {
+            width: 100%;
+        }
     }
 
     @keyframes progress-shine {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(100%);
+        }
     }
 
     /* Spinning Animation */
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
     /* Responsive Design */

@@ -104,7 +104,7 @@
 <main class="main-content">
     <c:choose>
         <c:when test="${contentPage != null}">
-            <jsp:include page="${contentPage}" />
+            <jsp:include page="${contentPage}"/>
         </c:when>
         <c:otherwise>
             <%@ include file="/jsp/JspUi/heroSection.jsp" %>
