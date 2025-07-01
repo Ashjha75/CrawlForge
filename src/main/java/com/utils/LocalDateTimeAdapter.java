@@ -1,6 +1,5 @@
 package com.utils;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
