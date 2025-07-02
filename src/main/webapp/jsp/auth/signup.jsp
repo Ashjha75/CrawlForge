@@ -7,7 +7,7 @@
 
 <!-- Main Container -->
 <div class="signup-container">
-    <div class="signup-card">
+    <div class="signup-card" style="margin-top:7rem">
         <!-- Header -->
         <div class="signup-header">
             <div class="signup-logo">
