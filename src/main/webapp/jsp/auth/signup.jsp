@@ -183,37 +183,3 @@
 
 <script src="/js/signup.js"></script>
 
-<script>
-    // Preview profile picture before upload
-    document.getElementById('profilePicture').addEventListener('change', function(event) {
-        const preview = document.getElementById('profilePicturePreview');
-        preview.innerHTML = '';
-        const file = event.target.files[0];
-        if (file) {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.className = 'profile-picture-thumb';
-            preview.appendChild(img);
-        }
-    });
-
-    // Password visibility toggle (existing function)
-    function togglePasswordVisibility(inputId) {
-        const passwordInput = document.getElementById(inputId);
-        const eyeIcon = document.getElementById(inputId + '-eye');
-        const toggleBtn = eyeIcon.closest('.password-toggle-btn');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('bi-eye');
-            eyeIcon.classList.add('bi-eye-slash');
-            toggleBtn.classList.add('active');
-            toggleBtn.setAttribute('title', 'Hide password');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('bi-eye-slash');
-            eyeIcon.classList.add('bi-eye');
-            toggleBtn.classList.remove('active');
-            toggleBtn.setAttribute('title', 'Show password');
-        }
-    }
-</script>
