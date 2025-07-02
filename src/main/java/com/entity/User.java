@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity            // default entity name will be the simple class name "User"
+@Entity
 @Table(
         name = "users",
         indexes = {
@@ -94,6 +94,18 @@ public class User {
     @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
 
+    // --- Profile Picture field (Option 1: store URL/path) ---
+    @Column(name = "profile_picture_url", length = 255)
+    private String profilePictureUrl;
+
+    /*
+    // --- Option 2: Store image as BLOB/byte[] ---
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "profile_picture_blob")
+    private byte[] profilePicture;
+    */
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<CrawlSession> crawlSessions = new HashSet<>();
@@ -148,12 +160,10 @@ public class User {
         return getClass().hashCode();
     }
 
-    // Add a role to the user
     public void addUserRole(Role role) {
         this.roles.add(role);
     }
 
-    // Optionally, make this public if you need to set lastLoginAt from outside the package
     public void setLastLoginAt(LocalDateTime lastLoginAt) {
         this.lastLoginAt = lastLoginAt;
     }
