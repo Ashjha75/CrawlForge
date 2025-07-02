@@ -23,10 +23,18 @@ public class UserDAO {
             session.save(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            if (transaction != null) transaction.rollback();
             LOGGER.log(Level.SEVERE, "Error saving user: " + user, e);
+        }
+    }
+
+    public Optional<User> findById(Long userId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            User user = session.get(User.class, userId);
+            return Optional.ofNullable(user);
+        } catch (HibernateException he) {
+            LOGGER.log(Level.SEVERE, "Error finding user by ID: " + userId, he);
+            return Optional.empty();
         }
     }
 
@@ -44,7 +52,6 @@ public class UserDAO {
     }
 
     public Optional<User> findByUsername(String username) {
-        // Try-with-resources will auto-close the Session
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery(
                     "from User u where u.username = :username", User.class
@@ -91,10 +98,25 @@ public class UserDAO {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            if (transaction != null) transaction.rollback();
             LOGGER.log(Level.SEVERE, "Error updating user: " + user, e);
+        }
+    }
+
+    public void updateProfilePicture(Long userId, String profilePictureUrl) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery(
+                    "UPDATE User u SET u.profilePictureUrl = :profilePictureUrl WHERE u.userId = :userId"
+            );
+            query.setParameter("profilePictureUrl", profilePictureUrl);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            LOGGER.log(Level.SEVERE, "Error updating profile picture for user ID: " + userId, e);
         }
     }
 
@@ -108,9 +130,7 @@ public class UserDAO {
             }
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            if (transaction != null) transaction.rollback();
             LOGGER.log(Level.SEVERE, "Error deleting user with ID: " + userId, e);
         }
     }
