@@ -19,8 +19,8 @@
 
         <!-- Error/Success Messages will be inserted here by JavaScript -->
 
-        <!-- Sign Up Form - THIS IS THE KEY FIX -->
-        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/signup">
+        <!-- Sign Up Form -->
+        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/signup" enctype="multipart/form-data">
             <!-- Name Fields -->
             <div class="form-row">
                 <div class="form-group">
@@ -79,6 +79,20 @@
                        placeholder="Enter your email address"
                        required
                        autocomplete="email">
+            </div>
+
+            <!-- Profile Picture Upload -->
+            <div class="form-group">
+                <label class="form-label" for="profilePicture">
+                    <i class="bi bi-image"></i>
+                    Profile Picture (optional)
+                </label>
+                <input type="file"
+                       class="form-input"
+                       id="profilePicture"
+                       name="profilePicture"
+                       accept="image/*">
+                <div id="profilePicturePreview" class="profile-picture-preview"></div>
             </div>
 
             <!-- Password Field with Eye Button -->
@@ -168,3 +182,38 @@
 </div>
 
 <script src="/js/signup.js"></script>
+
+<script>
+    // Preview profile picture before upload
+    document.getElementById('profilePicture').addEventListener('change', function(event) {
+        const preview = document.getElementById('profilePicturePreview');
+        preview.innerHTML = '';
+        const file = event.target.files[0];
+        if (file) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'profile-picture-thumb';
+            preview.appendChild(img);
+        }
+    });
+
+    // Password visibility toggle (existing function)
+    function togglePasswordVisibility(inputId) {
+        const passwordInput = document.getElementById(inputId);
+        const eyeIcon = document.getElementById(inputId + '-eye');
+        const toggleBtn = eyeIcon.closest('.password-toggle-btn');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('bi-eye');
+            eyeIcon.classList.add('bi-eye-slash');
+            toggleBtn.classList.add('active');
+            toggleBtn.setAttribute('title', 'Hide password');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('bi-eye-slash');
+            eyeIcon.classList.add('bi-eye');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('title', 'Show password');
+        }
+    }
+</script>
