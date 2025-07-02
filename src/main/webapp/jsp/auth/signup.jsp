@@ -80,7 +80,7 @@
                        required
                        autocomplete="email">
             </div>
-
+<%--            https://api.dicebear.com/6.x/pixel-art/svg?seed=$jha&background=%23000000&radius=50&colorful=1--%>
             <!-- Profile Picture Upload -->
             <div class="form-group">
                 <label class="form-label" for="profilePicture">
