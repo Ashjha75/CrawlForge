@@ -565,3 +565,14 @@ body {
         transform: translateY(0);
     }
 }
+.profile-picture-preview {
+    margin-top: 0.5rem;
+    min-height: 64px;
+}
+.profile-picture-thumb {
+    max-width: 64px;
+    max-height: 64px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(16, 163, 127, 0.15);
+    border: 2px solid #10a37f;
+}
