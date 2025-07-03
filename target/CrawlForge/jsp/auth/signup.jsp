@@ -7,7 +7,7 @@
 
 <!-- Main Container -->
 <div class="signup-container">
-    <div class="signup-card">
+    <div class="signup-card" style="margin-top:7rem">
         <!-- Header -->
         <div class="signup-header">
             <div class="signup-logo">
@@ -19,8 +19,8 @@
 
         <!-- Error/Success Messages will be inserted here by JavaScript -->
 
-        <!-- Sign Up Form - THIS IS THE KEY FIX -->
-        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/signup">
+        <!-- Sign Up Form -->
+        <form class="signup-form" id="signupForm" method="POST" action="${pageContext.request.contextPath}/signup" enctype="multipart/form-data">
             <!-- Name Fields -->
             <div class="form-row">
                 <div class="form-group">
@@ -79,6 +79,20 @@
                        placeholder="Enter your email address"
                        required
                        autocomplete="email">
+            </div>
+<%--            https://api.dicebear.com/6.x/pixel-art/svg?seed=$jha&background=%23000000&radius=50&colorful=1--%>
+            <!-- Profile Picture Upload -->
+            <div class="form-group">
+                <label class="form-label" for="profilePicture">
+                    <i class="bi bi-image"></i>
+                    Profile Picture (optional)
+                </label>
+                <input type="file"
+                       class="form-input"
+                       id="profilePicture"
+                       name="profilePicture"
+                       accept="image/*">
+                <div id="profilePicturePreview" class="profile-picture-preview"></div>
             </div>
 
             <!-- Password Field with Eye Button -->
@@ -168,3 +182,4 @@
 </div>
 
 <script src="/js/signup.js"></script>
+
