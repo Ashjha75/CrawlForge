@@ -75,7 +75,7 @@ public class DashboardServlet extends HttpServlet {
             // Get user ID from session (set by DashboardAuthFilter)
             Long userId = (Long) request.getAttribute("currentUserId");
             if (userId == null) {
-                response.sendRedirect(request.getContextPath() + "/login");
+                response.sendRedirect(request.getContextPath() + "/signin");
                 return;
             }
 
